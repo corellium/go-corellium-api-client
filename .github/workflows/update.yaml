@@ -9,9 +9,8 @@ on:
       - 'staging'
       - 'main'
   
-# permissions:
-#   contents: read
-#   packages: write
+permissions:
+  contents: write
 
 jobs:
   build-test:
@@ -38,3 +37,20 @@ jobs:
       run: |
         rm -r test/
         openapi-generator-cli generate
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "modabot@ai.moda"
+        git config --global user.name "modabot"
+
+        # Check if there are any changes
+        git add -A
+        git status | grep -q "Changes to be committed"
+        if [ $? -eq 0 ]; then
+          # Create a new branch with a timestamp
+          branch_name="update-bindings-$(TZ='UTC' date --iso-8601=seconds | sed s/:/-/g)"
+          git checkout -b "$branch_name"
+
+          git commit -m "Update Go API bindings"
+          git push --set-upstream origin "$branch_name"
+        fi
