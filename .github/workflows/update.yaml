@@ -40,8 +40,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.email "modabot@ai.moda"
-        git config --global user.name "modabot"
+        git config --local user.email "modabot@ai.moda"
+        git config --local user.name "modabot"
 
         # Check if there are any changes
         git add -A
