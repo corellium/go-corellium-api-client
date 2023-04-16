@@ -11,6 +11,7 @@ on:
   
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build-test:
@@ -52,4 +53,11 @@ jobs:
 
           git commit -m "Update Go API bindings"
           git push --set-upstream origin "$branch_name"
+
+          pr_title="Update Go API bindings"
+          pr_body="This PR updates the Go API bindings with the latest changes."
+          base_branch="main"
+          gh pr create --title "$pr_title" --body "$pr_body" --base "$base_branch" --head "$branch_name"
         fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
