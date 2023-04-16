@@ -27,7 +27,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
 )
 
 func main() {
@@ -86,7 +86,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
 )
 
 func main() {
@@ -150,7 +150,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
 )
 
 func main() {
@@ -216,7 +216,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
 )
 
 func main() {
@@ -275,7 +275,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
 )
 
 func main() {
