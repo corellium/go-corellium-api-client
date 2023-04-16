@@ -25,11 +25,11 @@ jobs:
       with:
         go-version: 1.20
 
-    - name: Use Node.js 19.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 19
-        cache: 'yarn'
+    # - name: Use Node.js 19.x
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: 19
+    #     cache: 'yarn'
 
     - name: Install OpenAPI Generator
       run: yarn global add @openapitools/openapi-generator-cli
