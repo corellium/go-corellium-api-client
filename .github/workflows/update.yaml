@@ -45,8 +45,7 @@ jobs:
 
         # Check if there are any changes
         git add -A
-        git status | grep -q "Changes to be committed"
-        if [ $? -eq 0 ]; then
+        if git status | grep -q "Changes to be committed"; then
           # Create a new branch with a timestamp
           branch_name="update-bindings-$(TZ='UTC' date --iso-8601=seconds | sed s/:/-/g)"
           git checkout -b "$branch_name"
