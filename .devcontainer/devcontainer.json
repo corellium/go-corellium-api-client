@@ -15,7 +15,8 @@
 			"extensions": [
 				"golang.go",
 				"GitHub.copilot",
-				"GitHub.copilot-labs"
+				"GitHub.copilot-labs",
+				"github.vscode-github-actions"
 			]
 		}
 	}
