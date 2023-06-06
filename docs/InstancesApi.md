@@ -28,6 +28,8 @@ Method | HTTP request | Description
 [**V1GetInstanceSnapshots**](InstancesApi.md#V1GetInstanceSnapshots) | **Get** /v1/instances/{instanceId}/snapshots | Get Instance Snapshots
 [**V1GetInstances**](InstancesApi.md#V1GetInstances) | **Get** /v1/instances | Get Instances
 [**V1InstancesInstanceIdMessagePost**](InstancesApi.md#V1InstancesInstanceIdMessagePost) | **Post** /v1/instances/{instanceId}/message | Receive a message on an iOS vm
+[**V1InstancesInstanceIdNetdumpPcapGet**](InstancesApi.md#V1InstancesInstanceIdNetdumpPcapGet) | **Get** /v1/instances/{instanceId}/netdump.pcap | Download a netdump pcap file
+[**V1InstancesInstanceIdNetworkMonitorPcapGet**](InstancesApi.md#V1InstancesInstanceIdNetworkMonitorPcapGet) | **Get** /v1/instances/{instanceId}/networkMonitor.pcap | Download a Network Monitor pcap file
 [**V1Kcrange**](InstancesApi.md#V1Kcrange) | **Get** /v1/instances/{instanceId}/btrace-kcrange | Get Kernel extension ranges
 [**V1ListThreads**](InstancesApi.md#V1ListThreads) | **Get** /v1/instances/{instanceId}/strace/thread-list | Get Running Threads (CoreTrace)
 [**V1MediaPlay**](InstancesApi.md#V1MediaPlay) | **Post** /v1/instances/{instanceId}/media/play | Start playing media
@@ -46,10 +48,12 @@ Method | HTTP request | Description
 [**V1StartCoreTrace**](InstancesApi.md#V1StartCoreTrace) | **Post** /v1/instances/{instanceId}/strace/enable | Start CoreTrace on an instance
 [**V1StartHyperTrace**](InstancesApi.md#V1StartHyperTrace) | **Post** /v1/instances/{instanceId}/btrace/enable | Start HyperTrace on an instance
 [**V1StartInstance**](InstancesApi.md#V1StartInstance) | **Post** /v1/instances/{instanceId}/start | Start an Instance
+[**V1StartNetdump**](InstancesApi.md#V1StartNetdump) | **Post** /v1/instances/{instanceId}/netdump/enable | Start Enhanced Network Monitor on an instance.
 [**V1StartNetworkMonitor**](InstancesApi.md#V1StartNetworkMonitor) | **Post** /v1/instances/{instanceId}/sslsplit/enable | Start Network Monitor on an instance.
 [**V1StopCoreTrace**](InstancesApi.md#V1StopCoreTrace) | **Post** /v1/instances/{instanceId}/strace/disable | Stop CoreTrace on an instance.
 [**V1StopHyperTrace**](InstancesApi.md#V1StopHyperTrace) | **Post** /v1/instances/{instanceId}/btrace/disable | Stop HyperTrace on an instance.
 [**V1StopInstance**](InstancesApi.md#V1StopInstance) | **Post** /v1/instances/{instanceId}/stop | Stop an Instance
+[**V1StopNetdump**](InstancesApi.md#V1StopNetdump) | **Post** /v1/instances/{instanceId}/netdump/disable | Stop Enhanced Network Monitor on an instance.
 [**V1StopNetworkMonitor**](InstancesApi.md#V1StopNetworkMonitor) | **Post** /v1/instances/{instanceId}/sslsplit/disable | Stop Network Monitor on an instance.
 [**V1UnpauseInstance**](InstancesApi.md#V1UnpauseInstance) | **Post** /v1/instances/{instanceId}/unpause | Unpause an Instance
 [**V1UpgradeInstance**](InstancesApi.md#V1UpgradeInstance) | **Post** /v1/instances/{instanceId}/upgrade | Upgrade iOS version
@@ -1681,6 +1685,142 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## V1InstancesInstanceIdNetdumpPcapGet
+
+> *os.File V1InstancesInstanceIdNetdumpPcapGet(ctx, instanceId).Execute()
+
+Download a netdump pcap file
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | Instance ID - uuid
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InstancesApi.V1InstancesInstanceIdNetdumpPcapGet(context.Background(), instanceId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1InstancesInstanceIdNetdumpPcapGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `V1InstancesInstanceIdNetdumpPcapGet`: *os.File
+    fmt.Fprintf(os.Stdout, "Response from `InstancesApi.V1InstancesInstanceIdNetdumpPcapGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** | Instance ID - uuid | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1InstancesInstanceIdNetdumpPcapGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[***os.File**](*os.File.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/vnd.tcpdump.pcap, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## V1InstancesInstanceIdNetworkMonitorPcapGet
+
+> *os.File V1InstancesInstanceIdNetworkMonitorPcapGet(ctx, instanceId).Execute()
+
+Download a Network Monitor pcap file
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | Instance ID - uuid
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InstancesApi.V1InstancesInstanceIdNetworkMonitorPcapGet(context.Background(), instanceId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1InstancesInstanceIdNetworkMonitorPcapGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `V1InstancesInstanceIdNetworkMonitorPcapGet`: *os.File
+    fmt.Fprintf(os.Stdout, "Response from `InstancesApi.V1InstancesInstanceIdNetworkMonitorPcapGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** | Instance ID - uuid | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1InstancesInstanceIdNetworkMonitorPcapGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[***os.File**](*os.File.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/vnd.tcpdump.pcap, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## V1Kcrange
 
 > []Kcrange V1Kcrange(ctx, instanceId).Execute()
@@ -2913,6 +3053,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## V1StartNetdump
+
+> V1StartNetdump(ctx, instanceId).NetdumpFilter(netdumpFilter).Execute()
+
+Start Enhanced Network Monitor on an instance.
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | Instance ID - uuid
+    netdumpFilter := *openapiclient.NewNetdumpFilter() // NetdumpFilter |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.InstancesApi.V1StartNetdump(context.Background(), instanceId).NetdumpFilter(netdumpFilter).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1StartNetdump``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** | Instance ID - uuid | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1StartNetdumpRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **netdumpFilter** | [**NetdumpFilter**](NetdumpFilter.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## V1StartNetworkMonitor
 
 > V1StartNetworkMonitor(ctx, instanceId).Execute()
@@ -3172,6 +3380,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## V1StopNetdump
+
+> V1StopNetdump(ctx, instanceId).Execute()
+
+Stop Enhanced Network Monitor on an instance.
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/aimoda/go-corellium-api-client"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | Instance ID - uuid
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.InstancesApi.V1StopNetdump(context.Background(), instanceId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1StopNetdump``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** | Instance ID - uuid | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1StopNetdumpRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

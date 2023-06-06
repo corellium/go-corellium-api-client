@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
   description: REST API to manage your virtual devices.
-  termsOfService: ""
+  termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 4.3.1-16664
+  version: 5.0.0-17089
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -39,6 +39,8 @@ tags:
   name: Invites
 - description: ""
   name: Models
+- description: ""
+  name: Netdump
 - description: ""
   name: Projects
 - description: ""
@@ -2092,6 +2094,81 @@ paths:
       summary: Get console websocket URL
       tags:
       - Instances
+  /v1/instances/{instanceId}/networkMonitor.pcap:
+    get:
+      deprecated: false
+      parameters:
+      - deprecated: false
+        description: Instance ID - uuid
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/vnd.tcpdump.pcap:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: pcap file
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Download a Network Monitor pcap file
+      tags:
+      - Instances
+  /v1/instances/{instanceId}/netdump.pcap:
+    get:
+      deprecated: false
+      parameters:
+      - deprecated: false
+        description: Instance ID - uuid
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/vnd.tcpdump.pcap:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: pcapng file
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Download a netdump pcap file
+      tags:
+      - Instances
+      - Netdump
   /v1/instances/{instanceId}/start:
     post:
       deprecated: false
@@ -4013,6 +4090,109 @@ paths:
       summary: Stop Network Monitor on an instance.
       tags:
       - Instances
+  /v1/instances/{instanceId}/netdump/enable:
+    post:
+      deprecated: false
+      operationId: v1StartNetdump
+      parameters:
+      - deprecated: false
+        description: Instance ID - uuid
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Capture all traffic
+                value: "{ }"
+              example2:
+                summary: Capture only port 443 or 80 traffic from pid 42
+                value: |-
+                  {
+                    ports: [ "443", "80" ],
+                    processes: [ "42" ]
+                  }
+              example3:
+                summary: Capture only port 443 or 80 traffic from process named misd
+                value: |-
+                  {
+                    ports: [ "443", "80" ],
+                    processes: [ "misd" ]
+                  }
+              example4:
+                summary: Capture only TCP port 443 or 80 traffic to host 1.1.1.1
+                value: |-
+                  {
+                    ports: [ "443", "80" ],
+                    protocols: [ "tcp" ],
+                    hosts: [ "1.1.1.1" ]
+                  }
+            schema:
+              $ref: '#/components/schemas/NetdumpFilter'
+        description: ""
+        required: false
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Start Enhanced Network Monitor on an instance.
+      tags:
+      - Instances
+      - Netdump
+  /v1/instances/{instanceId}/netdump/disable:
+    post:
+      deprecated: false
+      operationId: v1StopNetdump
+      parameters:
+      - deprecated: false
+        description: Instance ID - uuid
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Stop Enhanced Network Monitor on an instance.
+      tags:
+      - Instances
+      - Netdump
   /v1/instances/{instanceId}/exposeport/enable:
     post:
       deprecated: false
@@ -4765,7 +4945,6 @@ paths:
                   - id: d59db33d-27bd-4b22-878d-49e4758a648e
                     name: ProjectName
                     settings:
-                      version: 1
                       internet-access: true
                       dhcp: true
                     quotas:
@@ -4780,7 +4959,6 @@ paths:
                   - id: e2fdb33c-37ae-4b22-878d-49e4758a51f0
                     name: OtherProject
                     settings:
-                      version: 1
                       internet-access: true
                       dhcp: true
                     quotas:
@@ -4798,7 +4976,6 @@ paths:
                   - id: d59db33d-27bd-4b22-878d-49e4758a648e
                     name: ProjectName
                     settings:
-                      version: 1
                       internet-access: true
                       dhcp: true
                     quotas:
@@ -4862,7 +5039,6 @@ paths:
                   {
                     "name": "New Project",
                     "settings": {
-                      "version": 1,
                       "internet-access": true
                     },
                     "quotas": {
@@ -6962,6 +7138,18 @@ components:
           nullable: true
           type: string
       type: object
+    Plan:
+      description: ""
+      properties:
+        planId:
+          description: Plan ID
+          nullable: true
+          type: string
+        name:
+          description: Plan Name
+          nullable: true
+          type: string
+      type: object
     DomainOptions:
       description: ""
       properties:
@@ -7527,7 +7715,26 @@ components:
         hash: hash
         enabled: true
         info: info
-      nullable: true
+      properties:
+        hash:
+          description: ""
+          nullable: true
+          type: string
+        info:
+          description: ""
+          nullable: true
+          type: string
+        enabled:
+          description: ""
+          nullable: true
+          type: boolean
+      type: object
+    InstanceNetdumpState:
+      description: ""
+      example:
+        hash: hash
+        enabled: true
+        info: info
       properties:
         hash:
           description: ""
@@ -7551,6 +7758,10 @@ components:
           info: info
         project: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         startedAt: startedAt
+        netdump:
+          hash: hash
+          enabled: true
+          info: info
         type: type
         error: error
         serviceIp: serviceIp
@@ -7699,6 +7910,8 @@ components:
           $ref: '#/components/schemas/InstanceAgentState'
         netmon:
           $ref: '#/components/schemas/InstanceNetmonState'
+        netdump:
+          $ref: '#/components/schemas/InstanceNetdumpState'
         exposePort:
           description: ""
           nullable: true
@@ -8206,9 +8419,14 @@ components:
       description: ""
       example:
         paused: true
+        sockcap: true
       properties:
         paused:
           description: Start device paused
+          nullable: true
+          type: boolean
+        sockcap:
+          description: Start device with Process Network Monitoring enabled
           nullable: true
           type: boolean
       type: object
@@ -8566,6 +8784,65 @@ components:
           nullable: true
           type: array
       type: object
+    NetdumpFilter:
+      description: ""
+      example:
+        dstPorts:
+        - dstPorts
+        - dstPorts
+        processes:
+        - processes
+        - processes
+        srcPorts:
+        - srcPorts
+        - srcPorts
+        portRanges:
+        - portRanges
+        - portRanges
+        ports:
+        - ports
+        - ports
+        protocols:
+        - protocols
+        - protocols
+      properties:
+        portRanges:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+        srcPorts:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+        dstPorts:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+        ports:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+        protocols:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+        processes:
+          description: ""
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
     InstanceUpgradeBody:
       description: ""
       example:
@@ -8778,14 +9055,9 @@ components:
     ProjectSettings:
       description: ""
       example:
-        version: 0.8008281904610115
         internet-access: true
         dhcp: true
       properties:
-        version:
-          description: ""
-          nullable: true
-          type: number
         internet-access:
           description: ""
           nullable: true
@@ -8798,9 +9070,9 @@ components:
     ProjectQuota:
       description: ""
       example:
-        cores: 6.027456183070403
-        instances: 1.4658129805029452
-        ram: 5.962133916683182
+        cores: 0.8008281904610115
+        instances: 6.027456183070403
+        ram: 1.4658129805029452
       properties:
         cores:
           description: ""
@@ -8818,10 +9090,10 @@ components:
     ProjectUsage:
       description: ""
       example:
-        cores: 5.637376656633329
-        instances: 2.3021358869347655
-        gpu: 9.301444243932576
-        ram: 7.061401241503109
+        cores: 5.962133916683182
+        instances: 5.637376656633329
+        gpu: 7.061401241503109
+        ram: 2.3021358869347655
       properties:
         cores:
           description: ""
@@ -8844,18 +9116,17 @@ components:
       description: ""
       example:
         settings:
-          version: 0.8008281904610115
           internet-access: true
           dhcp: true
         quotasUsed:
-          cores: 5.637376656633329
-          instances: 2.3021358869347655
-          gpu: 9.301444243932576
-          ram: 7.061401241503109
+          cores: 5.962133916683182
+          instances: 5.637376656633329
+          gpu: 7.061401241503109
+          ram: 2.3021358869347655
         quotas:
-          cores: 6.027456183070403
-          instances: 1.4658129805029452
-          ram: 5.962133916683182
+          cores: 0.8008281904610115
+          instances: 6.027456183070403
+          ram: 1.4658129805029452
         name: name
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:

@@ -10,6 +10,7 @@ api_hypervisor_hooks.go
 api_images.go
 api_instances.go
 api_models.go
+api_netdump.go
 api_projects.go
 api_roles.go
 api_snapshots.go
@@ -69,6 +70,7 @@ docs/InstanceBootOptionsAdditionalTag.md
 docs/InstanceConsoleEndpoint.md
 docs/InstanceCreateOptions.md
 docs/InstanceInput.md
+docs/InstanceNetdumpState.md
 docs/InstanceNetmonState.md
 docs/InstanceReturn.md
 docs/InstanceServices.md
@@ -87,6 +89,8 @@ docs/MediaPlayBody.md
 docs/Model.md
 docs/ModelSoftware.md
 docs/ModelsApi.md
+docs/NetdumpApi.md
+docs/NetdumpFilter.md
 docs/PasswordChangeBody.md
 docs/PasswordResetBody.md
 docs/PatchInstanceOptions.md
@@ -181,6 +185,7 @@ model_instance_boot_options_additional_tag.go
 model_instance_console_endpoint.go
 model_instance_create_options.go
 model_instance_input.go
+model_instance_netdump_state.go
 model_instance_netmon_state.go
 model_instance_return.go
 model_instance_services.go
@@ -197,6 +202,7 @@ model_kernel_thread.go
 model_media_play_body.go
 model_model.go
 model_model_software.go
+model_netdump_filter.go
 model_password_change_body.go
 model_password_reset_body.go
 model_patch_instance_options.go
@@ -246,6 +252,7 @@ test/api_hypervisor_hooks_test.go
 test/api_images_test.go
 test/api_instances_test.go
 test/api_models_test.go
+test/api_netdump_test.go
 test/api_projects_test.go
 test/api_roles_test.go
 test/api_snapshots_test.go

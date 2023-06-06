@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Paused** | Pointer to **NullableBool** | Start device paused | [optional] 
+**Sockcap** | Pointer to **NullableBool** | Start device with Process Network Monitoring enabled | [optional] 
 
 ## Methods
 
@@ -60,6 +61,41 @@ HasPaused returns a boolean if a field has been set.
 `func (o *InstanceStartOptions) UnsetPaused()`
 
 UnsetPaused ensures that no value is present for Paused, not even an explicit nil
+### GetSockcap
+
+`func (o *InstanceStartOptions) GetSockcap() bool`
+
+GetSockcap returns the Sockcap field if non-nil, zero value otherwise.
+
+### GetSockcapOk
+
+`func (o *InstanceStartOptions) GetSockcapOk() (*bool, bool)`
+
+GetSockcapOk returns a tuple with the Sockcap field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSockcap
+
+`func (o *InstanceStartOptions) SetSockcap(v bool)`
+
+SetSockcap sets Sockcap field to given value.
+
+### HasSockcap
+
+`func (o *InstanceStartOptions) HasSockcap() bool`
+
+HasSockcap returns a boolean if a field has been set.
+
+### SetSockcapNil
+
+`func (o *InstanceStartOptions) SetSockcapNil(b bool)`
+
+ SetSockcapNil sets the value for Sockcap to be an explicit nil
+
+### UnsetSockcap
+`func (o *InstanceStartOptions) UnsetSockcap()`
+
+UnsetSockcap ensures that no value is present for Sockcap, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

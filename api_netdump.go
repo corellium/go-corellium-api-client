@@ -17,31 +17,32 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"os"
 )
 
 
-// CoreTraceApiService CoreTraceApi service
-type CoreTraceApiService service
+// NetdumpApiService NetdumpApi service
+type NetdumpApiService service
 
-type CoreTraceApiV1ClearCoreTraceRequest struct {
+type NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest struct {
 	ctx context.Context
-	ApiService *CoreTraceApiService
+	ApiService *NetdumpApiService
 	instanceId string
 }
 
-func (r CoreTraceApiV1ClearCoreTraceRequest) Execute() (*http.Response, error) {
-	return r.ApiService.V1ClearCoreTraceExecute(r)
+func (r NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest) Execute() (*os.File, *http.Response, error) {
+	return r.ApiService.V1InstancesInstanceIdNetdumpPcapGetExecute(r)
 }
 
 /*
-V1ClearCoreTrace Clear CoreTrace logs
+V1InstancesInstanceIdNetdumpPcapGet Download a netdump pcap file
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param instanceId Instance ID - uuid
- @return CoreTraceApiV1ClearCoreTraceRequest
+ @return NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest
 */
-func (a *CoreTraceApiService) V1ClearCoreTrace(ctx context.Context, instanceId string) CoreTraceApiV1ClearCoreTraceRequest {
-	return CoreTraceApiV1ClearCoreTraceRequest{
+func (a *NetdumpApiService) V1InstancesInstanceIdNetdumpPcapGet(ctx context.Context, instanceId string) NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest {
+	return NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		instanceId: instanceId,
@@ -49,121 +50,21 @@ func (a *CoreTraceApiService) V1ClearCoreTrace(ctx context.Context, instanceId s
 }
 
 // Execute executes the request
-func (a *CoreTraceApiService) V1ClearCoreTraceExecute(r CoreTraceApiV1ClearCoreTraceRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreTraceApiService.V1ClearCoreTrace")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/instances/{instanceId}/strace"
-	localVarPath = strings.Replace(localVarPath, "{"+"instanceId"+"}", url.PathEscape(parameterValueToString(r.instanceId, "instanceId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ApiError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type CoreTraceApiV1ListThreadsRequest struct {
-	ctx context.Context
-	ApiService *CoreTraceApiService
-	instanceId string
-}
-
-func (r CoreTraceApiV1ListThreadsRequest) Execute() ([]KernelTask, *http.Response, error) {
-	return r.ApiService.V1ListThreadsExecute(r)
-}
-
-/*
-V1ListThreads Get Running Threads (CoreTrace)
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId Instance ID - uuid
- @return CoreTraceApiV1ListThreadsRequest
-*/
-func (a *CoreTraceApiService) V1ListThreads(ctx context.Context, instanceId string) CoreTraceApiV1ListThreadsRequest {
-	return CoreTraceApiV1ListThreadsRequest{
-		ApiService: a,
-		ctx: ctx,
-		instanceId: instanceId,
-	}
-}
-
-// Execute executes the request
-//  @return []KernelTask
-func (a *CoreTraceApiService) V1ListThreadsExecute(r CoreTraceApiV1ListThreadsRequest) ([]KernelTask, *http.Response, error) {
+//  @return *os.File
+func (a *NetdumpApiService) V1InstancesInstanceIdNetdumpPcapGetExecute(r NetdumpApiV1InstancesInstanceIdNetdumpPcapGetRequest) (*os.File, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []KernelTask
+		localVarReturnValue  *os.File
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreTraceApiService.V1ListThreads")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NetdumpApiService.V1InstancesInstanceIdNetdumpPcapGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/instances/{instanceId}/strace/thread-list"
+	localVarPath := localBasePath + "/v1/instances/{instanceId}/netdump.pcap"
 	localVarPath = strings.Replace(localVarPath, "{"+"instanceId"+"}", url.PathEscape(parameterValueToString(r.instanceId, "instanceId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -180,7 +81,7 @@ func (a *CoreTraceApiService) V1ListThreadsExecute(r CoreTraceApiV1ListThreadsRe
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
+	localVarHTTPHeaderAccepts := []string{"application/vnd.tcpdump.pcap", "application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -245,25 +146,32 @@ func (a *CoreTraceApiService) V1ListThreadsExecute(r CoreTraceApiV1ListThreadsRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type CoreTraceApiV1StartCoreTraceRequest struct {
+type NetdumpApiV1StartNetdumpRequest struct {
 	ctx context.Context
-	ApiService *CoreTraceApiService
+	ApiService *NetdumpApiService
 	instanceId string
+	netdumpFilter *NetdumpFilter
 }
 
-func (r CoreTraceApiV1StartCoreTraceRequest) Execute() (*http.Response, error) {
-	return r.ApiService.V1StartCoreTraceExecute(r)
+// 
+func (r NetdumpApiV1StartNetdumpRequest) NetdumpFilter(netdumpFilter NetdumpFilter) NetdumpApiV1StartNetdumpRequest {
+	r.netdumpFilter = &netdumpFilter
+	return r
+}
+
+func (r NetdumpApiV1StartNetdumpRequest) Execute() (*http.Response, error) {
+	return r.ApiService.V1StartNetdumpExecute(r)
 }
 
 /*
-V1StartCoreTrace Start CoreTrace on an instance
+V1StartNetdump Start Enhanced Network Monitor on an instance.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param instanceId Instance ID - uuid
- @return CoreTraceApiV1StartCoreTraceRequest
+ @return NetdumpApiV1StartNetdumpRequest
 */
-func (a *CoreTraceApiService) V1StartCoreTrace(ctx context.Context, instanceId string) CoreTraceApiV1StartCoreTraceRequest {
-	return CoreTraceApiV1StartCoreTraceRequest{
+func (a *NetdumpApiService) V1StartNetdump(ctx context.Context, instanceId string) NetdumpApiV1StartNetdumpRequest {
+	return NetdumpApiV1StartNetdumpRequest{
 		ApiService: a,
 		ctx: ctx,
 		instanceId: instanceId,
@@ -271,19 +179,19 @@ func (a *CoreTraceApiService) V1StartCoreTrace(ctx context.Context, instanceId s
 }
 
 // Execute executes the request
-func (a *CoreTraceApiService) V1StartCoreTraceExecute(r CoreTraceApiV1StartCoreTraceRequest) (*http.Response, error) {
+func (a *NetdumpApiService) V1StartNetdumpExecute(r NetdumpApiV1StartNetdumpRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreTraceApiService.V1StartCoreTrace")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NetdumpApiService.V1StartNetdump")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/instances/{instanceId}/strace/enable"
+	localVarPath := localBasePath + "/v1/instances/{instanceId}/netdump/enable"
 	localVarPath = strings.Replace(localVarPath, "{"+"instanceId"+"}", url.PathEscape(parameterValueToString(r.instanceId, "instanceId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -291,7 +199,7 @@ func (a *CoreTraceApiService) V1StartCoreTraceExecute(r CoreTraceApiV1StartCoreT
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -307,6 +215,8 @@ func (a *CoreTraceApiService) V1StartCoreTraceExecute(r CoreTraceApiV1StartCoreT
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.netdumpFilter
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -356,25 +266,25 @@ func (a *CoreTraceApiService) V1StartCoreTraceExecute(r CoreTraceApiV1StartCoreT
 	return localVarHTTPResponse, nil
 }
 
-type CoreTraceApiV1StopCoreTraceRequest struct {
+type NetdumpApiV1StopNetdumpRequest struct {
 	ctx context.Context
-	ApiService *CoreTraceApiService
+	ApiService *NetdumpApiService
 	instanceId string
 }
 
-func (r CoreTraceApiV1StopCoreTraceRequest) Execute() (*http.Response, error) {
-	return r.ApiService.V1StopCoreTraceExecute(r)
+func (r NetdumpApiV1StopNetdumpRequest) Execute() (*http.Response, error) {
+	return r.ApiService.V1StopNetdumpExecute(r)
 }
 
 /*
-V1StopCoreTrace Stop CoreTrace on an instance.
+V1StopNetdump Stop Enhanced Network Monitor on an instance.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param instanceId Instance ID - uuid
- @return CoreTraceApiV1StopCoreTraceRequest
+ @return NetdumpApiV1StopNetdumpRequest
 */
-func (a *CoreTraceApiService) V1StopCoreTrace(ctx context.Context, instanceId string) CoreTraceApiV1StopCoreTraceRequest {
-	return CoreTraceApiV1StopCoreTraceRequest{
+func (a *NetdumpApiService) V1StopNetdump(ctx context.Context, instanceId string) NetdumpApiV1StopNetdumpRequest {
+	return NetdumpApiV1StopNetdumpRequest{
 		ApiService: a,
 		ctx: ctx,
 		instanceId: instanceId,
@@ -382,19 +292,19 @@ func (a *CoreTraceApiService) V1StopCoreTrace(ctx context.Context, instanceId st
 }
 
 // Execute executes the request
-func (a *CoreTraceApiService) V1StopCoreTraceExecute(r CoreTraceApiV1StopCoreTraceRequest) (*http.Response, error) {
+func (a *NetdumpApiService) V1StopNetdumpExecute(r NetdumpApiV1StopNetdumpRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreTraceApiService.V1StopCoreTrace")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NetdumpApiService.V1StopNetdump")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/instances/{instanceId}/strace/disable"
+	localVarPath := localBasePath + "/v1/instances/{instanceId}/netdump/disable"
 	localVarPath = strings.Replace(localVarPath, "{"+"instanceId"+"}", url.PathEscape(parameterValueToString(r.instanceId, "instanceId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
