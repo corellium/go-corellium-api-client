@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the InstanceNetmonState type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &InstanceNetmonState{}
+// checks if the InstanceNetdumpState type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &InstanceNetdumpState{}
 
-// InstanceNetmonState 
-type InstanceNetmonState struct {
+// InstanceNetdumpState 
+type InstanceNetdumpState struct {
 	// 
 	Hash NullableString `json:"hash,omitempty"`
 	// 
@@ -27,25 +27,25 @@ type InstanceNetmonState struct {
 	Enabled NullableBool `json:"enabled,omitempty"`
 }
 
-// NewInstanceNetmonState instantiates a new InstanceNetmonState object
+// NewInstanceNetdumpState instantiates a new InstanceNetdumpState object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInstanceNetmonState() *InstanceNetmonState {
-	this := InstanceNetmonState{}
+func NewInstanceNetdumpState() *InstanceNetdumpState {
+	this := InstanceNetdumpState{}
 	return &this
 }
 
-// NewInstanceNetmonStateWithDefaults instantiates a new InstanceNetmonState object
+// NewInstanceNetdumpStateWithDefaults instantiates a new InstanceNetdumpState object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewInstanceNetmonStateWithDefaults() *InstanceNetmonState {
-	this := InstanceNetmonState{}
+func NewInstanceNetdumpStateWithDefaults() *InstanceNetdumpState {
+	this := InstanceNetdumpState{}
 	return &this
 }
 
 // GetHash returns the Hash field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *InstanceNetmonState) GetHash() string {
+func (o *InstanceNetdumpState) GetHash() string {
 	if o == nil || IsNil(o.Hash.Get()) {
 		var ret string
 		return ret
@@ -56,7 +56,7 @@ func (o *InstanceNetmonState) GetHash() string {
 // GetHashOk returns a tuple with the Hash field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InstanceNetmonState) GetHashOk() (*string, bool) {
+func (o *InstanceNetdumpState) GetHashOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *InstanceNetmonState) GetHashOk() (*string, bool) {
 }
 
 // HasHash returns a boolean if a field has been set.
-func (o *InstanceNetmonState) HasHash() bool {
+func (o *InstanceNetdumpState) HasHash() bool {
 	if o != nil && o.Hash.IsSet() {
 		return true
 	}
@@ -73,21 +73,21 @@ func (o *InstanceNetmonState) HasHash() bool {
 }
 
 // SetHash gets a reference to the given NullableString and assigns it to the Hash field.
-func (o *InstanceNetmonState) SetHash(v string) {
+func (o *InstanceNetdumpState) SetHash(v string) {
 	o.Hash.Set(&v)
 }
 // SetHashNil sets the value for Hash to be an explicit nil
-func (o *InstanceNetmonState) SetHashNil() {
+func (o *InstanceNetdumpState) SetHashNil() {
 	o.Hash.Set(nil)
 }
 
 // UnsetHash ensures that no value is present for Hash, not even an explicit nil
-func (o *InstanceNetmonState) UnsetHash() {
+func (o *InstanceNetdumpState) UnsetHash() {
 	o.Hash.Unset()
 }
 
 // GetInfo returns the Info field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *InstanceNetmonState) GetInfo() string {
+func (o *InstanceNetdumpState) GetInfo() string {
 	if o == nil || IsNil(o.Info.Get()) {
 		var ret string
 		return ret
@@ -98,7 +98,7 @@ func (o *InstanceNetmonState) GetInfo() string {
 // GetInfoOk returns a tuple with the Info field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InstanceNetmonState) GetInfoOk() (*string, bool) {
+func (o *InstanceNetdumpState) GetInfoOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -106,7 +106,7 @@ func (o *InstanceNetmonState) GetInfoOk() (*string, bool) {
 }
 
 // HasInfo returns a boolean if a field has been set.
-func (o *InstanceNetmonState) HasInfo() bool {
+func (o *InstanceNetdumpState) HasInfo() bool {
 	if o != nil && o.Info.IsSet() {
 		return true
 	}
@@ -115,21 +115,21 @@ func (o *InstanceNetmonState) HasInfo() bool {
 }
 
 // SetInfo gets a reference to the given NullableString and assigns it to the Info field.
-func (o *InstanceNetmonState) SetInfo(v string) {
+func (o *InstanceNetdumpState) SetInfo(v string) {
 	o.Info.Set(&v)
 }
 // SetInfoNil sets the value for Info to be an explicit nil
-func (o *InstanceNetmonState) SetInfoNil() {
+func (o *InstanceNetdumpState) SetInfoNil() {
 	o.Info.Set(nil)
 }
 
 // UnsetInfo ensures that no value is present for Info, not even an explicit nil
-func (o *InstanceNetmonState) UnsetInfo() {
+func (o *InstanceNetdumpState) UnsetInfo() {
 	o.Info.Unset()
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *InstanceNetmonState) GetEnabled() bool {
+func (o *InstanceNetdumpState) GetEnabled() bool {
 	if o == nil || IsNil(o.Enabled.Get()) {
 		var ret bool
 		return ret
@@ -140,7 +140,7 @@ func (o *InstanceNetmonState) GetEnabled() bool {
 // GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InstanceNetmonState) GetEnabledOk() (*bool, bool) {
+func (o *InstanceNetdumpState) GetEnabledOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -148,7 +148,7 @@ func (o *InstanceNetmonState) GetEnabledOk() (*bool, bool) {
 }
 
 // HasEnabled returns a boolean if a field has been set.
-func (o *InstanceNetmonState) HasEnabled() bool {
+func (o *InstanceNetdumpState) HasEnabled() bool {
 	if o != nil && o.Enabled.IsSet() {
 		return true
 	}
@@ -157,20 +157,20 @@ func (o *InstanceNetmonState) HasEnabled() bool {
 }
 
 // SetEnabled gets a reference to the given NullableBool and assigns it to the Enabled field.
-func (o *InstanceNetmonState) SetEnabled(v bool) {
+func (o *InstanceNetdumpState) SetEnabled(v bool) {
 	o.Enabled.Set(&v)
 }
 // SetEnabledNil sets the value for Enabled to be an explicit nil
-func (o *InstanceNetmonState) SetEnabledNil() {
+func (o *InstanceNetdumpState) SetEnabledNil() {
 	o.Enabled.Set(nil)
 }
 
 // UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil
-func (o *InstanceNetmonState) UnsetEnabled() {
+func (o *InstanceNetdumpState) UnsetEnabled() {
 	o.Enabled.Unset()
 }
 
-func (o InstanceNetmonState) MarshalJSON() ([]byte, error) {
+func (o InstanceNetdumpState) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -178,7 +178,7 @@ func (o InstanceNetmonState) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o InstanceNetmonState) ToMap() (map[string]interface{}, error) {
+func (o InstanceNetdumpState) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Hash.IsSet() {
 		toSerialize["hash"] = o.Hash.Get()
@@ -192,38 +192,38 @@ func (o InstanceNetmonState) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableInstanceNetmonState struct {
-	value *InstanceNetmonState
+type NullableInstanceNetdumpState struct {
+	value *InstanceNetdumpState
 	isSet bool
 }
 
-func (v NullableInstanceNetmonState) Get() *InstanceNetmonState {
+func (v NullableInstanceNetdumpState) Get() *InstanceNetdumpState {
 	return v.value
 }
 
-func (v *NullableInstanceNetmonState) Set(val *InstanceNetmonState) {
+func (v *NullableInstanceNetdumpState) Set(val *InstanceNetdumpState) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableInstanceNetmonState) IsSet() bool {
+func (v NullableInstanceNetdumpState) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableInstanceNetmonState) Unset() {
+func (v *NullableInstanceNetdumpState) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableInstanceNetmonState(val *InstanceNetmonState) *NullableInstanceNetmonState {
-	return &NullableInstanceNetmonState{value: val, isSet: true}
+func NewNullableInstanceNetdumpState(val *InstanceNetdumpState) *NullableInstanceNetdumpState {
+	return &NullableInstanceNetdumpState{value: val, isSet: true}
 }
 
-func (v NullableInstanceNetmonState) MarshalJSON() ([]byte, error) {
+func (v NullableInstanceNetdumpState) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableInstanceNetmonState) UnmarshalJSON(src []byte) error {
+func (v *NullableInstanceNetdumpState) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

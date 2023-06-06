@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LicenseType** | **string** |  | 
-**Cores** | **int32** | Number of CPU cores | 
+**PlanId** | Pointer to **NullableString** | Plan ID | [optional] 
+**Name** | Pointer to **NullableString** | Plan Name | [optional] 
 
 ## Methods
 
 ### NewPlan
 
-`func NewPlan(licenseType string, cores int32, ) *Plan`
+`func NewPlan() *Plan`
 
 NewPlan instantiates a new Plan object
 This constructor will assign default values to properties that have it defined,
@@ -26,46 +26,76 @@ NewPlanWithDefaults instantiates a new Plan object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetLicenseType
+### GetPlanId
 
-`func (o *Plan) GetLicenseType() string`
+`func (o *Plan) GetPlanId() string`
 
-GetLicenseType returns the LicenseType field if non-nil, zero value otherwise.
+GetPlanId returns the PlanId field if non-nil, zero value otherwise.
 
-### GetLicenseTypeOk
+### GetPlanIdOk
 
-`func (o *Plan) GetLicenseTypeOk() (*string, bool)`
+`func (o *Plan) GetPlanIdOk() (*string, bool)`
 
-GetLicenseTypeOk returns a tuple with the LicenseType field if it's non-nil, zero value otherwise
+GetPlanIdOk returns a tuple with the PlanId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLicenseType
+### SetPlanId
 
-`func (o *Plan) SetLicenseType(v string)`
+`func (o *Plan) SetPlanId(v string)`
 
-SetLicenseType sets LicenseType field to given value.
+SetPlanId sets PlanId field to given value.
 
+### HasPlanId
 
-### GetCores
+`func (o *Plan) HasPlanId() bool`
 
-`func (o *Plan) GetCores() int32`
+HasPlanId returns a boolean if a field has been set.
 
-GetCores returns the Cores field if non-nil, zero value otherwise.
+### SetPlanIdNil
 
-### GetCoresOk
+`func (o *Plan) SetPlanIdNil(b bool)`
 
-`func (o *Plan) GetCoresOk() (*int32, bool)`
+ SetPlanIdNil sets the value for PlanId to be an explicit nil
 
-GetCoresOk returns a tuple with the Cores field if it's non-nil, zero value otherwise
+### UnsetPlanId
+`func (o *Plan) UnsetPlanId()`
+
+UnsetPlanId ensures that no value is present for PlanId, not even an explicit nil
+### GetName
+
+`func (o *Plan) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *Plan) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCores
+### SetName
 
-`func (o *Plan) SetCores(v int32)`
+`func (o *Plan) SetName(v string)`
 
-SetCores sets Cores field to given value.
+SetName sets Name field to given value.
 
+### HasName
 
+`func (o *Plan) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
+### SetNameNil
+
+`func (o *Plan) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *Plan) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

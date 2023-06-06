@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | Pointer to **NullableFloat32** |  | [optional] 
 **InternetAccess** | Pointer to **NullableBool** |  | [optional] 
 **Dhcp** | Pointer to **NullableBool** |  | [optional] 
 
@@ -27,41 +26,6 @@ NewProjectSettingsWithDefaults instantiates a new ProjectSettings object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetVersion
-
-`func (o *ProjectSettings) GetVersion() float32`
-
-GetVersion returns the Version field if non-nil, zero value otherwise.
-
-### GetVersionOk
-
-`func (o *ProjectSettings) GetVersionOk() (*float32, bool)`
-
-GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersion
-
-`func (o *ProjectSettings) SetVersion(v float32)`
-
-SetVersion sets Version field to given value.
-
-### HasVersion
-
-`func (o *ProjectSettings) HasVersion() bool`
-
-HasVersion returns a boolean if a field has been set.
-
-### SetVersionNil
-
-`func (o *ProjectSettings) SetVersionNil(b bool)`
-
- SetVersionNil sets the value for Version to be an explicit nil
-
-### UnsetVersion
-`func (o *ProjectSettings) UnsetVersion()`
-
-UnsetVersion ensures that no value is present for Version, not even an explicit nil
 ### GetInternetAccess
 
 `func (o *ProjectSettings) GetInternetAccess() bool`

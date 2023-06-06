@@ -27,7 +27,8 @@ Name | Type | Description | Notes
 **Fwpackage** | Pointer to **NullableString** | URL that package used to create this instance is available at | [optional] 
 **Os** | Pointer to **NullableString** |  | [optional] 
 **Agent** | Pointer to [**NullableInstanceAgentState**](InstanceAgentState.md) |  | [optional] 
-**Netmon** | Pointer to [**NullableInstanceNetmonState**](InstanceNetmonState.md) |  | [optional] 
+**Netmon** | Pointer to [**InstanceNetmonState**](InstanceNetmonState.md) |  | [optional] 
+**Netdump** | Pointer to [**InstanceNetdumpState**](InstanceNetdumpState.md) |  | [optional] 
 **ExposePort** | Pointer to **NullableString** |  | [optional] 
 **Fault** | Pointer to **NullableBool** |  | [optional] 
 **Patches** | Pointer to **[]string** |  | [optional] 
@@ -852,16 +853,31 @@ SetNetmon sets Netmon field to given value.
 
 HasNetmon returns a boolean if a field has been set.
 
-### SetNetmonNil
+### GetNetdump
 
-`func (o *Instance) SetNetmonNil(b bool)`
+`func (o *Instance) GetNetdump() InstanceNetdumpState`
 
- SetNetmonNil sets the value for Netmon to be an explicit nil
+GetNetdump returns the Netdump field if non-nil, zero value otherwise.
 
-### UnsetNetmon
-`func (o *Instance) UnsetNetmon()`
+### GetNetdumpOk
 
-UnsetNetmon ensures that no value is present for Netmon, not even an explicit nil
+`func (o *Instance) GetNetdumpOk() (*InstanceNetdumpState, bool)`
+
+GetNetdumpOk returns a tuple with the Netdump field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNetdump
+
+`func (o *Instance) SetNetdump(v InstanceNetdumpState)`
+
+SetNetdump sets Netdump field to given value.
+
+### HasNetdump
+
+`func (o *Instance) HasNetdump() bool`
+
+HasNetdump returns a boolean if a field has been set.
+
 ### GetExposePort
 
 `func (o *Instance) GetExposePort() string`

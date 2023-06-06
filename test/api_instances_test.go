@@ -347,6 +347,34 @@ func Test_corellium_InstancesApiService(t *testing.T) {
 
 	})
 
+	t.Run("Test InstancesApiService V1InstancesInstanceIdNetdumpPcapGet", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var instanceId string
+
+		resp, httpRes, err := apiClient.InstancesApi.V1InstancesInstanceIdNetdumpPcapGet(context.Background(), instanceId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test InstancesApiService V1InstancesInstanceIdNetworkMonitorPcapGet", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var instanceId string
+
+		resp, httpRes, err := apiClient.InstancesApi.V1InstancesInstanceIdNetworkMonitorPcapGet(context.Background(), instanceId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test InstancesApiService V1Kcrange", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -590,6 +618,19 @@ func Test_corellium_InstancesApiService(t *testing.T) {
 
 	})
 
+	t.Run("Test InstancesApiService V1StartNetdump", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var instanceId string
+
+		httpRes, err := apiClient.InstancesApi.V1StartNetdump(context.Background(), instanceId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test InstancesApiService V1StartNetworkMonitor", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -636,6 +677,19 @@ func Test_corellium_InstancesApiService(t *testing.T) {
 		var instanceId string
 
 		httpRes, err := apiClient.InstancesApi.V1StopInstance(context.Background(), instanceId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test InstancesApiService V1StopNetdump", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var instanceId string
+
+		httpRes, err := apiClient.InstancesApi.V1StopNetdump(context.Background(), instanceId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
