@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 5.0.0-17089
+  version: 5.2.0-17376
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -24,6 +24,8 @@ tags:
 - description: ""
   name: Domain
 - description: ""
+  name: DomainAuthProvider
+- description: ""
   name: Extensions
 - description: ""
   name: Flavors
@@ -37,6 +39,8 @@ tags:
   name: Instances
 - description: ""
   name: Invites
+- description: ""
+  name: Licensing
 - description: ""
   name: Models
 - description: ""
@@ -177,6 +181,263 @@ paths:
       summary: Create Subscriber Invite
       tags:
       - TrialRequests
+  /v1/domain/{domainId}/auth:
+    get:
+      deprecated: false
+      operationId: v1GetDomainAuthProviders
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DomainAuthProviderResponse'
+                type: array
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Return all configured auth providers for a domain (including globally
+        configured providers)
+      tags:
+      - DomainAuthProvider
+    post:
+      deprecated: false
+      operationId: v1CreateDomainAuthProvider
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Auth Provider
+                value: |-
+                  {
+                    "enabled": true,
+                    "providerType": "open-id-connect",
+                    "label": "Login with Custom Auth0",
+                    "config": {
+                      "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
+                      "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
+                      "clientSecret": "itsasecret",
+                      "invitedOnly": false
+                    }
+                  }
+            schema:
+              $ref: '#/components/schemas/DomainAuthProviderRequest'
+        description: Request Data
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: OK
+                  value: |-
+                    {
+                      "identifier": "c64ad2a9-5be8-4c87-98af-0572adbe1085",
+                      "providerType": "open-id-connect",
+                      "default": false,
+                      "label": "Login with Custom Domain Auth0 Provider",
+                      "config": {
+                        "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
+                        "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
+                        "clientSecret": "itsasecret",
+                        "invitedOnly": false
+                      },
+                      "createdBy": "525b6183-7265-4f87-b6cb-1f6ec1b996dd",
+                      "updatedAt": "2023-06-26T23:24:14.339Z",
+                      "createdAt": "2023-06-26T23:24:14.339Z",
+                      "enabled": true
+                      "default": false
+                    }
+              schema:
+                $ref: '#/components/schemas/DomainAuthProviderResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Create a new auth provider for a domain
+      tags:
+      - DomainAuthProvider
+  /v1/domain/{domainId}/auth/{providerId}:
+    delete:
+      deprecated: false
+      operationId: v1DeleteDomainAuthProvider
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - deprecated: false
+        description: Provider ID - uuid
+        explode: false
+        in: path
+        name: providerId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Delete an auth provider from a domain
+      tags:
+      - DomainAuthProvider
+    put:
+      deprecated: false
+      operationId: v1UpdateDomainAuthProvider
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - deprecated: false
+        description: Provider ID - uuid
+        explode: false
+        in: path
+        name: providerId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Auth Provider
+                value: |-
+                  {
+                    "enabled": false,
+                    "providerType": "open-id-connect",
+                    "label": "Login with Custom Auth0",
+                    "config": {
+                      "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
+                      "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
+                      "clientSecret": "itsasecret",
+                      "invitedOnly": true
+                    }
+                  }
+            schema:
+              $ref: '#/components/schemas/DomainAuthProviderRequest'
+        description: Request Data
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: OK
+                  value:
+                    providerType: open-id-connect
+                    enabled: false
+                    default: false
+                    label: Spiffy Label
+                    config:
+                      discoveryUrl: http://localhost:8080/realms/Corellium/.well-known/openid-configuration
+                      clientId: B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4
+                      clientSecret: itsasecret
+                      invitedOnly: false
+                    identifier: 48f0871a-4d47-4343-ac66-12873f29dd3e
+                    createdBy: 66cfc2b7-ccba-48c1-b2f7-3ef2d0f5dcdc
+                    createdAt: 2023-06-26T23:27:25.000Z
+                    updatedAt: 2023-06-26T23:27:25.000Z
+              schema:
+                $ref: '#/components/schemas/DomainAuthProviderResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Update an auth provider for a domain
+      tags:
+      - DomainAuthProvider
   /v1/instances/{instanceId}/hooks:
     get:
       deprecated: false
@@ -3029,6 +3290,13 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestoreBackupData'
+        description: Restore backup data
+        required: false
       responses:
         "204":
           description: No Content
@@ -4817,6 +5085,45 @@ paths:
       tags:
       - Snapshots
       - Instances
+  /v1/license/features:
+    get:
+      deprecated: false
+      operationId: v1GetSupportedFeatures
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value:
+                  - RestoreBackup
+                  - Netdump
+                  - OsUpdate
+              schema:
+                items:
+                  type: string
+                type: array
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Get all supported features for user
+      tags:
+      - Licensing
   /v1/models:
     get:
       deprecated: false
@@ -6650,224 +6957,6 @@ paths:
       summary: Send Password Reset Link Info
       tags:
       - Users
-  /v1/webplayer:
-    get:
-      deprecated: false
-      operationId: v1WebPlayerListSessions
-      parameters: []
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Success
-                  value: |-
-                    {[
-                        "identifier": "37370f51-01b8-4d2e-a5ce-117aadfaa955",
-                        "token": "eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJ3ZWJQbGF5ZXJGZWF0dXJlcyI6eyJJT1MiOnRydWUsImFwcCI6dHJ1ZSwiZmlsZSI6dHJ1ZX0sImRvbWFpbiI6ImIzY2JhMWE2LWNkNjQtNGI1OC1hZjExLTA3MDQ4MDVmYzY2ZSIsInByb2plY3QiOiJjMDI4ZWM3Ni1jZjQ3LTRiNWYtYmFkNS03OThlNGJmYTRiYTgiLCJ1c2VyIjoiN2I0MDg2MGYtNTU3Yi00MDNjLWExOWItMjU5OTQ4NzMzNzZlIiwibm9JT1MiOmZhbHNlLCJleHAiOjE2NjMxMDc2MzYsImlhdCI6MTY2MzEwNDAzNn0.KgmqYo3ecvKhCTwKBEHieWnhjxBST9wb9-CeB4hI4Uk5qA54aAOSmrBqnj2Odth8bC_eBvoJLC9qJh9gGuOqbB8U06ObiJQ2jYIOUwRzoPqXnfxElMnvc9hSkIDnT6xgysEaLjplBDEkQjdd9KZkaKeKC3B0BBHYH5CJSXRwIZDmn5QZwaEjpNkhO9BAhc9Qgltcfe3UNeQGtZcoyoBppKFuBJ7mbgg5O8UeoXjj5tqMBcaK1kSYAcK0FCZCbcee5rgVfKz2ZGLx8fD_L76R2XbR81AMWBFqzFsahsnRYNVSddUs6bnGEw2GqwvFzComcyX31guM6K8IRZk8RzILQ7hgM7GnV3h6jX0zffBL7_m633qheXWpGRy_9x2pVEjJNOz0-nyEYG5zl8B4dc17pvXVjg4qZ3R7ujL7i7uhG2_CjRwOzpbqxv22Qn7jw3whQU7vTgOeagVh8L8L0n57thqt9Vm7vpRXAw0UnUZX4VkQa1_k8OFjKy_j-xWvjcGNmc35YKsz7r50tNc-lR0MRZiQtec43yNN0fSisUEQrY0FUW520lYci310schJW8AyYmH_smi8freqIM-BAe6lo-_v-VeRH6e7CSIUhHR_PpPypmtdb-4wFacc59J6N2ZBoZ0B2p0ZlXPSWxt7pQ2yWZx0NDFU3Xadlp5CxeJBtrk",
-                        "expiration": "2022-09-13T22:20:36.000Z",
-                    ]}
-              schema:
-                items:
-                  $ref: '#/components/schemas/WebPlayerSession'
-                type: array
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: List all Webplayer sessions
-      tags:
-      - WebPlayer
-    post:
-      deprecated: false
-      operationId: v1WebPlayerCreateSession
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example1:
-                summary: Webplayer Request
-                value: |-
-                  {
-                    "projectId": "0fc719fc-335d-458c-a424-51a550a73d12",
-                    "instanceId": "fbd94550-3f74-4d46-a6ed-c26cbfb23340",
-                    "expiresIn": 18000,
-                    "features": {
-                      "apps": true,
-                      "files": true
-                    },
-                  }
-            schema:
-              $ref: '#/components/schemas/WebPlayerCreateSessionRequest'
-        description: Request Data
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Success
-                  value: |-
-                    {
-                        "identifier": "37370f51-01b8-4d2e-a5ce-117aadfaa955",
-                        "token": "eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJ3ZWJQbGF5ZXJGZWF0dXJlcyI6eyJJT1MiOnRydWUsImFwcCI6dHJ1ZSwiZmlsZSI6dHJ1ZX0sImRvbWFpbiI6ImIzY2JhMWE2LWNkNjQtNGI1OC1hZjExLTA3MDQ4MDVmYzY2ZSIsInByb2plY3QiOiJjMDI4ZWM3Ni1jZjQ3LTRiNWYtYmFkNS03OThlNGJmYTRiYTgiLCJ1c2VyIjoiN2I0MDg2MGYtNTU3Yi00MDNjLWExOWItMjU5OTQ4NzMzNzZlIiwibm9JT1MiOmZhbHNlLCJleHAiOjE2NjMxMDc2MzYsImlhdCI6MTY2MzEwNDAzNn0.KgmqYo3ecvKhCTwKBEHieWnhjxBST9wb9-CeB4hI4Uk5qA54aAOSmrBqnj2Odth8bC_eBvoJLC9qJh9gGuOqbB8U06ObiJQ2jYIOUwRzoPqXnfxElMnvc9hSkIDnT6xgysEaLjplBDEkQjdd9KZkaKeKC3B0BBHYH5CJSXRwIZDmn5QZwaEjpNkhO9BAhc9Qgltcfe3UNeQGtZcoyoBppKFuBJ7mbgg5O8UeoXjj5tqMBcaK1kSYAcK0FCZCbcee5rgVfKz2ZGLx8fD_L76R2XbR81AMWBFqzFsahsnRYNVSddUs6bnGEw2GqwvFzComcyX31guM6K8IRZk8RzILQ7hgM7GnV3h6jX0zffBL7_m633qheXWpGRy_9x2pVEjJNOz0-nyEYG5zl8B4dc17pvXVjg4qZ3R7ujL7i7uhG2_CjRwOzpbqxv22Qn7jw3whQU7vTgOeagVh8L8L0n57thqt9Vm7vpRXAw0UnUZX4VkQa1_k8OFjKy_j-xWvjcGNmc35YKsz7r50tNc-lR0MRZiQtec43yNN0fSisUEQrY0FUW520lYci310schJW8AyYmH_smi8freqIM-BAe6lo-_v-VeRH6e7CSIUhHR_PpPypmtdb-4wFacc59J6N2ZBoZ0B2p0ZlXPSWxt7pQ2yWZx0NDFU3Xadlp5CxeJBtrk",
-                        "expiration": "2022-09-13T22:20:36.000Z",
-                    }
-              schema:
-                $ref: '#/components/schemas/WebPlayerSession'
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Create a new Webplayer Session
-      tags:
-      - WebPlayer
-  /v1/webplayer/{sessionId}:
-    delete:
-      deprecated: false
-      operationId: v1WebPlayerDestroySession
-      parameters:
-      - deprecated: false
-        description: Webplayer Session identifier
-        explode: false
-        in: path
-        name: sessionId
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Tear down a Webplayer Session
-      tags:
-      - WebPlayer
-    get:
-      deprecated: false
-      operationId: v1WebPlayerSessionInfo
-      parameters:
-      - deprecated: false
-        description: Webplayer Session identifier
-        explode: false
-        in: path
-        name: sessionId
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Success
-                  value: |-
-                    {[
-                        "identifier": "37370f51-01b8-4d2e-a5ce-117aadfaa955",
-                        "token": "eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJ3ZWJQbGF5ZXJGZWF0dXJlcyI6eyJJT1MiOnRydWUsImFwcCI6dHJ1ZSwiZmlsZSI6dHJ1ZX0sImRvbWFpbiI6ImIzY2JhMWE2LWNkNjQtNGI1OC1hZjExLTA3MDQ4MDVmYzY2ZSIsInByb2plY3QiOiJjMDI4ZWM3Ni1jZjQ3LTRiNWYtYmFkNS03OThlNGJmYTRiYTgiLCJ1c2VyIjoiN2I0MDg2MGYtNTU3Yi00MDNjLWExOWItMjU5OTQ4NzMzNzZlIiwibm9JT1MiOmZhbHNlLCJleHAiOjE2NjMxMDc2MzYsImlhdCI6MTY2MzEwNDAzNn0.KgmqYo3ecvKhCTwKBEHieWnhjxBST9wb9-CeB4hI4Uk5qA54aAOSmrBqnj2Odth8bC_eBvoJLC9qJh9gGuOqbB8U06ObiJQ2jYIOUwRzoPqXnfxElMnvc9hSkIDnT6xgysEaLjplBDEkQjdd9KZkaKeKC3B0BBHYH5CJSXRwIZDmn5QZwaEjpNkhO9BAhc9Qgltcfe3UNeQGtZcoyoBppKFuBJ7mbgg5O8UeoXjj5tqMBcaK1kSYAcK0FCZCbcee5rgVfKz2ZGLx8fD_L76R2XbR81AMWBFqzFsahsnRYNVSddUs6bnGEw2GqwvFzComcyX31guM6K8IRZk8RzILQ7hgM7GnV3h6jX0zffBL7_m633qheXWpGRy_9x2pVEjJNOz0-nyEYG5zl8B4dc17pvXVjg4qZ3R7ujL7i7uhG2_CjRwOzpbqxv22Qn7jw3whQU7vTgOeagVh8L8L0n57thqt9Vm7vpRXAw0UnUZX4VkQa1_k8OFjKy_j-xWvjcGNmc35YKsz7r50tNc-lR0MRZiQtec43yNN0fSisUEQrY0FUW520lYci310schJW8AyYmH_smi8freqIM-BAe6lo-_v-VeRH6e7CSIUhHR_PpPypmtdb-4wFacc59J6N2ZBoZ0B2p0ZlXPSWxt7pQ2yWZx0NDFU3Xadlp5CxeJBtrk",
-                        "expiration": "2022-09-13T22:20:36.000Z",
-                    ]}
-              schema:
-                $ref: '#/components/schemas/WebPlayerSession'
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Not Found
-      security:
-      - BearerAuth: []
-      summary: Retrieve Webplayer Session Information
-      tags:
-      - WebPlayer
-  /v1/webplayer/allowedDomains:
-    get:
-      deprecated: false
-      operationId: v1WebPlayerAllowedDomains
-      parameters: []
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Success
-                  value:
-                    allowedDomains:
-                    - a.com
-                    - b.com
-                    - c.com
-              schema:
-                $ref: '#/components/schemas/WebPlayerSession'
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Retrieve the list of allowed domains for all Webplayer sessions
-      tags:
-      - WebPlayer
 components:
   schemas:
     Credentials:
@@ -7179,6 +7268,133 @@ components:
           description: explanation for why the request was denied
           nullable: true
           type: string
+      type: object
+    OpenIDConfig:
+      description: ""
+      example:
+        invitedOnly: true
+        clientId: clientId
+        clientSecret: clientSecret
+        discoveryUrl: discoveryUrl
+      properties:
+        discoveryUrl:
+          description: Service Discovery URL
+          nullable: true
+          type: string
+        clientId:
+          description: Service Client ID
+          nullable: true
+          type: string
+        clientSecret:
+          description: Service Client Secret
+          nullable: true
+          type: string
+        invitedOnly:
+          description: Only accept individuals with invitations
+          nullable: true
+          type: boolean
+      type: object
+    DomainAuthProviderRequest:
+      description: ""
+      example:
+        label: label
+        config:
+          invitedOnly: true
+          clientId: clientId
+          clientSecret: clientSecret
+          discoveryUrl: discoveryUrl
+        providerType: providerType
+        enabled: true
+      properties:
+        providerType:
+          description: Provider Type
+          type: string
+        enabled:
+          description: Enabled/Disabled
+          type: boolean
+        label:
+          description: Login Button Text
+          nullable: true
+          type: string
+        config:
+          $ref: '#/components/schemas/OpenIDConfig'
+      required:
+      - enabled
+      - providerType
+      type: object
+    DomainAuthProviderResponse:
+      description: ""
+      example:
+        identifier: identifier
+        label: label
+        providerType: providerType
+        enabled: true
+        createdAt: createdAt
+        default: true
+        authorizationUrl: authorizationUrl
+        provider: provider
+        createdBy: createdBy
+        name: name
+        id: id
+        config:
+          invitedOnly: true
+          clientId: clientId
+          clientSecret: clientSecret
+          discoveryUrl: discoveryUrl
+        updatedAt: updatedAt
+      properties:
+        identifier:
+          description: Provider ID
+          type: string
+        id:
+          description: Provider ID for backward compatibility with frontend
+          nullable: true
+          type: string
+        providerType:
+          description: Provider Type
+          type: string
+        provider:
+          description: Provider Type for backward compatibility with frontend
+          nullable: true
+          type: string
+        label:
+          description: Login Button Text
+          type: string
+        name:
+          description: Title Text for the Frontend's Provider Configuration Form
+          nullable: true
+          type: string
+        authorizationUrl:
+          description: Coordinator endpoint for Authorizing with this provider
+          nullable: true
+          type: string
+        default:
+          description: "True: Configured in coordinator.json, False: Custom Domain\
+            \ Provider"
+          type: boolean
+        enabled:
+          description: Enabled/Disabled
+          type: boolean
+        config:
+          $ref: '#/components/schemas/OpenIDConfig'
+        createdBy:
+          description: Optional User ID of creator
+          nullable: true
+          type: string
+        createdAt:
+          description: Created Date in ISO-8601 format e.g. 2022-05-06T02:39:23.000Z
+          type: string
+        updatedAt:
+          description: Updated Date in ISO-8601 format e.g. 2022-05-06T02:39:23.000Z
+          type: string
+      required:
+      - createdAt
+      - default
+      - enabled
+      - identifier
+      - label
+      - providerType
+      - updatedAt
       type: object
     Extension:
       description: ""
@@ -8595,6 +8811,10 @@ components:
           nullable: true
           type: number
       type: object
+    RestoreBackupData:
+      description: ""
+      properties: {}
+      type: object
     Screenshot:
       description: Screenshot Data
       format: binary
@@ -9436,27 +9656,6 @@ components:
       type: object
     Features:
       description: ""
-      example:
-        console: true
-        settings: true
-        images: true
-        portForwarding: true
-        profile: true
-        strace: true
-        frida: true
-        deviceControl: true
-        messaging: true
-        network: true
-        powerManagement: true
-        snapshots: true
-        sensors: true
-        system: true
-        netmon: true
-        coretrace: true
-        files: true
-        connect: true
-        deviceDelete: true
-        apps: true
       properties:
         apps:
           description: ""
@@ -9541,32 +9740,6 @@ components:
       type: object
     WebPlayerCreateSessionRequest:
       description: ""
-      example:
-        expiresIn: 0.8008281904610115
-        features:
-          console: true
-          settings: true
-          images: true
-          portForwarding: true
-          profile: true
-          strace: true
-          frida: true
-          deviceControl: true
-          messaging: true
-          network: true
-          powerManagement: true
-          snapshots: true
-          sensors: true
-          system: true
-          netmon: true
-          coretrace: true
-          files: true
-          connect: true
-          deviceDelete: true
-          apps: true
-        instanceId: instanceId
-        clientId: clientId
-        projectId: projectId
       properties:
         projectId:
           description: Project Identifier
@@ -9591,10 +9764,6 @@ components:
       type: object
     WebPlayerSession:
       description: ""
-      example:
-        identifier: identifier
-        expiration: 0.8008281904610115
-        token: token
       properties:
         identifier:
           description: New Session Identifier
