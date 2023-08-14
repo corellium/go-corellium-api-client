@@ -2440,7 +2440,7 @@ Name | Type | Description  | Notes
 
 ## V1RestoreBackup
 
-> V1RestoreBackup(ctx, instanceId).Execute()
+> V1RestoreBackup(ctx, instanceId).Body(body).Execute()
 
 Restore backup
 
@@ -2458,10 +2458,11 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | Instance ID - uuid
+    body := map[string]interface{}{ ... } // map[string]interface{} | Restore backup data (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.InstancesApi.V1RestoreBackup(context.Background(), instanceId).Execute()
+    r, err := apiClient.InstancesApi.V1RestoreBackup(context.Background(), instanceId).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1RestoreBackup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2485,6 +2486,7 @@ Other parameters are passed through a pointer to a apiV1RestoreBackupRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **body** | **map[string]interface{}** | Restore backup data | 
 
 ### Return type
 
@@ -2496,7 +2498,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
