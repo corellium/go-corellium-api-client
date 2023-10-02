@@ -4,6 +4,7 @@ README.md
 api/openapi.yaml
 api_agent.go
 api_authentication.go
+api_config.go
 api_core_trace.go
 api_domain_auth_provider.go
 api_hyper_trace.go
@@ -42,10 +43,14 @@ docs/ApiError.md
 docs/ApiInternalConsistencyError.md
 docs/ApiNotFoundError.md
 docs/ApiToken.md
+docs/AuthProvider.md
 docs/AuthenticationApi.md
 docs/Bit.md
 docs/BtraceEnableOptions.md
 docs/Button.md
+docs/ConfigApi.md
+docs/ConfigResponse.md
+docs/ConfigResponseMaintenance.md
 docs/CoreTraceApi.md
 docs/CouponOptions.md
 docs/CreateTeam.md
@@ -90,6 +95,8 @@ docs/Kcrange.md
 docs/KernelTask.md
 docs/KernelThread.md
 docs/LicensingApi.md
+docs/Logging.md
+docs/Maintenance.md
 docs/MediaPlayBody.md
 docs/Model.md
 docs/ModelSoftware.md
@@ -166,9 +173,12 @@ model_api_error.go
 model_api_internal_consistency_error.go
 model_api_not_found_error.go
 model_api_token.go
+model_auth_provider.go
 model_bit.go
 model_btrace_enable_options.go
 model_button.go
+model_config_response.go
+model_config_response_maintenance.go
 model_coupon_options.go
 model_create_team.go
 model_created_by.go
@@ -206,6 +216,8 @@ model_invite_revoke_params_ids.go
 model_kcrange.go
 model_kernel_task.go
 model_kernel_thread.go
+model_logging.go
+model_maintenance.go
 model_media_play_body.go
 model_model.go
 model_model_software.go
@@ -254,6 +266,7 @@ model_web_player_session.go
 response.go
 test/api_agent_test.go
 test/api_authentication_test.go
+test/api_config_test.go
 test/api_core_trace_test.go
 test/api_domain_auth_provider_test.go
 test/api_hyper_trace_test.go

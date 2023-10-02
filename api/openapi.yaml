@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 5.2.0-17376
+  version: 5.4.1-18421
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -17,6 +17,8 @@ tags:
   name: Agent
 - description: ""
   name: Authentication
+- description: ""
+  name: Config
 - description: ""
   name: CoreTrace
 - description: ""
@@ -181,129 +183,22 @@ paths:
       summary: Create Subscriber Invite
       tags:
       - TrialRequests
-  /v1/domain/{domainId}/auth:
+  /v1/config:
     get:
       deprecated: false
-      operationId: v1GetDomainAuthProviders
-      parameters:
-      - deprecated: false
-        description: Domain ID - uuid
-        explode: false
-        in: path
-        name: domainId
-        required: true
-        schema:
-          type: string
-        style: simple
+      operationId: v1GetConfig
+      parameters: []
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/DomainAuthProviderResponse'
-                type: array
-          description: OK
-        "403":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Forbidden
-                  value:
-                    error: Invalid or missing authorization token
-                    errorID: PermissionDenied
-                    originalError: Invalid or missing authorization token
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Return all configured auth providers for a domain (including globally
-        configured providers)
+                $ref: '#/components/schemas/ConfigResponse'
+          description: application/json
+      security: []
+      summary: Get all configs
       tags:
-      - DomainAuthProvider
-    post:
-      deprecated: false
-      operationId: v1CreateDomainAuthProvider
-      parameters:
-      - deprecated: false
-        description: Domain ID - uuid
-        explode: false
-        in: path
-        name: domainId
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example1:
-                summary: Auth Provider
-                value: |-
-                  {
-                    "enabled": true,
-                    "providerType": "open-id-connect",
-                    "label": "Login with Custom Auth0",
-                    "config": {
-                      "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
-                      "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
-                      "clientSecret": "itsasecret",
-                      "invitedOnly": false
-                    }
-                  }
-            schema:
-              $ref: '#/components/schemas/DomainAuthProviderRequest'
-        description: Request Data
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: OK
-                  value: |-
-                    {
-                      "identifier": "c64ad2a9-5be8-4c87-98af-0572adbe1085",
-                      "providerType": "open-id-connect",
-                      "default": false,
-                      "label": "Login with Custom Domain Auth0 Provider",
-                      "config": {
-                        "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
-                        "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
-                        "clientSecret": "itsasecret",
-                        "invitedOnly": false
-                      },
-                      "createdBy": "525b6183-7265-4f87-b6cb-1f6ec1b996dd",
-                      "updatedAt": "2023-06-26T23:24:14.339Z",
-                      "createdAt": "2023-06-26T23:24:14.339Z",
-                      "enabled": true
-                      "default": false
-                    }
-              schema:
-                $ref: '#/components/schemas/DomainAuthProviderResponse'
-          description: OK
-        "403":
-          content:
-            application/json:
-              examples:
-                example2:
-                  summary: Forbidden
-                  value:
-                    error: Invalid or missing authorization token
-                    errorID: PermissionDenied
-                    originalError: Invalid or missing authorization token
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Create a new auth provider for a domain
-      tags:
-      - DomainAuthProvider
+      - Config
   /v1/domain/{domainId}/auth/{providerId}:
     delete:
       deprecated: false
@@ -436,6 +331,129 @@ paths:
       security:
       - BearerAuth: []
       summary: Update an auth provider for a domain
+      tags:
+      - DomainAuthProvider
+  /v1/domain/{domainId}/auth:
+    get:
+      deprecated: false
+      operationId: v1GetDomainAuthProviders
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DomainAuthProviderResponse'
+                type: array
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Return all configured auth providers for a domain (including globally
+        configured providers)
+      tags:
+      - DomainAuthProvider
+    post:
+      deprecated: false
+      operationId: v1CreateDomainAuthProvider
+      parameters:
+      - deprecated: false
+        description: Domain ID - uuid
+        explode: false
+        in: path
+        name: domainId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Auth Provider
+                value: |-
+                  {
+                    "enabled": true,
+                    "providerType": "open-id-connect",
+                    "label": "Login with Custom Auth0",
+                    "config": {
+                      "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
+                      "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
+                      "clientSecret": "itsasecret",
+                      "invitedOnly": false
+                    }
+                  }
+            schema:
+              $ref: '#/components/schemas/DomainAuthProviderRequest'
+        description: Request Data
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: OK
+                  value: |-
+                    {
+                      "identifier": "c64ad2a9-5be8-4c87-98af-0572adbe1085",
+                      "providerType": "open-id-connect",
+                      "default": false,
+                      "label": "Login with Custom Domain Auth0 Provider",
+                      "config": {
+                        "discoveryUrl": "http://localhost:8080/realms/Corellium/.well-known/openid-configuration",
+                        "clientId": "B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4",
+                        "clientSecret": "itsasecret",
+                        "invitedOnly": false
+                      },
+                      "createdBy": "525b6183-7265-4f87-b6cb-1f6ec1b996dd",
+                      "updatedAt": "2023-06-26T23:24:14.339Z",
+                      "createdAt": "2023-06-26T23:24:14.339Z",
+                      "enabled": true
+                      "default": false
+                    }
+              schema:
+                $ref: '#/components/schemas/DomainAuthProviderResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Create a new auth provider for a domain
       tags:
       - DomainAuthProvider
   /v1/instances/{instanceId}/hooks:
@@ -3580,6 +3598,18 @@ paths:
                       "text": "Hello, world"
                     }
                   ]
+              example6:
+                summary: Example of pressing/releasing the fingerprint sensor
+                value: |-
+                  [
+                      {
+                        "buttons": ["finger:1"]
+                      },
+                      {
+                        "buttons": [],
+                        "wait": 500
+                      }
+                    ]
             schema:
               items:
                 $ref: '#/components/schemas/InstanceInput'
@@ -7239,6 +7269,291 @@ components:
           nullable: true
           type: string
       type: object
+    Maintenance:
+      description: ""
+      properties:
+        message:
+          description: Maintenance message
+          nullable: true
+          type: string
+        header:
+          description: Maintenance header
+          nullable: true
+          type: string
+      type: object
+    Trial:
+      description: ""
+      example:
+        defaultDevices: 2.3021358869347655
+        defaultCores: 7.061401241503109
+        defaultDuration: 5.962133916683182
+        defaultHours: 5.637376656633329
+      properties:
+        defaultDuration:
+          description: Maintenance message
+          nullable: true
+          type: number
+        defaultHours:
+          description: Maintenance header
+          nullable: true
+          type: number
+        defaultDevices:
+          description: Maintenance header
+          nullable: true
+          type: number
+        defaultCores:
+          description: Maintenance header
+          nullable: true
+          type: number
+      type: object
+    Logging:
+      description: ""
+      example:
+        development: true
+        throwWarnings: true
+      properties:
+        development:
+          description: Denotes whether it's in development
+          nullable: true
+          type: boolean
+        throwWarnings:
+          description: Denotes whether to throw warnings
+          nullable: true
+          type: boolean
+      type: object
+    AuthProvider:
+      description: ""
+      example:
+        identifier: identifier
+        default: true
+        authorizationUrl: authorizationUrl
+        provider: provider
+        name: name
+        label: label
+        id: id
+        providerType: providerType
+        enabled: true
+      properties:
+        name:
+          description: Provider name for a given provider type
+          nullable: true
+          type: string
+        identifier:
+          description: The identifier for the provider
+          nullable: true
+          type: string
+        providerType:
+          description: Provider type
+          nullable: true
+          type: string
+        default:
+          description: Denotes whether it's the default
+          nullable: true
+          type: boolean
+        label:
+          description: Provider label
+          nullable: true
+          type: string
+        enabled:
+          description: Denotes whether they're enabled or not
+          nullable: true
+          type: boolean
+        authorizationUrl:
+          description: URL for provider auth
+          nullable: true
+          type: string
+        id:
+          description: The identifier for the provider
+          nullable: true
+          type: string
+        provider:
+          description: Auth provider
+          nullable: true
+          type: string
+      type: object
+    ConfigResponse:
+      description: ""
+      example:
+        appDomain: appDomain
+        authProviders:
+        - identifier: identifier
+          default: true
+          authorizationUrl: authorizationUrl
+          provider: provider
+          name: name
+          label: label
+          id: id
+          providerType: providerType
+          enabled: true
+        - identifier: identifier
+          default: true
+          authorizationUrl: authorizationUrl
+          provider: provider
+          name: name
+          label: label
+          id: id
+          providerType: providerType
+          enabled: true
+        enableFirmwareImageUpload: true
+        auxWebhook: auxWebhook
+        installerAvailable: true
+        zapierBugsWebhook: zapierBugsWebhook
+        trial:
+          defaultDevices: 2.3021358869347655
+          defaultCores: 7.061401241503109
+          defaultDuration: 5.962133916683182
+          defaultHours: 5.637376656633329
+        snapshotLimit: 0.8008281904610115
+        cloudAdmin: cloudAdmin
+        cloudDomain: cloudDomain
+        stripePublicKey: stripePublicKey
+        showDomainSettings: true
+        maxKernelSize: 6.027456183070403
+        billingDomain: billingDomain
+        onSite: true
+        sepSim: true
+        invoicedPublishableKey: invoicedPublishableKey
+        maxNetworkMonitorFileSize: maxNetworkMonitorFileSize
+        billingBackend: billingBackend
+        sentryUrl: sentryUrl
+        invalidBuild: true
+        maxRamdiskSize: 1.4658129805029452
+        domainAuthenticationProviders: true
+        zapierFeedbackWebhook: zapierFeedbackWebhook
+        version: version
+        filesAdmin: filesAdmin
+        intercomId: intercomId
+        charmSDK: charmSDK
+        logging:
+          development: true
+          throwWarnings: true
+        gtmId: gtmId
+        maintenance: null
+      properties:
+        onSite:
+          description: Denotes whether it's an on-site install
+          nullable: true
+          type: boolean
+        showDomainSettings:
+          description: Denotes whether to show domain settings
+          nullable: true
+          type: boolean
+        version:
+          description: Denotes the version
+          nullable: true
+          type: string
+        invalidBuild:
+          description: Denotes whether the build is invalid
+          nullable: true
+          type: boolean
+        sepSim:
+          description: Denotes whether sepSim is enabled
+          nullable: true
+          type: boolean
+        installerAvailable:
+          description: Denotes whether installer is available
+          nullable: true
+          type: boolean
+        invoicedPublishableKey:
+          description: API publishable key to use for Invoiced
+          nullable: true
+          type: string
+        stripePublicKey:
+          description: Stripe public key
+          nullable: true
+          type: string
+        intercomId:
+          description: "Intercom app ID, also known as workspace ID"
+          nullable: true
+          type: string
+        auxWebhook:
+          description: Webhook URL for aux
+          nullable: true
+          type: string
+        gtmId:
+          description: Google Tag Manager
+          nullable: true
+          type: string
+        zapierFeedbackWebhook:
+          description: Webhook URL to send feedback into Productboard automatically
+          nullable: true
+          type: string
+        zapierBugsWebhook:
+          description: Webhook URL to send frontend errors to Jira automatically
+          nullable: true
+          type: string
+        billingBackend:
+          description: Default backend billing api name for new subscriptions (e.g.
+            "stripe")
+          nullable: true
+          type: string
+        maintenance:
+          $ref: '#/components/schemas/ConfigResponse_maintenance'
+        logging:
+          $ref: '#/components/schemas/Logging'
+        cloudAdmin:
+          description: URL for cloud admin login
+          nullable: true
+          type: string
+        filesAdmin:
+          description: URL for files admin login
+          nullable: true
+          type: string
+        cloudDomain:
+          description: Cloud domain name (usually corellium.com or staging.corellium.com)
+          nullable: true
+          type: string
+        billingDomain:
+          description: Billing domain name
+          nullable: true
+          type: string
+        appDomain:
+          description: App domain name (usually app.corellium.com or app.staging.corellium.com)
+          nullable: true
+          type: string
+        maxNetworkMonitorFileSize:
+          description: Maximum network monitor file size
+          nullable: true
+          type: string
+        enableFirmwareImageUpload:
+          description: Denotes whether users can upload firmware images
+          nullable: true
+          type: boolean
+        authProviders:
+          description: Auth providers
+          items:
+            $ref: '#/components/schemas/AuthProvider'
+          nullable: true
+          type: array
+        snapshotLimit:
+          description: Maximum number of snapshots to allow
+          nullable: true
+          type: number
+        maxKernelSize:
+          description: "The maximum size, in bytes, (default: 100 MB) that an uploaded\
+            \ kernel should be"
+          nullable: true
+          type: number
+        maxRamdiskSize:
+          description: "The maximum size, in bytes, (default: 500 MB) that an uploaded\
+            \ ramdisk should be"
+          nullable: true
+          type: number
+        charmSDK:
+          description: Denotes whether charmSDK is enabled
+          nullable: true
+          type: string
+        trial:
+          $ref: '#/components/schemas/Trial'
+        sentryUrl:
+          description: Sentry URL
+          nullable: true
+          type: string
+        domainAuthenticationProviders:
+          description: "If enabled, adds the default providers in their current configuration"
+          nullable: true
+          type: boolean
+      type: object
     DomainOptions:
       description: ""
       properties:
@@ -9779,6 +10094,12 @@ components:
       - identifier
       - token
       type: object
+    ConfigResponse_maintenance:
+      description: Denotes whether the server is undergoing maintenance
+      nullable: true
+      oneOf:
+      - type: boolean
+      - $ref: '#/components/schemas/Maintenance'
     InviteRevokeParams_ids:
       description: id or array of ids to revoke
       nullable: true
