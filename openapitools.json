@@ -10,7 +10,7 @@
         "output": "#{cwd}/",
         "packageName": "corellium",
         "gitRepoId": "go-corellium-api-client",
-        "gitUserId": "aimoda",
+        "gitUserId": "corellium",
         "additionalProperties": {
           "structPrefix": true
         }
