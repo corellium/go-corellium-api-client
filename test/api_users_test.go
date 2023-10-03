@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/aimoda/go-corellium-api-client"
+	openapiclient "github.com/corellium/go-corellium-api-client"
 )
 
 func Test_corellium_UsersApiService(t *testing.T) {
