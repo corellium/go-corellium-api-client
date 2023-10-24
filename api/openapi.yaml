@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 5.4.1-18421
+  version: 5.5.0-18750
 servers:
 - description: ""
   url: "https://{serverName}/api"
