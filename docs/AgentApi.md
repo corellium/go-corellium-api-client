@@ -23,6 +23,7 @@ Method | HTTP request | Description
 [**V1AgentSystemInstallOpenGApps**](AgentApi.md#V1AgentSystemInstallOpenGApps) | **Post** /v1/instances/{instanceId}/agent/v1/system/install-opengapps | Install OpenGApps (AOSP only)
 [**V1AgentSystemLock**](AgentApi.md#V1AgentSystemLock) | **Post** /v1/instances/{instanceId}/agent/v1/system/lock | Lock Device (iOS Only)
 [**V1AgentSystemSetAdbAuth**](AgentApi.md#V1AgentSystemSetAdbAuth) | **Put** /v1/instances/{instanceId}/agent/v1/system/adbauth | Set ADB Auth Setting (AOSP only)
+[**V1AgentSystemSetHostname**](AgentApi.md#V1AgentSystemSetHostname) | **Post** /v1/instances/{instanceId}/agent/v1/system/setHostname | Set Hostname of instance
 [**V1AgentSystemShutdown**](AgentApi.md#V1AgentSystemShutdown) | **Post** /v1/instances/{instanceId}/agent/v1/system/shutdown | Instruct VM to halt
 [**V1AgentSystemUnlock**](AgentApi.md#V1AgentSystemUnlock) | **Post** /v1/instances/{instanceId}/agent/v1/system/unlock | Unlock Device (iOS Only)
 [**V1AgentUninstallApp**](AgentApi.md#V1AgentUninstallApp) | **Post** /v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/uninstall | Uninstall an App
@@ -1323,6 +1324,74 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **agentSystemAdbAuth** | [**AgentSystemAdbAuth**](AgentSystemAdbAuth.md) | Desired ADB Auth Setting | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## V1AgentSystemSetHostname
+
+> V1AgentSystemSetHostname(ctx, instanceId).AgentSystemSetHostnameBody(agentSystemSetHostnameBody).Execute()
+
+Set Hostname of instance
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/corellium/go-corellium-api-client"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | Instance ID - uuid
+    agentSystemSetHostnameBody := *openapiclient.NewAgentSystemSetHostnameBody("Hostname_example") // AgentSystemSetHostnameBody | New hostname
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.AgentApi.V1AgentSystemSetHostname(context.Background(), instanceId).AgentSystemSetHostnameBody(agentSystemSetHostnameBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AgentApi.V1AgentSystemSetHostname``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** | Instance ID - uuid | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1AgentSystemSetHostnameRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **agentSystemSetHostnameBody** | [**AgentSystemSetHostnameBody**](AgentSystemSetHostnameBody.md) | New hostname | 
 
 ### Return type
 

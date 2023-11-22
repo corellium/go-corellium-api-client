@@ -36,6 +36,7 @@ docs/AgentInstallBody.md
 docs/AgentProfilesReturn.md
 docs/AgentSystemAdbAuth.md
 docs/AgentSystemGetPropBody.md
+docs/AgentSystemSetHostnameBody.md
 docs/AgentValueReturn.md
 docs/AgreedAck.md
 docs/ApiConflictError.md
@@ -166,6 +167,7 @@ model_agent_install_body.go
 model_agent_profiles_return.go
 model_agent_system_adb_auth.go
 model_agent_system_get_prop_body.go
+model_agent_system_set_hostname_body.go
 model_agent_value_return.go
 model_agreed_ack.go
 model_api_conflict_error.go

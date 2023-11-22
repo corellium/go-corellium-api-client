@@ -286,6 +286,19 @@ func Test_corellium_AgentApiService(t *testing.T) {
 
 	})
 
+	t.Run("Test AgentApiService V1AgentSystemSetHostname", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var instanceId string
+
+		httpRes, err := apiClient.AgentApi.V1AgentSystemSetHostname(context.Background(), instanceId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test AgentApiService V1AgentSystemShutdown", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 5.5.0-18750
+  version: 5.6.0-19122
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -51,6 +51,8 @@ tags:
   name: Projects
 - description: ""
   name: Roles
+- description: ""
+  name: Services
 - description: ""
   name: Snapshots
 - description: ""
@@ -2022,6 +2024,41 @@ paths:
       security:
       - BearerAuth: []
       summary: Uninstall a Profile from VM
+      tags:
+      - Agent
+  /v1/instances/{instanceId}/agent/v1/system/setHostname:
+    post:
+      deprecated: false
+      operationId: v1AgentSystemSetHostname
+      parameters:
+      - deprecated: false
+        description: Instance ID - uuid
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentSystemSetHostnameBody'
+        description: New hostname
+        required: true
+      responses:
+        "204":
+          description: Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentError'
+          description: Agent Error
+      security:
+      - BearerAuth: []
+      summary: Set Hostname of instance
       tags:
       - Agent
   /v1/instances/{instanceId}/agent/v1/system/shutdown:
@@ -8903,6 +8940,17 @@ components:
           type: array
       required:
       - profiles
+      type: object
+    AgentSystemSetHostnameBody:
+      description: ""
+      example:
+        hostname: hostname
+      properties:
+        hostname:
+          description: ""
+          type: string
+      required:
+      - hostname
       type: object
     AgentValueReturn:
       description: ""
