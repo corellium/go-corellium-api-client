@@ -124,6 +124,8 @@ docs/RolesApi.md
 docs/RotateBody.md
 docs/Snapshot.md
 docs/SnapshotCreationOptions.md
+docs/SnapshotInvitationTypes.md
+docs/SnapshotPermissions.md
 docs/SnapshotStatus.md
 docs/SnapshotsApi.md
 docs/StatusApi.md
@@ -242,6 +244,8 @@ model_role.go
 model_rotate_body.go
 model_snapshot.go
 model_snapshot_creation_options.go
+model_snapshot_invitation_types.go
+model_snapshot_permissions.go
 model_snapshot_status.go
 model_subscriber_invite.go
 model_team.go

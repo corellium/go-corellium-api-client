@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TotpRequired** | Pointer to **NullableBool** | if true, totp is required | [optional] 
 **TrialExtension** | Pointer to [**TrialExtension**](TrialExtension.md) |  | [optional] 
+**SnapshotPermissions** | Pointer to [**SnapshotPermissions**](SnapshotPermissions.md) |  | [optional] 
 
 ## Methods
 
@@ -85,6 +86,31 @@ SetTrialExtension sets TrialExtension field to given value.
 `func (o *DomainOptions) HasTrialExtension() bool`
 
 HasTrialExtension returns a boolean if a field has been set.
+
+### GetSnapshotPermissions
+
+`func (o *DomainOptions) GetSnapshotPermissions() SnapshotPermissions`
+
+GetSnapshotPermissions returns the SnapshotPermissions field if non-nil, zero value otherwise.
+
+### GetSnapshotPermissionsOk
+
+`func (o *DomainOptions) GetSnapshotPermissionsOk() (*SnapshotPermissions, bool)`
+
+GetSnapshotPermissionsOk returns a tuple with the SnapshotPermissions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSnapshotPermissions
+
+`func (o *DomainOptions) SetSnapshotPermissions(v SnapshotPermissions)`
+
+SetSnapshotPermissions sets SnapshotPermissions field to given value.
+
+### HasSnapshotPermissions
+
+`func (o *DomainOptions) HasSnapshotPermissions() bool`
+
+HasSnapshotPermissions returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -35,6 +35,7 @@ Name | Type | Description | Notes
 **Trial** | Pointer to [**Trial**](Trial.md) |  | [optional] 
 **SentryUrl** | Pointer to **NullableString** | Sentry URL | [optional] 
 **DomainAuthenticationProviders** | Pointer to **NullableBool** | If enabled, adds the default providers in their current configuration | [optional] 
+**DefaultSsid** | Pointer to **NullableString** | The configured Default SSID from /etc/corellium/setup.json | [optional] 
 
 ## Methods
 
@@ -1120,6 +1121,41 @@ HasDomainAuthenticationProviders returns a boolean if a field has been set.
 `func (o *ConfigResponse) UnsetDomainAuthenticationProviders()`
 
 UnsetDomainAuthenticationProviders ensures that no value is present for DomainAuthenticationProviders, not even an explicit nil
+### GetDefaultSsid
+
+`func (o *ConfigResponse) GetDefaultSsid() string`
+
+GetDefaultSsid returns the DefaultSsid field if non-nil, zero value otherwise.
+
+### GetDefaultSsidOk
+
+`func (o *ConfigResponse) GetDefaultSsidOk() (*string, bool)`
+
+GetDefaultSsidOk returns a tuple with the DefaultSsid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefaultSsid
+
+`func (o *ConfigResponse) SetDefaultSsid(v string)`
+
+SetDefaultSsid sets DefaultSsid field to given value.
+
+### HasDefaultSsid
+
+`func (o *ConfigResponse) HasDefaultSsid() bool`
+
+HasDefaultSsid returns a boolean if a field has been set.
+
+### SetDefaultSsidNil
+
+`func (o *ConfigResponse) SetDefaultSsidNil(b bool)`
+
+ SetDefaultSsidNil sets the value for DefaultSsid to be an explicit nil
+
+### UnsetDefaultSsid
+`func (o *ConfigResponse) UnsetDefaultSsid()`
+
+UnsetDefaultSsid ensures that no value is present for DefaultSsid, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

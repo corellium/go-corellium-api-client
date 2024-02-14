@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 5.7.1-19698
+  version: 6.0.0-20323
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -7456,6 +7456,7 @@ components:
         invalidBuild: true
         maxRamdiskSize: 1.4658129805029452
         domainAuthenticationProviders: true
+        defaultSsid: defaultSsid
         zapierFeedbackWebhook: zapierFeedbackWebhook
         version: version
         filesAdmin: filesAdmin
@@ -7590,6 +7591,10 @@ components:
           description: "If enabled, adds the default providers in their current configuration"
           nullable: true
           type: boolean
+        defaultSsid:
+          description: The configured Default SSID from /etc/corellium/setup.json
+          nullable: true
+          type: string
       type: object
     DomainOptions:
       description: ""
@@ -7600,6 +7605,8 @@ components:
           type: boolean
         trialExtension:
           $ref: '#/components/schemas/TrialExtension'
+        snapshotPermissions:
+          $ref: '#/components/schemas/SnapshotPermissions'
       type: object
     TrialExtension:
       description: ""
@@ -7620,6 +7627,36 @@ components:
           description: explanation for why the request was denied
           nullable: true
           type: string
+      type: object
+    SnapshotPermissions:
+      description: ""
+      properties:
+        enabled:
+          description: Indicates if snapshot permissions are enabled
+          nullable: true
+          type: boolean
+        invitationTypes:
+          $ref: '#/components/schemas/SnapshotInvitationTypes'
+      type: object
+    SnapshotInvitationTypes:
+      description: ""
+      properties:
+        publicLink:
+          description: Indicates if public link access is enabled
+          nullable: true
+          type: boolean
+        domainRestrictedLink:
+          description: Indicates if domain-restricted link access is enabled
+          nullable: true
+          type: boolean
+        passwordPublicLink:
+          description: Indicates if password-protected public link access is enabled
+          nullable: true
+          type: boolean
+        emailInvite:
+          description: Indicates if email invite access is enabled
+          nullable: true
+          type: boolean
       type: object
     OpenIDConfig:
       description: ""
