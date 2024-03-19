@@ -5,7 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **NullableBool** | Indicates if snapshot permissions are enabled | [optional] 
-**InvitationTypes** | Pointer to [**SnapshotInvitationTypes**](SnapshotInvitationTypes.md) |  | [optional] 
+**PublicLink** | Pointer to **NullableBool** | Indicates if public link access is enabled | [optional] 
+**DomainRestrictedLink** | Pointer to **NullableBool** | Indicates if domain-restricted link access is enabled | [optional] 
+**PasswordPublicLink** | Pointer to **NullableBool** | Indicates if password-protected public link access is enabled | [optional] 
+**EmailInvite** | Pointer to **NullableBool** | Indicates if email invite access is enabled | [optional] 
 
 ## Methods
 
@@ -61,31 +64,146 @@ HasEnabled returns a boolean if a field has been set.
 `func (o *SnapshotPermissions) UnsetEnabled()`
 
 UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil
-### GetInvitationTypes
+### GetPublicLink
 
-`func (o *SnapshotPermissions) GetInvitationTypes() SnapshotInvitationTypes`
+`func (o *SnapshotPermissions) GetPublicLink() bool`
 
-GetInvitationTypes returns the InvitationTypes field if non-nil, zero value otherwise.
+GetPublicLink returns the PublicLink field if non-nil, zero value otherwise.
 
-### GetInvitationTypesOk
+### GetPublicLinkOk
 
-`func (o *SnapshotPermissions) GetInvitationTypesOk() (*SnapshotInvitationTypes, bool)`
+`func (o *SnapshotPermissions) GetPublicLinkOk() (*bool, bool)`
 
-GetInvitationTypesOk returns a tuple with the InvitationTypes field if it's non-nil, zero value otherwise
+GetPublicLinkOk returns a tuple with the PublicLink field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetInvitationTypes
+### SetPublicLink
 
-`func (o *SnapshotPermissions) SetInvitationTypes(v SnapshotInvitationTypes)`
+`func (o *SnapshotPermissions) SetPublicLink(v bool)`
 
-SetInvitationTypes sets InvitationTypes field to given value.
+SetPublicLink sets PublicLink field to given value.
 
-### HasInvitationTypes
+### HasPublicLink
 
-`func (o *SnapshotPermissions) HasInvitationTypes() bool`
+`func (o *SnapshotPermissions) HasPublicLink() bool`
 
-HasInvitationTypes returns a boolean if a field has been set.
+HasPublicLink returns a boolean if a field has been set.
 
+### SetPublicLinkNil
+
+`func (o *SnapshotPermissions) SetPublicLinkNil(b bool)`
+
+ SetPublicLinkNil sets the value for PublicLink to be an explicit nil
+
+### UnsetPublicLink
+`func (o *SnapshotPermissions) UnsetPublicLink()`
+
+UnsetPublicLink ensures that no value is present for PublicLink, not even an explicit nil
+### GetDomainRestrictedLink
+
+`func (o *SnapshotPermissions) GetDomainRestrictedLink() bool`
+
+GetDomainRestrictedLink returns the DomainRestrictedLink field if non-nil, zero value otherwise.
+
+### GetDomainRestrictedLinkOk
+
+`func (o *SnapshotPermissions) GetDomainRestrictedLinkOk() (*bool, bool)`
+
+GetDomainRestrictedLinkOk returns a tuple with the DomainRestrictedLink field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDomainRestrictedLink
+
+`func (o *SnapshotPermissions) SetDomainRestrictedLink(v bool)`
+
+SetDomainRestrictedLink sets DomainRestrictedLink field to given value.
+
+### HasDomainRestrictedLink
+
+`func (o *SnapshotPermissions) HasDomainRestrictedLink() bool`
+
+HasDomainRestrictedLink returns a boolean if a field has been set.
+
+### SetDomainRestrictedLinkNil
+
+`func (o *SnapshotPermissions) SetDomainRestrictedLinkNil(b bool)`
+
+ SetDomainRestrictedLinkNil sets the value for DomainRestrictedLink to be an explicit nil
+
+### UnsetDomainRestrictedLink
+`func (o *SnapshotPermissions) UnsetDomainRestrictedLink()`
+
+UnsetDomainRestrictedLink ensures that no value is present for DomainRestrictedLink, not even an explicit nil
+### GetPasswordPublicLink
+
+`func (o *SnapshotPermissions) GetPasswordPublicLink() bool`
+
+GetPasswordPublicLink returns the PasswordPublicLink field if non-nil, zero value otherwise.
+
+### GetPasswordPublicLinkOk
+
+`func (o *SnapshotPermissions) GetPasswordPublicLinkOk() (*bool, bool)`
+
+GetPasswordPublicLinkOk returns a tuple with the PasswordPublicLink field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPasswordPublicLink
+
+`func (o *SnapshotPermissions) SetPasswordPublicLink(v bool)`
+
+SetPasswordPublicLink sets PasswordPublicLink field to given value.
+
+### HasPasswordPublicLink
+
+`func (o *SnapshotPermissions) HasPasswordPublicLink() bool`
+
+HasPasswordPublicLink returns a boolean if a field has been set.
+
+### SetPasswordPublicLinkNil
+
+`func (o *SnapshotPermissions) SetPasswordPublicLinkNil(b bool)`
+
+ SetPasswordPublicLinkNil sets the value for PasswordPublicLink to be an explicit nil
+
+### UnsetPasswordPublicLink
+`func (o *SnapshotPermissions) UnsetPasswordPublicLink()`
+
+UnsetPasswordPublicLink ensures that no value is present for PasswordPublicLink, not even an explicit nil
+### GetEmailInvite
+
+`func (o *SnapshotPermissions) GetEmailInvite() bool`
+
+GetEmailInvite returns the EmailInvite field if non-nil, zero value otherwise.
+
+### GetEmailInviteOk
+
+`func (o *SnapshotPermissions) GetEmailInviteOk() (*bool, bool)`
+
+GetEmailInviteOk returns a tuple with the EmailInvite field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEmailInvite
+
+`func (o *SnapshotPermissions) SetEmailInvite(v bool)`
+
+SetEmailInvite sets EmailInvite field to given value.
+
+### HasEmailInvite
+
+`func (o *SnapshotPermissions) HasEmailInvite() bool`
+
+HasEmailInvite returns a boolean if a field has been set.
+
+### SetEmailInviteNil
+
+`func (o *SnapshotPermissions) SetEmailInviteNil(b bool)`
+
+ SetEmailInviteNil sets the value for EmailInvite to be an explicit nil
+
+### UnsetEmailInvite
+`func (o *SnapshotPermissions) UnsetEmailInvite()`
+
+UnsetEmailInvite ensures that no value is present for EmailInvite, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

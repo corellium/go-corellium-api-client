@@ -57,6 +57,7 @@ docs/CouponOptions.md
 docs/CreateTeam.md
 docs/CreatedBy.md
 docs/Credentials.md
+docs/DeleteSnapshotPermissionsRequestPayload.md
 docs/DomainAuthProviderApi.md
 docs/DomainAuthProviderRequest.md
 docs/DomainAuthProviderResponse.md
@@ -99,6 +100,7 @@ docs/LicensingApi.md
 docs/Logging.md
 docs/Maintenance.md
 docs/MediaPlayBody.md
+docs/MeteredSubscriptionUsage.md
 docs/Model.md
 docs/ModelSoftware.md
 docs/ModelsApi.md
@@ -110,6 +112,7 @@ docs/PasswordResetBody.md
 docs/PatchInstanceOptions.md
 docs/PeripheralsData.md
 docs/Plan.md
+docs/PostSnapshotPermissionsRequestPayload.md
 docs/Project.md
 docs/ProjectKey.md
 docs/ProjectQuota.md
@@ -124,9 +127,10 @@ docs/RolesApi.md
 docs/RotateBody.md
 docs/Snapshot.md
 docs/SnapshotCreationOptions.md
-docs/SnapshotInvitationTypes.md
 docs/SnapshotPermissions.md
+docs/SnapshotSharing.md
 docs/SnapshotStatus.md
+docs/SnapshotUser.md
 docs/SnapshotsApi.md
 docs/StatusApi.md
 docs/SubscriberInvite.md
@@ -187,6 +191,7 @@ model_coupon_options.go
 model_create_team.go
 model_created_by.go
 model_credentials.go
+model_delete_snapshot_permissions_request_payload.go
 model_domain_auth_provider_request.go
 model_domain_auth_provider_response.go
 model_domain_options.go
@@ -223,6 +228,7 @@ model_kernel_thread.go
 model_logging.go
 model_maintenance.go
 model_media_play_body.go
+model_metered_subscription_usage.go
 model_model.go
 model_model_software.go
 model_netdump_filter.go
@@ -232,6 +238,7 @@ model_password_reset_body.go
 model_patch_instance_options.go
 model_peripherals_data.go
 model_plan.go
+model_post_snapshot_permissions_request_payload.go
 model_project.go
 model_project_key.go
 model_project_quota.go
@@ -244,9 +251,10 @@ model_role.go
 model_rotate_body.go
 model_snapshot.go
 model_snapshot_creation_options.go
-model_snapshot_invitation_types.go
 model_snapshot_permissions.go
+model_snapshot_sharing.go
 model_snapshot_status.go
+model_snapshot_user.go
 model_subscriber_invite.go
 model_team.go
 model_team_create.go
