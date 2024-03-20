@@ -4,20 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **NullableString** | Snapshot ID | [optional] 
-**Name** | Pointer to **NullableString** | Snapshot name | [optional] 
-**Instance** | Pointer to **NullableString** | Instance that this snapshot is of | [optional] 
-**Status** | Pointer to [**SnapshotStatus**](SnapshotStatus.md) |  | [optional] 
-**Date** | Pointer to **NullableFloat32** | UNIX Date that the snapshot was created | [optional] 
-**Fresh** | Pointer to **NullableBool** |  | [optional] 
-**Live** | Pointer to **NullableBool** | Live snapshot (included state and memory) | [optional] 
-**Local** | Pointer to **NullableBool** |  | [optional] 
+**Id** | **string** | Snapshot ID | 
+**Name** | **string** | Snapshot name | 
+**Instance** | **string** | Instance that this snapshot is of | 
+**Status** | [**SnapshotStatus**](SnapshotStatus.md) |  | 
+**Date** | **float32** | UNIX Date that the snapshot was created | 
+**Fresh** | **bool** |  | 
+**Live** | **bool** | Live snapshot (included state and memory) | 
+**Local** | **bool** |  | 
+**Sharing** | Pointer to [**SnapshotSharing**](SnapshotSharing.md) |  | [optional] 
 
 ## Methods
 
 ### NewSnapshot
 
-`func NewSnapshot() *Snapshot`
+`func NewSnapshot(id string, name string, instance string, status SnapshotStatus, date float32, fresh bool, live bool, local bool, ) *Snapshot`
 
 NewSnapshot instantiates a new Snapshot object
 This constructor will assign default values to properties that have it defined,
@@ -51,22 +52,7 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-### HasId
 
-`func (o *Snapshot) HasId() bool`
-
-HasId returns a boolean if a field has been set.
-
-### SetIdNil
-
-`func (o *Snapshot) SetIdNil(b bool)`
-
- SetIdNil sets the value for Id to be an explicit nil
-
-### UnsetId
-`func (o *Snapshot) UnsetId()`
-
-UnsetId ensures that no value is present for Id, not even an explicit nil
 ### GetName
 
 `func (o *Snapshot) GetName() string`
@@ -86,22 +72,7 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
 
-`func (o *Snapshot) HasName() bool`
-
-HasName returns a boolean if a field has been set.
-
-### SetNameNil
-
-`func (o *Snapshot) SetNameNil(b bool)`
-
- SetNameNil sets the value for Name to be an explicit nil
-
-### UnsetName
-`func (o *Snapshot) UnsetName()`
-
-UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetInstance
 
 `func (o *Snapshot) GetInstance() string`
@@ -121,22 +92,7 @@ and a boolean to check if the value has been set.
 
 SetInstance sets Instance field to given value.
 
-### HasInstance
 
-`func (o *Snapshot) HasInstance() bool`
-
-HasInstance returns a boolean if a field has been set.
-
-### SetInstanceNil
-
-`func (o *Snapshot) SetInstanceNil(b bool)`
-
- SetInstanceNil sets the value for Instance to be an explicit nil
-
-### UnsetInstance
-`func (o *Snapshot) UnsetInstance()`
-
-UnsetInstance ensures that no value is present for Instance, not even an explicit nil
 ### GetStatus
 
 `func (o *Snapshot) GetStatus() SnapshotStatus`
@@ -156,11 +112,6 @@ and a boolean to check if the value has been set.
 
 SetStatus sets Status field to given value.
 
-### HasStatus
-
-`func (o *Snapshot) HasStatus() bool`
-
-HasStatus returns a boolean if a field has been set.
 
 ### GetDate
 
@@ -181,22 +132,7 @@ and a boolean to check if the value has been set.
 
 SetDate sets Date field to given value.
 
-### HasDate
 
-`func (o *Snapshot) HasDate() bool`
-
-HasDate returns a boolean if a field has been set.
-
-### SetDateNil
-
-`func (o *Snapshot) SetDateNil(b bool)`
-
- SetDateNil sets the value for Date to be an explicit nil
-
-### UnsetDate
-`func (o *Snapshot) UnsetDate()`
-
-UnsetDate ensures that no value is present for Date, not even an explicit nil
 ### GetFresh
 
 `func (o *Snapshot) GetFresh() bool`
@@ -216,22 +152,7 @@ and a boolean to check if the value has been set.
 
 SetFresh sets Fresh field to given value.
 
-### HasFresh
 
-`func (o *Snapshot) HasFresh() bool`
-
-HasFresh returns a boolean if a field has been set.
-
-### SetFreshNil
-
-`func (o *Snapshot) SetFreshNil(b bool)`
-
- SetFreshNil sets the value for Fresh to be an explicit nil
-
-### UnsetFresh
-`func (o *Snapshot) UnsetFresh()`
-
-UnsetFresh ensures that no value is present for Fresh, not even an explicit nil
 ### GetLive
 
 `func (o *Snapshot) GetLive() bool`
@@ -251,22 +172,7 @@ and a boolean to check if the value has been set.
 
 SetLive sets Live field to given value.
 
-### HasLive
 
-`func (o *Snapshot) HasLive() bool`
-
-HasLive returns a boolean if a field has been set.
-
-### SetLiveNil
-
-`func (o *Snapshot) SetLiveNil(b bool)`
-
- SetLiveNil sets the value for Live to be an explicit nil
-
-### UnsetLive
-`func (o *Snapshot) UnsetLive()`
-
-UnsetLive ensures that no value is present for Live, not even an explicit nil
 ### GetLocal
 
 `func (o *Snapshot) GetLocal() bool`
@@ -286,22 +192,32 @@ and a boolean to check if the value has been set.
 
 SetLocal sets Local field to given value.
 
-### HasLocal
 
-`func (o *Snapshot) HasLocal() bool`
+### GetSharing
 
-HasLocal returns a boolean if a field has been set.
+`func (o *Snapshot) GetSharing() SnapshotSharing`
 
-### SetLocalNil
+GetSharing returns the Sharing field if non-nil, zero value otherwise.
 
-`func (o *Snapshot) SetLocalNil(b bool)`
+### GetSharingOk
 
- SetLocalNil sets the value for Local to be an explicit nil
+`func (o *Snapshot) GetSharingOk() (*SnapshotSharing, bool)`
 
-### UnsetLocal
-`func (o *Snapshot) UnsetLocal()`
+GetSharingOk returns a tuple with the Sharing field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
 
-UnsetLocal ensures that no value is present for Local, not even an explicit nil
+### SetSharing
+
+`func (o *Snapshot) SetSharing(v SnapshotSharing)`
+
+SetSharing sets Sharing field to given value.
+
+### HasSharing
+
+`func (o *Snapshot) HasSharing() bool`
+
+HasSharing returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

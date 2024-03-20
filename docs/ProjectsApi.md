@@ -432,6 +432,8 @@ Name | Type | Description  | Notes
 
 Get Project VPN Configuration
 
+
+
 ### Example
 
 ```go

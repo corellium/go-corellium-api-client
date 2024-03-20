@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Task** | Pointer to **NullableString** |  | [optional] 
-**Created** | Pointer to **NullableBool** |  | [optional] 
+**Task** | **string** | The current task being performed on the snapshot. | 
+**Created** | **bool** | Indicates if the snapshot has been successfully created. | 
 
 ## Methods
 
 ### NewSnapshotStatus
 
-`func NewSnapshotStatus() *SnapshotStatus`
+`func NewSnapshotStatus(task string, created bool, ) *SnapshotStatus`
 
 NewSnapshotStatus instantiates a new SnapshotStatus object
 This constructor will assign default values to properties that have it defined,
@@ -45,22 +45,7 @@ and a boolean to check if the value has been set.
 
 SetTask sets Task field to given value.
 
-### HasTask
 
-`func (o *SnapshotStatus) HasTask() bool`
-
-HasTask returns a boolean if a field has been set.
-
-### SetTaskNil
-
-`func (o *SnapshotStatus) SetTaskNil(b bool)`
-
- SetTaskNil sets the value for Task to be an explicit nil
-
-### UnsetTask
-`func (o *SnapshotStatus) UnsetTask()`
-
-UnsetTask ensures that no value is present for Task, not even an explicit nil
 ### GetCreated
 
 `func (o *SnapshotStatus) GetCreated() bool`
@@ -80,22 +65,7 @@ and a boolean to check if the value has been set.
 
 SetCreated sets Created field to given value.
 
-### HasCreated
 
-`func (o *SnapshotStatus) HasCreated() bool`
-
-HasCreated returns a boolean if a field has been set.
-
-### SetCreatedNil
-
-`func (o *SnapshotStatus) SetCreatedNil(b bool)`
-
- SetCreatedNil sets the value for Created to be an explicit nil
-
-### UnsetCreated
-`func (o *SnapshotStatus) UnsetCreated()`
-
-UnsetCreated ensures that no value is present for Created, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
