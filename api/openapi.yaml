@@ -3,7 +3,7 @@ info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 6.0.0-20323
+  version: 6.1.0-20784
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -5667,6 +5667,10 @@ paths:
   /v1/projects/{projectId}/vpnconfig/{format}:
     get:
       deprecated: false
+      description: "A Project VPN allows connection _into_ virtual devices in the\
+        \ project (e.g., connecting a researcher's computer as a VPN client to a virtual\
+        \ device within the project). If a Project VPN has been defined, this will\
+        \ return the configuration."
       operationId: v1GetProjectVpnConfig
       parameters:
       - deprecated: false
@@ -5696,6 +5700,20 @@ paths:
               schema:
                 type: string
           description: OpenVPN Configuration
+        "400":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: User Error
+                  value:
+                    error: "Project {projectId} does not have an active VPN IP or\
+                      \ port"
+                    errorID: UserError
+                    field: projectId
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: User Error
         "403":
           content:
             application/json:
@@ -6184,6 +6202,211 @@ paths:
       summary: Add team role to project
       tags:
       - Roles
+  /v1/snapshots/{snapshotId}/permissions:
+    delete:
+      deprecated: false
+      operationId: v1DeleteSnapshotPermissions
+      parameters:
+      - deprecated: false
+        description: Snapshot ID - uuid
+        explode: false
+        in: path
+        name: snapshotId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: application/json
+                value: |-
+                  {
+                    "email": "jcalhoun@meta.com",
+                    "userId": 'cef72e47-68af-4d3e-b122-01094216a0ce'
+                  }
+            schema:
+              $ref: '#/components/schemas/DeleteSnapshotPermissionsRequestPayload'
+        description: ""
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value: |-
+                    {
+                      "id": "c96b1f17-d694-45a9-af68-0a08f9c6098b",
+                      "name": "Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated Universal Time)",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648770996000,
+                      "fresh": true,
+                      "live": false,
+                      "local": true
+                      "sharing": {
+                        "users": [
+                          {
+                            "email": "jcalhoun@meta.com",
+                            "inviteSent": true,
+                            "timestamp": "2024-01-16 20:18:36",
+                            "userId": "0cb421a3-cbfb-4366-a460-1442627e71c5",
+                            "label": "Jon Calhoun"
+                          },
+                          {
+                            "email": "newuser@meta.com",
+                            "inviteSent": false,
+                            "timestamp": "2024-01-16 20:18:36"
+                            "userId": null,
+                          }
+                        ]
+                    }
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Snapshot with snapshotID=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Snapshot
+                    params:
+                      SnapshotId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Remove a user from the list of users who have access to the snapshot
+      tags:
+      - Snapshots
+    post:
+      deprecated: false
+      operationId: v1SetSnapshotPermissions
+      parameters:
+      - deprecated: false
+        description: Snapshot ID - uuid
+        explode: false
+        in: path
+        name: snapshotId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: application/json
+                value: |-
+                  {
+                    "email": "jcalhoun@meta.com",
+                    "userId": 'cef72e47-68af-4d3e-b122-01094216a0ce'
+                  }
+            schema:
+              $ref: '#/components/schemas/PostSnapshotPermissionsRequestPayload'
+        description: ""
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value: |-
+                    {
+                      "id": "c96b1f17-d694-45a9-af68-0a08f9c6098b",
+                      "name": "Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated Universal Time)",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648770996000,
+                      "fresh": true,
+                      "live": false,
+                      "local": true
+                      "sharing": {
+                        "users": [
+                          {
+                            "email": "jcalhoun@meta.com",
+                            "inviteSentAt": "2024-01-16 21:00:00",
+                            "timestamp": "2024-01-16 20:18:36",
+                            "userId": "0cb421a3-cbfb-4366-a460-1442627e71c5",
+                            "label": "Jon Calhoun"
+                          },
+                          {
+                            "email": "newuser@meta.com",
+                            "inviteSentAt": null,
+                            "timestamp": "2024-01-16 20:18:36"
+                            "userId": null,
+                          }
+                        ]
+                    }
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Snapshot with snapshotID=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Snapshot
+                    params:
+                      SnapshotId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Add a user to the list of users who have access to the snapshot
+      tags:
+      - Snapshots
   /v1/snapshots/{snapshotId}:
     delete:
       deprecated: false
@@ -6376,6 +6599,80 @@ paths:
       security:
       - BearerAuth: []
       summary: Rename a Snapshot
+      tags:
+      - Snapshots
+  /v1/snapshots:
+    get:
+      deprecated: false
+      operationId: v1GetSharedSnapshots
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value:
+                    sharedByUser:
+                    - id: 16312ce2-a4b8-4a12-a60e-4f0f5b493418
+                      name: Name
+                      instance: 1008acc6-4886-41c3-9373-196114993a96
+                      status:
+                        task: none
+                        created: true
+                      date: 1648841621000
+                      live: false
+                      local: true
+                      hw-pac: 0
+                    sharedWithUser:
+                    - id: 534a986e-2ded-439c-b688-8907075fc76f
+                      name: Initial Snapshot 1 - Thu Aug 03 2023 13:35:56 GMT-0400
+                        (Eastern Daylight Time)
+                      instance: 51b82f68-6ff0-4ea2-afa4-15f73a07788e
+                      status:
+                        task: none
+                        created: true
+                      date: 1691098562000
+                      fresh: true
+                      live: false
+                      local: true
+                      hw-pac: 0
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Instance with instanceId=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Instance
+                    params:
+                      instanceId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Fetch snapshots shared with and shared by the requesting user
       tags:
       - Snapshots
   /v1/teams:
@@ -7201,6 +7498,50 @@ components:
       - reusable
       - updatedAt
       type: object
+    MeteredSubscriptionUsage:
+      description: ""
+      properties:
+        burst_rate:
+          description: Unit price
+          nullable: true
+          type: number
+        allocated_hours:
+          description: Allocated hours
+          nullable: true
+          type: number
+        plan_billed_amount:
+          description: Plan cost
+          nullable: true
+          type: number
+        plan_billed_units:
+          description: Units included in plan
+          nullable: true
+          type: number
+        burst_billed_amount:
+          description: Amount billed
+          nullable: true
+          type: number
+        burst_billed_units:
+          description: Units billed
+          nullable: true
+          type: number
+        burst_outstanding_amount:
+          description: Outstanding amount
+          nullable: true
+          type: number
+        burst_outstanding_units:
+          description: Outstanding units
+          nullable: true
+          type: number
+        total_usage_amount:
+          description: Total cost in cents for current period
+          nullable: true
+          type: number
+        total_used_units:
+          description: Total used units for current period
+          nullable: true
+          type: number
+      type: object
     EmptyResponse:
       description: ""
       properties: {}
@@ -7635,12 +7976,6 @@ components:
           description: Indicates if snapshot permissions are enabled
           nullable: true
           type: boolean
-        invitationTypes:
-          $ref: '#/components/schemas/SnapshotInvitationTypes'
-      type: object
-    SnapshotInvitationTypes:
-      description: ""
-      properties:
         publicLink:
           description: Indicates if public link access is enabled
           nullable: true
@@ -9841,6 +10176,65 @@ components:
       - role
       - user
       type: object
+    SnapshotUser:
+      description: ""
+      example:
+        inviteSentAt: 6.027456183070403
+        label: label
+        userId: userId
+        email: email
+        timestamp: 1.4658129805029452
+      properties:
+        email:
+          description: The email of the user.
+          type: string
+        inviteSentAt:
+          description: The date when the invite was sent.
+          type: number
+        timestamp:
+          description: The timestamp.
+          type: number
+        userId:
+          description: The user ID.
+          type: string
+        label:
+          description: The label.
+          type: string
+      required:
+      - email
+      - inviteSentAt
+      - label
+      - timestamp
+      - userId
+      type: object
+    SnapshotSharing:
+      description: ""
+      example:
+        url: url
+        users:
+        - inviteSentAt: 6.027456183070403
+          label: label
+          userId: userId
+          email: email
+          timestamp: 1.4658129805029452
+        - inviteSentAt: 6.027456183070403
+          label: label
+          userId: userId
+          email: email
+          timestamp: 1.4658129805029452
+      properties:
+        url:
+          description: The URL of the snapshot.
+          type: string
+        users:
+          description: The users who have access to the snapshot.
+          items:
+            $ref: '#/components/schemas/SnapshotUser'
+          type: array
+      required:
+      - url
+      - users
+      type: object
     SnapshotStatus:
       description: ""
       example:
@@ -9848,13 +10242,14 @@ components:
         created: true
       properties:
         task:
-          description: ""
-          nullable: true
+          description: The current task being performed on the snapshot.
           type: string
         created:
-          description: ""
-          nullable: true
+          description: Indicates if the snapshot has been successfully created.
           type: boolean
+      required:
+      - created
+      - task
       type: object
     Snapshot:
       description: ""
@@ -9864,6 +10259,19 @@ components:
         name: name
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         fresh: true
+        sharing:
+          url: url
+          users:
+          - inviteSentAt: 6.027456183070403
+            label: label
+            userId: userId
+            email: email
+            timestamp: 1.4658129805029452
+          - inviteSentAt: 6.027456183070403
+            label: label
+            userId: userId
+            email: email
+            timestamp: 1.4658129805029452
         live: true
         local: true
         status:
@@ -9873,35 +10281,70 @@ components:
         id:
           description: Snapshot ID
           format: uuid
-          nullable: true
           type: string
         name:
           description: Snapshot name
-          nullable: true
           type: string
         instance:
           description: Instance that this snapshot is of
           format: uuid
-          nullable: true
           type: string
         status:
           $ref: '#/components/schemas/SnapshotStatus'
         date:
           description: UNIX Date that the snapshot was created
-          nullable: true
           type: number
         fresh:
           description: ""
-          nullable: true
           type: boolean
         live:
           description: Live snapshot (included state and memory)
-          nullable: true
           type: boolean
         local:
           description: ""
-          nullable: true
           type: boolean
+        sharing:
+          $ref: '#/components/schemas/SnapshotSharing'
+      required:
+      - date
+      - fresh
+      - id
+      - instance
+      - live
+      - local
+      - name
+      - status
+      type: object
+    PostSnapshotPermissionsRequestPayload:
+      description: ""
+      example:
+        userId: userId
+        email: email
+      properties:
+        email:
+          description: The email of the user.
+          type: string
+        userId:
+          description: The user ID.
+          nullable: true
+          type: string
+      required:
+      - email
+      type: object
+    DeleteSnapshotPermissionsRequestPayload:
+      description: ""
+      example:
+        userId: userId
+        email: email
+      properties:
+        email:
+          description: The email of the user.
+          nullable: true
+          type: string
+        userId:
+          description: The user ID.
+          nullable: true
+          type: string
       type: object
     SnapshotCreationOptions:
       description: ""
