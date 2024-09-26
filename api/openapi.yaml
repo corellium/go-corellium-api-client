@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   description: REST API to manage your virtual devices.
   termsOfService: https://www.corellium.com/legal/terms
   title: Corellium API
-  version: 6.1.0-20784
+  version: 6.5.0-24034
 servers:
 - description: ""
   url: "https://{serverName}/api"
@@ -42,9 +42,9 @@ tags:
 - description: ""
   name: Invites
 - description: ""
-  name: Licensing
-- description: ""
   name: Models
+- description: ""
+  name: NetConnect
 - description: ""
   name: Netdump
 - description: ""
@@ -53,6 +53,8 @@ tags:
   name: Roles
 - description: ""
   name: Services
+- description: ""
+  name: SnapshotSharing
 - description: ""
   name: Snapshots
 - description: ""
@@ -132,59 +134,6 @@ paths:
       summary: Log In
       tags:
       - Authentication
-  /v1/billing/invites:
-    post:
-      deprecated: false
-      description: Create Subscriber Invite
-      operationId: v1CreateSubscriberInvite
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example1:
-                summary: payload example
-                value: |2-
-                   {
-                    "coupon_options": {
-                      "type": "percent",
-                      "amount": 100,
-                      "used": false
-                    },
-                    "plan": {
-                      "licenseType": "individual-usage",
-                      "cores": 6
-                    },
-                    "trial": {
-                      "duration": 100
-                    },
-                    "name": "John",
-                    "email": "john.doe@example.com",
-                    "coupon_code": "1I454WY14V4QV9",
-                    "domain": null,
-                    "aggregate": "app.example.com",
-                    "use_by": null,
-                    "active": true,
-                    "reusable": false,
-                    "createdAt": "2022-05-06T02:39:23.000Z",
-                    "updatedAt": "2022-05-06T02:39:23.000Z"
-                  }
-            schema:
-              $ref: '#/components/schemas/SubscriberInvite'
-        description: Payload of Subscriber Invite
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriberInvite'
-          description: Success
-      security:
-      - BearerAuth: []
-      summary: Create Subscriber Invite
-      tags:
-      - TrialRequests
   /v1/config:
     get:
       deprecated: false
@@ -458,6 +407,48 @@ paths:
       summary: Create a new auth provider for a domain
       tags:
       - DomainAuthProvider
+  /v1/domain/check:
+    post:
+      deprecated: false
+      operationId: v1CheckSubdomainExistence
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1CheckSubdomainExistenceParameters'
+        description: application/json
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: OK
+                  value:
+                    available: true
+              schema:
+                $ref: '#/components/schemas/CheckSubdomainResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Check the existence of a subdomain
+      tags:
+      - Domain
   /v1/instances/{instanceId}/hooks:
     get:
       deprecated: false
@@ -2914,41 +2905,6 @@ paths:
       summary: Get state of Instance
       tags:
       - Instances
-  /v1/instances/{instanceId}/rate:
-    get:
-      deprecated: false
-      description: "Returns the cost, in microcents, for the instance in the on and\
-        \ off state. Instances are charged $0.25 / day for storage (off) and $0.25\
-        \ per core per hour (on)."
-      operationId: v1GetInstanceRate
-      parameters:
-      - deprecated: false
-        description: Instance ID - uuid
-        explode: false
-        in: path
-        name: instanceId
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: Rate Information
-                  value:
-                    onRateMicrocents: 13889
-                    offRateMicrocents: 289
-              schema:
-                $ref: '#/components/schemas/RateInfo'
-          description: Rate Information
-      security:
-      - BearerAuth: []
-      summary: Get rate information
-      tags:
-      - Instances
   /v1/instances/{instanceId}/gpios:
     get:
       deprecated: false
@@ -3589,26 +3545,6 @@ paths:
                     }
                   ]
               example3:
-                summary: Two finger swipe
-                value: |-
-                  [
-                    {
-                      "startButtons": ["finger"],
-                      "start": [
-                        [300, 600], [350, 650]
-                      ],
-                      "bezierPoints": [
-                        [ [350, 700], [400, 750] ],
-                        [ [375, 750], [425, 800] ]
-                      ],
-                      "end": [
-                        [400, 650], [450, 700]
-                      ],
-                      "endButtons": [],
-                      "duration": 200
-                    }
-                  ]
-              example4:
                 summary: "Type Hello, world"
                 value: |-
                   [
@@ -3616,7 +3552,7 @@ paths:
                       "text": "Hello, world"
                     }
                   ]
-              example5:
+              example4:
                 summary: "Touch point then type \"Hello, world\""
                 value: |-
                   [
@@ -3635,7 +3571,7 @@ paths:
                       "text": "Hello, world"
                     }
                   ]
-              example6:
+              example5:
                 summary: Example of pressing/releasing the fingerprint sensor
                 value: |-
                   [
@@ -3657,14 +3593,19 @@ paths:
         "200":
           content:
             application/json:
+              examples:
+                example1:
+                  summary: ETA
+                  value:
+                    eta: "100"
               schema:
-                type: integer
+                $ref: '#/components/schemas/InputResponse'
           description: ETA of input completion in milliseconds
         "403":
           content:
             application/json:
               examples:
-                example1:
+                example2:
                   summary: Forbidden
                   value:
                     error: Invalid or missing authorization token
@@ -3677,7 +3618,7 @@ paths:
           content:
             application/json:
               examples:
-                example2:
+                example3:
                   summary: Not Found
                   value:
                     error: Instance with instanceId=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
@@ -4371,6 +4312,13 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SslsplitFilter'
+        description: ""
+        required: false
       responses:
         "204":
           description: No Content
@@ -4599,6 +4547,11 @@ paths:
   /v1/instances/{instanceId}/message:
     post:
       deprecated: false
+      description: |-
+        Given a message and source phone number, place this message as an incoming SMS message on the iOS VM.
+        For advanced usage, a raw message of bytes may be sent. In this case, the parameter should provide hex encoded bytes
+         (0x00 0x11 0x22 0x33 in the example below) which are sent verbatim.
+         The user must ensure that the body is the correct format for the underlying device stack.
       parameters:
       - deprecated: false
         description: Instance ID - uuid
@@ -4609,6 +4562,27 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Text Message Body
+                value: |-
+                  {
+                    "number": "+19997776666",
+                    "message": "the SMS message body goes here"
+                  }
+              example2:
+                summary: Raw Message Body
+                value: |-
+                  {
+                    "raw": "00112233"
+                  }
+            schema:
+              type: object
+        description: Message data
+        required: true
       responses:
         "204":
           description: No Content
@@ -4626,7 +4600,7 @@ paths:
           description: Forbidden
       security:
       - BearerAuth: []
-      summary: Receive a message on an iOS vm
+      summary: Inject a message into an iOS VM
       tags:
       - Instances
   /v2/instances/{instanceId}/quickConnectCommand:
@@ -4924,7 +4898,7 @@ paths:
           description: Not Found
       security:
       - BearerAuth: []
-      summary: Delete a Snapshot
+      summary: Delete an Instance Snapshot
       tags:
       - Snapshots
       - Instances
@@ -5087,7 +5061,7 @@ paths:
           description: Not Found
       security:
       - BearerAuth: []
-      summary: Rename a Snapshot
+      summary: Rename an Instance Snapshot
       tags:
       - Snapshots
       - Instances
@@ -5148,49 +5122,10 @@ paths:
           description: Not Found
       security:
       - BearerAuth: []
-      summary: Restore a Snapshot
+      summary: Restore an Instance Snapshot
       tags:
       - Snapshots
       - Instances
-  /v1/license/features:
-    get:
-      deprecated: false
-      operationId: v1GetSupportedFeatures
-      parameters: []
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: application/json
-                  value:
-                  - RestoreBackup
-                  - Netdump
-                  - OsUpdate
-              schema:
-                items:
-                  type: string
-                type: array
-          description: application/json
-        "403":
-          content:
-            application/json:
-              examples:
-                example2:
-                  summary: Forbidden
-                  value:
-                    error: Invalid or missing authorization token
-                    errorID: PermissionDenied
-                    originalError: Invalid or missing authorization token
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-      security:
-      - BearerAuth: []
-      summary: Get all supported features for user
-      tags:
-      - Licensing
   /v1/models:
     get:
       deprecated: false
@@ -5646,6 +5581,19 @@ paths:
       responses:
         "204":
           description: Success
+        "400":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Validation Error
+                  value:
+                    errorID: ValidationError
+                    field: settings.dhcp
+                    error: DHCP must be boolean true or false in settings
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Validation Error
         "403":
           content:
             application/json:
@@ -6202,9 +6150,198 @@ paths:
       summary: Add team role to project
       tags:
       - Roles
+  /v1/snapshots/{snapshotId}/share:
+    post:
+      deprecated: false
+      description: Share a snapshot
+      operationId: v1ShareSnapshot
+      parameters:
+      - deprecated: false
+        description: Snapshot ID - uuid
+        explode: false
+        in: path
+        name: snapshotId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: application/json
+                value: |-
+                  {
+                    "sharingType": "passwordPublicLink",
+                    "password": "password"
+                  }
+            schema:
+              $ref: '#/components/schemas/PostShareSnapshotRequestPayload'
+        description: ""
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value: |-
+                    {
+                      "id": "c96b1f17-d694-45a9-af68-0a08f9c6098b",
+                      "name": "Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated Universal Time)",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648770996000,
+                      "fresh": true,
+                      "live": false,
+                      "local": true
+                      "model": "iPhone 12 Pro Max",
+                      "sharing": {
+                        "accessCode": "1S33IA5G71YJ5",
+                        "sharingType": 'passwordPublicLink',
+                        "password": 'password',
+                        "sharedOn": 1648841622000,
+                        "sharedBy": {
+                          "name": "Linus Torvalds",
+                          "email": "torvalds@osdl.org"
+                        }
+                      }
+                    }
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Snapshot with snapshotID=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Snapshot
+                    params:
+                      SnapshotId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security: []
+      summary: Share snapshot
+      tags:
+      - SnapshotSharing
+  /v1/snapshots/accept:
+    post:
+      deprecated: false
+      description: Accept a snapshot shared with you
+      operationId: v1AcceptSharedSnapshot
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: application/json
+                value: |-
+                  {
+                    "accessCode": "1S33IA5G71YJ5",
+                    "password": "password"
+                  }
+            schema:
+              $ref: '#/components/schemas/PostShareSnapshotRequestPayload'
+        description: ""
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value: |-
+                    {
+                      "id": "c96b1f17-d694-45a9-af68-0a08f9c6098b",
+                      "name": "Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated Universal Time)",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648770996000,
+                      "fresh": true,
+                      "live": false,
+                      "local": true
+                      "model": "iPhone 12 Pro Max",
+                      "sharing": {
+                        "accessCode": "1S33IA5G71YJ5",
+                        "sharingType": 'passwordPublicLink',
+                        "password": 'password',
+                        "sharedOn": 1648841622000,
+                        "sharedBy": {
+                          "name": "Linus Torvalds",
+                          "email": "torvalds@osdl.org"
+                        }
+                      }
+                    }
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Snapshot with snapshotID=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Snapshot
+                    params:
+                      SnapshotId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security: []
+      summary: Accept a snapshot shared with you
+      tags:
+      - SnapshotSharing
   /v1/snapshots/{snapshotId}/permissions:
     delete:
       deprecated: false
+      description: Deletes one or more members from the list of members who have access
+        to the snapshot
       operationId: v1DeleteSnapshotPermissions
       parameters:
       - deprecated: false
@@ -6224,11 +6361,13 @@ paths:
                 summary: application/json
                 value: |-
                   {
-                    "email": "jcalhoun@meta.com",
-                    "userId": 'cef72e47-68af-4d3e-b122-01094216a0ce'
+                    "members": [
+                      "newuser1@domain.com",
+                      "newuser2@domain.com"
+                    ]
                   }
             schema:
-              $ref: '#/components/schemas/DeleteSnapshotPermissionsRequestPayload'
+              $ref: '#/components/schemas/SnapshotPermissionsRequestPayload'
         description: ""
         required: true
       responses:
@@ -6251,22 +6390,32 @@ paths:
                       "fresh": true,
                       "live": false,
                       "local": true
+                      "model": "iPhone 12 Pro Max",
                       "sharing": {
-                        "users": [
+                        "accessCode": "1S33IA5G71YJ5",
+                        "sharingType": 'emailInvite',
+                        "password": null,
+                        "sharedOn": 1648841622000,
+                        "sharedBy": {
+                          "name": "Linus Torvalds",
+                          "email": "torvalds@osdl.org"
+                        }
+                        "members": [
                           {
-                            "email": "jcalhoun@meta.com",
-                            "inviteSent": true,
-                            "timestamp": "2024-01-16 20:18:36",
+                            "email": "newuser1@domain.com",
+                            "inviteSentAt": 1648841622000,
+                            "sharedOn": 1648841622000,
                             "userId": "0cb421a3-cbfb-4366-a460-1442627e71c5",
-                            "label": "Jon Calhoun"
+                            "label": "Ben Franklin"
                           },
                           {
-                            "email": "newuser@meta.com",
-                            "inviteSent": false,
-                            "timestamp": "2024-01-16 20:18:36"
+                            "email": "newuser2@domain.com",
+                            "inviteSentAt": null,
+                            "sharedOn": 1648841622000,
                             "userId": null,
                           }
                         ]
+                      }
                     }
               schema:
                 $ref: '#/components/schemas/Snapshot'
@@ -6302,11 +6451,12 @@ paths:
           description: Not Found
       security:
       - BearerAuth: []
-      summary: Remove a user from the list of users who have access to the snapshot
+      summary: Delete member(s)
       tags:
-      - Snapshots
+      - SnapshotSharing
     post:
       deprecated: false
+      description: Sets the list of members who have access to the snapshot
       operationId: v1SetSnapshotPermissions
       parameters:
       - deprecated: false
@@ -6326,11 +6476,13 @@ paths:
                 summary: application/json
                 value: |-
                   {
-                    "email": "jcalhoun@meta.com",
-                    "userId": 'cef72e47-68af-4d3e-b122-01094216a0ce'
+                    "members": [
+                      "newuser1@domain.com",
+                      "newuser2@domain.com"
+                    ]
                   }
             schema:
-              $ref: '#/components/schemas/PostSnapshotPermissionsRequestPayload'
+              $ref: '#/components/schemas/SnapshotPermissionsRequestPayload'
         description: ""
         required: true
       responses:
@@ -6353,22 +6505,32 @@ paths:
                       "fresh": true,
                       "live": false,
                       "local": true
+                      "model": "iPhone 12 Pro Max",
                       "sharing": {
-                        "users": [
+                        "accessCode": "1S33IA5G71YJ5",
+                        "sharingType": 'emailInvite',
+                        "password": null,
+                        "sharedOn": 1648841622000,
+                        "sharedBy": {
+                          "name": "Linus Torvalds",
+                          "email": "torvalds@osdl.org"
+                        }
+                        "members": [
                           {
-                            "email": "jcalhoun@meta.com",
-                            "inviteSentAt": "2024-01-16 21:00:00",
-                            "timestamp": "2024-01-16 20:18:36",
+                            "email": "newuser1@domain.com",
+                            "inviteSentAt": 1648841622000,
+                            "sharedOn": 1648841622000,
                             "userId": "0cb421a3-cbfb-4366-a460-1442627e71c5",
-                            "label": "Jon Calhoun"
+                            "label": "Ben Franklin"
                           },
                           {
-                            "email": "newuser@meta.com",
+                            "email": "newuser2@domain.com",
                             "inviteSentAt": null,
-                            "timestamp": "2024-01-16 20:18:36"
+                            "sharedOn": 1648841622000,
                             "userId": null,
                           }
                         ]
+                      }
                     }
               schema:
                 $ref: '#/components/schemas/Snapshot'
@@ -6404,9 +6566,77 @@ paths:
           description: Not Found
       security:
       - BearerAuth: []
-      summary: Add a user to the list of users who have access to the snapshot
+      summary: Set member list
       tags:
-      - Snapshots
+      - SnapshotSharing
+  /v1/snapshots/shared:
+    get:
+      deprecated: false
+      description: Fetch snapshots shared with and shared by the requesting user
+      operationId: v1GetSharedSnapshots
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value:
+                    sharedByUser:
+                    - id: 16312ce2-a4b8-4a12-a60e-4f0f5b493418
+                      name: Name
+                      model: iPhone 12 Pro Max
+                      sharedOn: 1648841622000
+                      sharedBy:
+                        name: Linus Torvalds
+                        email: torvalds@osdl.org
+                    sharedWithUser:
+                    - id: 16312ce2-a4b8-4a12-a60e-4f0f5b493418
+                      name: Name
+                      model: iPhone 12 Pro Max
+                      sharedOn: 1648841622000
+                      sharedWithMember: grace@cobol.com
+                      sharedBy:
+                        name: Brian W. Kernighan
+                        email: bwk@Princeton.edu
+              schema:
+                $ref: '#/components/schemas/UserSnapshots'
+          description: application/json
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              examples:
+                example3:
+                  summary: Not Found
+                  value:
+                    error: Instance with instanceId=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+                      not found
+                    errorID: NotFound
+                    name: Instance
+                    params:
+                      instanceId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
+              schema:
+                $ref: '#/components/schemas/UserError'
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Fetch shared snapshots
+      tags:
+      - SnapshotSharing
   /v1/snapshots/{snapshotId}:
     delete:
       deprecated: false
@@ -6478,18 +6708,21 @@ paths:
               examples:
                 example1:
                   summary: application/json
-                  value:
-                    id: c96b1f17-d694-45a9-af68-0a08f9c6098b
-                    name: Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated
-                      Universal Time)
-                    instance: 1008acc6-4886-41c3-9373-196114993a96
-                    status:
-                      task: none
-                      created: true
-                    date: 1648770996000
-                    fresh: true
-                    live: false
-                    local: true
+                  value: |-
+                    {
+                      "id": "c96b1f17-d694-45a9-af68-0a08f9c6098b",
+                      "name": "Initial Snapshot - Thu Mar 31 2022 23:56:32 GMT+0000 (Coordinated Universal Time)",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648770996000,
+                      "fresh": true,
+                      "live": false,
+                      "local": true
+                      "model": "iPhone 12 Pro Max",
+                    }
               schema:
                 $ref: '#/components/schemas/Snapshot'
           description: application/json
@@ -6554,16 +6787,20 @@ paths:
               examples:
                 example1:
                   summary: application/json
-                  value:
-                    id: 16312ce2-a4b8-4a12-a60e-4f0f5b493418
-                    name: New Name
-                    instance: 1008acc6-4886-41c3-9373-196114993a96
-                    status:
-                      task: none
-                      created: true
-                    date: 1648841621000
-                    live: false
-                    local: true
+                  value: |-
+                    {
+                      "id": "16312ce2-a4b8-4a12-a60e-4f0f5b493418",
+                      "name": "New Name",
+                      "instance": "1008acc6-4886-41c3-9373-196114993a96",
+                      "status": {
+                        "task": "none",
+                        "created": true
+                      },
+                      "date": 1648841621000,
+                      "live": false,
+                      "local": true
+                      "model": "iPhone 12 Pro Max",
+                    }
               schema:
                 $ref: '#/components/schemas/Snapshot'
           description: application/json
@@ -6601,80 +6838,6 @@ paths:
       summary: Rename a Snapshot
       tags:
       - Snapshots
-  /v1/snapshots:
-    get:
-      deprecated: false
-      operationId: v1GetSharedSnapshots
-      parameters: []
-      responses:
-        "200":
-          content:
-            application/json:
-              examples:
-                example1:
-                  summary: application/json
-                  value:
-                    sharedByUser:
-                    - id: 16312ce2-a4b8-4a12-a60e-4f0f5b493418
-                      name: Name
-                      instance: 1008acc6-4886-41c3-9373-196114993a96
-                      status:
-                        task: none
-                        created: true
-                      date: 1648841621000
-                      live: false
-                      local: true
-                      hw-pac: 0
-                    sharedWithUser:
-                    - id: 534a986e-2ded-439c-b688-8907075fc76f
-                      name: Initial Snapshot 1 - Thu Aug 03 2023 13:35:56 GMT-0400
-                        (Eastern Daylight Time)
-                      instance: 51b82f68-6ff0-4ea2-afa4-15f73a07788e
-                      status:
-                        task: none
-                        created: true
-                      date: 1691098562000
-                      fresh: true
-                      live: false
-                      local: true
-                      hw-pac: 0
-              schema:
-                $ref: '#/components/schemas/Snapshot'
-          description: application/json
-        "403":
-          content:
-            application/json:
-              examples:
-                example2:
-                  summary: Forbidden
-                  value:
-                    error: Invalid or missing authorization token
-                    errorID: PermissionDenied
-                    originalError: Invalid or missing authorization token
-              schema:
-                $ref: '#/components/schemas/ApiError'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              examples:
-                example3:
-                  summary: Not Found
-                  value:
-                    error: Instance with instanceId=3a28e565-cf46-4706-86e7-e3af6b33ae0dd
-                      not found
-                    errorID: NotFound
-                    name: Instance
-                    params:
-                      instanceId: 3a28e565-cf46-4706-86e7-e3af6b33ae0dd
-              schema:
-                $ref: '#/components/schemas/UserError'
-          description: Not Found
-      security:
-      - BearerAuth: []
-      summary: Fetch snapshots shared with and shared by the requesting user
-      tags:
-      - Snapshots
   /v1/teams:
     get:
       deprecated: false
@@ -6688,28 +6851,45 @@ paths:
               examples:
                 example1:
                   summary: Teams
-                  value:
-                  - id: all-users
-                    label: All Users
-                    users:
-                    - id: 83d6b5f9-ca8b-45a5-b73a-b4f9d2a8f30f
-                      label: User
-                      name: user@gmail.com
-                      email: user@gmail.com
-                      administrator: true
-                    - id: bbae7b15-c212-4055-a0ee-89381d01d160
-                      label: User2
-                      name: user2@gmail.com
-                      email: user2@gmail.com
-                      administrator: null
-                  - id: ad423e65-8744-4289-92c4-aa9770dc0153
-                    label: Team Leads
-                    users:
-                    - id: 83d6b5f9-ca8b-45a5-b73a-b4f9d2a8f30f
-                      label: User
-                      name: user@gmail.com
-                      email: user@gmail.com
-                      administrator: true
+                  value: |-
+                    [
+                      {
+                        "id": "all-users",
+                        "label": "All Users",
+                        "users": [
+                          {
+                            "id": "83d6b5f9-ca8b-45a5-b73a-b4f9d2a8f30f",
+                            "label": "User",
+                            "name": "user@gmail.com",
+                            "email": "user@gmail.com",
+                            "administrator": true,
+                            "canEditUserAttributes": true,
+                          },
+                          {
+                            "id": "bbae7b15-c212-4055-a0ee-89381d01d160",
+                            "label": "User2",
+                            "name": "user2@gmail.com",
+                            "email": "user2@gmail.com",
+                            "administrator": null,
+                            "canEditUserAttributes": false,
+                          }
+                        ]
+                      },
+                      {
+                        "id": "ad423e65-8744-4289-92c4-aa9770dc0153",
+                        "label": "Team Leads",
+                        "users": [
+                          {
+                            "id": "83d6b5f9-ca8b-45a5-b73a-b4f9d2a8f30f",
+                            "label": "User",
+                            "name": "user@gmail.com",
+                            "email": "user@gmail.com",
+                            "administrator": true,
+                            "canEditUserAttributes": true,
+                          }
+                        ]
+                      }
+                    ]
               schema:
                 items:
                   $ref: '#/components/schemas/Team'
@@ -7321,7 +7501,657 @@ paths:
       summary: Send Password Reset Link Info
       tags:
       - Users
+  /v1/network/connections:
+    get:
+      deprecated: false
+      description: You must have the domain administrator or project administrator
+        role to list network connections.
+      operationId: v1ListNetworkConnections
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: application/json
+                  value: |-
+                    {
+                      "total": 1,
+                      "count": 1,
+                      "limit": 100,
+                      "offset": 0,
+                      "results": [{
+                        "identifier": "0e29ea4b-7e55-4a4b-b736-d2e47482025b",
+                        "provider": "openvpn",
+                        "name": "My OpenVPN Connection",
+                        "config": {
+                          "config": "client\n" +
+                            "dev tun\n" +
+                            "proto tcp\n" +
+                            "remote my-server-1 1194\n" +
+                            "resolv-retry infinite\n" +
+                            "nobind\n" +
+                            "persist-key\n" +
+                            "persist-tun\n" +
+                            "remote-cert-tls server\n" +
+                            "tls-auth ta.key 1\n" +
+                            "cipher AES-256-CBC\n" +
+                            "verb 3\n"
+                        },
+                        "createdAt": "2024-01-16T23:26:43.228Z",
+                        "updatedAt": "2024-01-16T23:26:43.228Z",
+                        "createdBy": "b34d135b-5c22-46e7-ade0-3600473fd868",
+                        "updatedBy": "b34d135b-5c22-46e7-ade0-3600473fd868"
+                      }]
+                    }
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionOffsetPaginationResult'
+          description: Success
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: List available network connections
+      tags:
+      - NetConnect
+    post:
+      deprecated: false
+      description: You must have the domain administrator role to create a network
+        connection.
+      operationId: v1CreateNetworkConnection
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Create OpenVPN Network Connection
+                value: |-
+                  {
+                    "provider": "openvpn",
+                    "name": "My OpenVPN Connection",
+                    "config": {
+                      "config": "client\n" +
+                        "dev tun\n" +
+                        "proto tcp\n" +
+                        "remote my-server-1 1194\n" +
+                        "resolv-retry infinite\n" +
+                        "nobind\n" +
+                        "persist-key\n" +
+                        "persist-tun\n" +
+                        "remote-cert-tls server\n" +
+                        "tls-auth ta.key 1\n" +
+                        "cipher AES-256-CBC\n" +
+                        "verb 3\n"
+                    }
+                  }
+            schema:
+              $ref: '#/components/schemas/CreateNetworkConnectionOptions'
+        description: Network Connection Options
+        required: true
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create a new Network Connection
+      tags:
+      - NetConnect
+  /v1/network/connections/{id}:
+    delete:
+      deprecated: false
+      description: You must have the domain administrator role to delete a network
+        connection.
+      operationId: v1DeleteNetworkConnection
+      parameters:
+      - deprecated: false
+        description: Network Connection Identifier - uuid
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Success
+        "403":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: Delete an existing Network Connection
+      tags:
+      - NetConnect
+    patch:
+      deprecated: false
+      description: Only updates the specified attributes. You must have the domain
+        administrator role to update a network connection.
+      operationId: v1PartialUpdateNetworkConnection
+      parameters:
+      - deprecated: false
+        description: Network Connection Identifier - uuid
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Rename OpenVPN Network Connection
+                value: |-
+                  {
+                    "name": "My Renamed OpenVPN Connection"
+                  }
+            schema:
+              $ref: '#/components/schemas/UpdateNetworkConnectionOptions'
+        description: Network Connection Options
+        required: true
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Network Connection (partial)
+      tags:
+      - NetConnect
+    put:
+      deprecated: false
+      description: You must have the domain administrator role to update a network
+        connection.
+      operationId: v1UpdateNetworkConnection
+      parameters:
+      - deprecated: false
+        description: Network Connection Identifier - uuid
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example1:
+                summary: Rename OpenVPN Network Connection
+                value: |-
+                  {
+                    "type": "openvpn",
+                    "name": "My Renamed OpenVPN Connection",
+                    "config": {
+                      "config": "client\n" +
+                        "dev tun\n" +
+                        "proto tcp\n" +
+                        "remote my-server-1 1194\n" +
+                        "resolv-retry infinite\n" +
+                        "nobind\n" +
+                        "persist-key\n" +
+                        "persist-tun\n" +
+                        "remote-cert-tls server\n" +
+                        "tls-auth ta.key 1\n" +
+                        "cipher AES-256-CBC\n" +
+                        "verb 3\n"
+                    }
+                  }
+            schema:
+              $ref: '#/components/schemas/UpdateNetworkConnectionOptions'
+        description: Network Connection Options
+        required: true
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Network Connection
+      tags:
+      - NetConnect
+  /v1/network/providers:
+    get:
+      deprecated: false
+      description: |-
+        Provides a list of registered network providers to be used when [creating network connections](#post-/v1/network/connections). You
+        must have the domain administrator role to list network providers.
+      operationId: v1ListNetworkProviders
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: OK
+                  value: |-
+                    {
+                      "total": 1,
+                      "count": 1,
+                      "limit": 100,
+                      "offset": 0,
+                      "results": [
+                        { "name: "OpenVPN", "type": "openvpn" }
+                      ]
+                    }
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionProviderOffsetPaginationResult'
+          description: Success
+        "403":
+          content:
+            application/json:
+              examples:
+                example2:
+                  summary: Forbidden
+                  value:
+                    error: Invalid or missing authorization token
+                    errorID: PermissionDenied
+                    originalError: Invalid or missing authorization token
+              schema:
+                $ref: '#/components/schemas/ApiError'
+          description: Forbidden
+      security:
+      - BearerAuth: []
+      summary: List available network providers
+      tags:
+      - NetConnect
+  /v1/services/matrix/{instanceId}/instances/{instanceId}/assessments:
+    get:
+      operationId: getAssessmentsByInstanceId
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Assessment'
+                type: array
+          description: Returns array of assessments
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Get assessments by instanceId
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments:
+    post:
+      operationId: createAssessment
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssessmentDto'
+        description: Create a new assessment
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentIdStatus'
+          description: Successful operation
+        "400":
+          description: Invalid body
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Create assessment
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments/{assessmentId}:
+    delete:
+      operationId: deleteAssessment
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Delete assessment
+      tags:
+      - matrix
+    get:
+      operationId: getAssessmentById
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: Successful operation
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Get assessment by ID
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments/{assessmentId}/start:
+    post:
+      operationId: startMonitoring
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Update assessment state and begin device monitoring
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments/{assessmentId}/stop:
+    post:
+      operationId: stopMonitoring
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Update assessment state and stop device monitoring
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments/{assessmentId}/test:
+    post:
+      operationId: runTests
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestAssessmentDto'
+        description: Execute MATRIX tests
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentIdStatus'
+          description: Successful operation
+        "400":
+          description: Assessment status invalid
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Update assessment state and execute MATRIX tests
+      tags:
+      - matrix
+  /v1/services/matrix/{instanceId}/assessments/{assessmentId}/download:
+    get:
+      operationId: downloadReport
+      parameters:
+      - description: ID of instance
+        explode: false
+        in: path
+        name: instanceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of assessment
+        explode: false
+        in: path
+        name: assessmentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Assessment report download format
+        explode: true
+        in: query
+        name: format
+        required: true
+        schema:
+          default: html
+          format: "enum['json', 'html']"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/html:
+              schema:
+                example: <html>Automated Mobile Application Security Test Report</html>
+                type: string
+            application/json:
+              schema:
+                example: "{ metadata: {}, results: [] }"
+                type: string
+          description: Returns the HTML file of the report
+        "400":
+          description: Assessment status invalid
+        "404":
+          description: Assessment not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+          description: Internal Server Error
+      summary: Download report
+      tags:
+      - matrix
 components:
+  parameters:
+    assessmentId:
+      description: ID of assessment
+      explode: false
+      in: path
+      name: assessmentId
+      required: true
+      schema:
+        format: uuid
+        type: string
+      style: simple
+    instanceId:
+      description: ID of instance
+      explode: false
+      in: path
+      name: instanceId
+      required: true
+      schema:
+        format: uuid
+        type: string
+      style: simple
+    format:
+      description: Assessment report download format
+      explode: true
+      in: query
+      name: format
+      required: true
+      schema:
+        default: html
+        format: "enum['json', 'html']"
+        type: string
+      style: form
+  responses:
+    AssessmentResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Assessment'
+      description: Successful operation
+    AssessmentIdStatusResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssessmentIdStatus'
+      description: Successful operation
+    "204SuccessNoContent":
+      description: Successful operation
+    "404NotFound":
+      description: Assessment not found
+    "500InternalServerError":
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/getAssessmentsByInstanceId_500_response'
+      description: Internal Server Error
   schemas:
     Credentials:
       description: ""
@@ -7368,10 +8198,6 @@ components:
       type: object
     coupon_options:
       description: Coupon options
-      example:
-        amount: 0.8008281904610115
-        used: true
-        type: percent
       properties:
         type:
           description: ""
@@ -7394,9 +8220,6 @@ components:
       type: object
     plan:
       description: Plan options
-      example:
-        licenseType: premium
-        cores: 6
       properties:
         licenseType:
           description: ""
@@ -7418,8 +8241,6 @@ components:
       type: object
     trial:
       description: Trial options
-      example:
-        duration: 1.4658129805029452
       properties:
         duration:
           description: Duration in days
@@ -7429,26 +8250,6 @@ components:
       type: object
     SubscriberInvite:
       description: Subscriber Invite
-      example:
-        coupon_code: coupon_code
-        use_by: use_by
-        active: true
-        coupon_options:
-          amount: 0.8008281904610115
-          used: true
-          type: percent
-        trial:
-          duration: 1.4658129805029452
-        aggregate: aggregate
-        reusable: true
-        createdAt: createdAt
-        domain: domain
-        name: name
-        plan:
-          licenseType: premium
-          cores: 6
-        email: email
-        updatedAt: updatedAt
       properties:
         coupon_options:
           $ref: '#/components/schemas/coupon_options'
@@ -7946,8 +8747,8 @@ components:
           type: boolean
         trialExtension:
           $ref: '#/components/schemas/TrialExtension'
-        snapshotPermissions:
-          $ref: '#/components/schemas/SnapshotPermissions'
+        snapshotSharingPermissions:
+          $ref: '#/components/schemas/SnapshotSharingPermissions'
       type: object
     TrialExtension:
       description: ""
@@ -7969,11 +8770,17 @@ components:
           nullable: true
           type: string
       type: object
-    SnapshotPermissions:
+    SnapshotSharingPermissions:
       description: ""
       properties:
-        enabled:
-          description: Indicates if snapshot permissions are enabled
+        cloudEnabled:
+          description: Indicates if snapshot permissions are enabled by the cloud
+            admin
+          nullable: true
+          type: boolean
+        domainEnabled:
+          description: Indicates if snapshot permissions are enabled by the domain
+            admin
           nullable: true
           type: boolean
         publicLink:
@@ -8119,6 +8926,26 @@ components:
       - label
       - providerType
       - updatedAt
+      type: object
+    v1CheckSubdomainExistenceParameters:
+      description: ""
+      properties:
+        domain:
+          description: Domain to check
+          type: string
+      required:
+      - domain
+      type: object
+    CheckSubdomainResponse:
+      description: ""
+      example:
+        available: true
+      properties:
+        available:
+          description: Indicates whether the subdomain is available or not
+          type: boolean
+      required:
+      - available
       type: object
     Extension:
       description: ""
@@ -8924,6 +9751,7 @@ components:
       example:
         fwpackage: fwpackage
         overrideWifiMAC: overrideWifiMAC
+        sharedSnapshot: sharedSnapshot
         os: os
         osbuild: osbuild
         patches:
@@ -8931,6 +9759,7 @@ components:
         - patches
         project: project
         origFwPackageUrl: http://example.com/aeiou
+        sharedSnapshotPassword: sharedSnapshotPassword
         flavor: flavor
         volume:
           partitions:
@@ -8965,6 +9794,14 @@ components:
         key: key
         snapshot: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
+        sharedSnapshot:
+          description: identifier of the snapshot that was shared.
+          nullable: true
+          type: string
+        sharedSnapshotPassword:
+          description: optional password if the shared snapshot requires a password.
+          nullable: true
+          type: string
         name:
           description: the name of the device
           nullable: true
@@ -9401,23 +10238,6 @@ components:
       required:
       - state
       type: object
-    RateInfo:
-      description: ""
-      example:
-        onRateMicrocents: 0
-        offRateMicrocents: 6
-      properties:
-        onRateMicrocents:
-          description: "The amount per second, in microcents (USD), that this instance\
-            \ charges to be running."
-          nullable: true
-          type: integer
-        offRateMicrocents:
-          description: "The amount per second, in microcents (USD), that this instance\
-            \ charges to be stored."
-          nullable: true
-          type: integer
-      type: object
     Bit:
       description: Bit value
       enum:
@@ -9622,6 +10442,16 @@ components:
       - $ref: '#/components/schemas/TextInput'
       properties: {}
       type: object
+    InputResponse:
+      description: ""
+      example:
+        eta: 0.8008281904610115
+      properties:
+        eta:
+          description: Expected time to complete
+          nullable: true
+          type: number
+      type: object
     MediaPlayBody:
       description: ""
       example:
@@ -9738,6 +10568,16 @@ components:
             type: array
           nullable: true
           type: array
+      type: object
+    SslsplitFilter:
+      description: ""
+      example:
+        truncatePcap: true
+      properties:
+        truncatePcap:
+          description: ""
+          nullable: true
+          type: boolean
       type: object
     NetdumpFilter:
       description: ""
@@ -10010,17 +10850,23 @@ components:
     ProjectSettings:
       description: ""
       example:
+        connection: connection
         internet-access: true
         dhcp: true
       properties:
         internet-access:
           description: ""
-          nullable: true
           type: boolean
+        connection:
+          description: UUIDv4 network connection identifier or null for no vpn connection
+          nullable: true
+          type: string
         dhcp:
           description: ""
-          nullable: true
           type: boolean
+      required:
+      - dhcp
+      - internet-access
       type: object
     ProjectQuota:
       description: ""
@@ -10071,6 +10917,7 @@ components:
       description: ""
       example:
         settings:
+          connection: connection
           internet-access: true
           dhcp: true
         quotasUsed:
@@ -10176,64 +11023,95 @@ components:
       - role
       - user
       type: object
-    SnapshotUser:
+    SnapshotOwner:
+      description: ""
+      example:
+        name: name
+        email: email
+      properties:
+        name:
+          description: The name of the owner.
+          type: string
+        email:
+          description: The email of the member.
+          type: string
+      required:
+      - email
+      - name
+      type: object
+    SnapshotMember:
       description: ""
       example:
         inviteSentAt: 6.027456183070403
         label: label
         userId: userId
         email: email
-        timestamp: 1.4658129805029452
+        sharedOn: 1.4658129805029452
       properties:
         email:
-          description: The email of the user.
+          description: The email of the member
           type: string
         inviteSentAt:
-          description: The date when the invite was sent.
+          description: The date when the invite was sent
           type: number
-        timestamp:
-          description: The timestamp.
+        sharedOn:
+          description: UNIX Date of when the snapshot was first shared with member
           type: number
         userId:
-          description: The user ID.
+          description: The member's user ID
+          nullable: true
           type: string
         label:
-          description: The label.
+          description: The user's label or name
+          nullable: true
           type: string
       required:
       - email
       - inviteSentAt
-      - label
-      - timestamp
-      - userId
+      - sharedOn
       type: object
     SnapshotSharing:
       description: ""
       example:
-        url: url
-        users:
+        password: password
+        sharedBy:
+          name: name
+          email: email
+        members:
         - inviteSentAt: 6.027456183070403
           label: label
           userId: userId
           email: email
-          timestamp: 1.4658129805029452
+          sharedOn: 1.4658129805029452
         - inviteSentAt: 6.027456183070403
           label: label
           userId: userId
           email: email
-          timestamp: 1.4658129805029452
+          sharedOn: 1.4658129805029452
+        sharingType: publicLink
       properties:
-        url:
-          description: The URL of the snapshot.
+        sharingType:
+          description: ""
+          enum:
+          - publicLink
+          - domainRestrictedLink
+          - passwordPublicLink
+          - emailInvite
           type: string
-        users:
-          description: The users who have access to the snapshot.
+        password:
+          description: Password with using passwordPublicLink
+          nullable: true
+          type: string
+        sharedBy:
+          $ref: '#/components/schemas/SnapshotOwner'
+        members:
+          description: The members who have access to the snapshot
           items:
-            $ref: '#/components/schemas/SnapshotUser'
+            $ref: '#/components/schemas/SnapshotMember'
+          nullable: true
           type: array
       required:
-      - url
-      - users
+      - sharingType
       type: object
     SnapshotStatus:
       description: ""
@@ -10242,14 +11120,80 @@ components:
         created: true
       properties:
         task:
-          description: The current task being performed on the snapshot.
+          description: The current task being performed on the snapshot
+          nullable: true
           type: string
         created:
-          description: Indicates if the snapshot has been successfully created.
+          description: Indicates if the snapshot has been successfully created
+          nullable: true
           type: boolean
+      type: object
+    SharedSnapshotsInfo:
+      description: ""
+      example:
+        sharedWithMember: sharedWithMember
+        sharedBy:
+          name: name
+          email: email
+        name: name
+        model: model
+        id: id
+        sharedOn: 0.8008281904610115
+      properties:
+        id:
+          description: UUID of the snapshot
+          type: string
+        name:
+          description: Snapshot name
+          type: string
+        model:
+          description: Device model
+          type: string
+        sharedOn:
+          description: UNIX Date of when the snapshot was first shared with member
+          type: number
+        sharedWithMember:
+          description: The member who the snapshot was shared with. Only present in
+            sharedWithUser
+          nullable: true
+          type: string
+        sharedBy:
+          $ref: '#/components/schemas/SnapshotOwner'
       required:
-      - created
-      - task
+      - id
+      - model
+      - name
+      - sharedOn
+      type: object
+    UserSnapshots:
+      description: ""
+      example:
+        sharedWithUser:
+          sharedWithMember: sharedWithMember
+          sharedBy:
+            name: name
+            email: email
+          name: name
+          model: model
+          id: id
+          sharedOn: 0.8008281904610115
+        sharedByUser:
+          sharedWithMember: sharedWithMember
+          sharedBy:
+            name: name
+            email: email
+          name: name
+          model: model
+          id: id
+          sharedOn: 0.8008281904610115
+      properties:
+        sharedWithUser:
+          $ref: '#/components/schemas/SharedSnapshotsInfo'
+        sharedByUser:
+          $ref: '#/components/schemas/SharedSnapshotsInfo'
+      required:
+      - sharedByUser
+      - sharedWithUser
       type: object
     Snapshot:
       description: ""
@@ -10257,21 +11201,26 @@ components:
         date: 0.8008281904610115
         instance: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         name: name
+        model: model
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         fresh: true
         sharing:
-          url: url
-          users:
+          password: password
+          sharedBy:
+            name: name
+            email: email
+          members:
           - inviteSentAt: 6.027456183070403
             label: label
             userId: userId
             email: email
-            timestamp: 1.4658129805029452
+            sharedOn: 1.4658129805029452
           - inviteSentAt: 6.027456183070403
             label: label
             userId: userId
             email: email
-            timestamp: 1.4658129805029452
+            sharedOn: 1.4658129805029452
+          sharingType: publicLink
         live: true
         local: true
         status:
@@ -10303,6 +11252,10 @@ components:
         local:
           description: ""
           type: boolean
+        model:
+          description: The device model
+          nullable: true
+          type: string
         sharing:
           $ref: '#/components/schemas/SnapshotSharing'
       required:
@@ -10315,36 +11268,41 @@ components:
       - name
       - status
       type: object
-    PostSnapshotPermissionsRequestPayload:
+    PostShareSnapshotRequestPayload:
       description: ""
       example:
-        userId: userId
-        email: email
+        password: password
+        sharingType: publicLink
       properties:
-        email:
-          description: The email of the user.
+        sharingType:
+          description: ""
+          enum:
+          - publicLink
+          - domainRestrictedLink
+          - passwordPublicLink
+          - emailInvite.
           type: string
-        userId:
-          description: The user ID.
+        password:
+          description: Password for passwordPublicLink.
           nullable: true
           type: string
       required:
-      - email
+      - sharingType
       type: object
-    DeleteSnapshotPermissionsRequestPayload:
+    SnapshotPermissionsRequestPayload:
       description: ""
       example:
-        userId: userId
-        email: email
+        members:
+        - members
+        - members
       properties:
-        email:
-          description: The email of the user.
-          nullable: true
-          type: string
-        userId:
-          description: The user ID.
-          nullable: true
-          type: string
+        members:
+          description: The email addresses or user ids of the members.
+          items:
+            type: string
+          type: array
+      required:
+      - members
       type: object
     SnapshotCreationOptions:
       description: ""
@@ -10364,11 +11322,13 @@ components:
         label: label
         users:
         - administrator: true
+          canEditUserAttributes: true
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           label: label
           email: email
         - administrator: true
+          canEditUserAttributes: true
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           label: label
@@ -10395,6 +11355,7 @@ components:
       description: /**
       example:
         administrator: true
+        canEditUserAttributes: true
         name: name
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         label: label
@@ -10415,6 +11376,10 @@ components:
           type: string
         administrator:
           description: the flag that specifies whether user is Administrator or not
+          nullable: true
+          type: boolean
+        canEditUserAttributes:
+          description: Flag to determine if user attributes are editable.
           nullable: true
           type: boolean
       required:
@@ -10621,6 +11586,313 @@ components:
       - expiration
       - identifier
       - token
+      type: object
+    NetworkConnectionOffsetPaginationResult:
+      description: Network Connection Offset Pagination Result
+      example:
+        total: 0.8008281904610115
+        offset: 5.962133916683182
+        count: 6.027456183070403
+        limit: 1.4658129805029452
+        results:
+        - identifier: identifier
+          createdAt: createdAt
+          updatedBy: updatedBy
+          provider: provider
+          createdBy: createdBy
+          name: name
+          config: "{}"
+          updatedAt: updatedAt
+        - identifier: identifier
+          createdAt: createdAt
+          updatedBy: updatedBy
+          provider: provider
+          createdBy: createdBy
+          name: name
+          config: "{}"
+          updatedAt: updatedAt
+      properties:
+        total:
+          description: Total number of items.
+          type: number
+        count:
+          description: The number of items returned in this result.
+          type: number
+        limit:
+          description: The maximum number of items that could be returned for this
+            result.
+          type: number
+        offset:
+          description: That starting item 0-indexed.
+          type: number
+        results:
+          description: Array of network connections associated with this domain.
+          items:
+            $ref: '#/components/schemas/NetworkConnection'
+          type: array
+      required:
+      - count
+      - limit
+      - offset
+      - results
+      - total
+      type: object
+    NetworkConnection:
+      description: ""
+      example:
+        identifier: identifier
+        createdAt: createdAt
+        updatedBy: updatedBy
+        provider: provider
+        createdBy: createdBy
+        name: name
+        config: "{}"
+        updatedAt: updatedAt
+      properties:
+        identifier:
+          description: UUIDv4
+          type: string
+        name:
+          description: User specified name for this network connection. e.g. My Network
+            Connection
+          type: string
+        config:
+          description: An object containing network connection configuration data.
+            Will vary based on network provider type.
+          nullable: true
+          type: object
+        provider:
+          description: "One of the registered [network provider types](#get-/v1/network/providers)"
+          nullable: true
+          type: string
+        createdAt:
+          description: Created Date in ISO-8601 format e.g. 2022-05-06T02:39:23.000Z
+          type: string
+        updatedAt:
+          description: Updated Date in ISO-8601 format e.g. 2022-05-06T02:39:23.000Z
+          type: string
+        createdBy:
+          description: UUIDv4 of the user who created this record.
+          type: string
+        updatedBy:
+          description: UUIDv4 of the user who last updated this record.
+          type: string
+      required:
+      - createdAt
+      - createdBy
+      - identifier
+      - name
+      - updatedAt
+      - updatedBy
+      type: object
+    CreateNetworkConnectionOptions:
+      description: ""
+      example:
+        identifier: identifier
+        provider: provider
+        name: name
+        config: "{}"
+      properties:
+        identifier:
+          description: UUIDv4
+          type: string
+        name:
+          description: User specified name for this network connection. e.g. My Network
+            Connection
+          type: string
+        provider:
+          description: "One of the registered [network provider types](#get-/v1/network/providers)"
+          type: string
+        config:
+          description: An object containing network connection configuration data.
+            Will vary based on network provider type. See examples.
+          nullable: true
+          type: object
+      required:
+      - identifier
+      - name
+      - provider
+      type: object
+    UpdateNetworkConnectionOptions:
+      description: ""
+      example:
+        name: name
+        config: "{}"
+      properties:
+        name:
+          description: User specified name for this network connection. e.g. My Network
+            Connection
+          type: string
+        config:
+          description: An object containing network connection configuration data.
+            Will vary based on network provider type. See examples.
+          nullable: true
+          type: object
+      required:
+      - name
+      type: object
+    NetworkConnectionProviderOffsetPaginationResult:
+      description: Network Connection Provider Offset Pagination Result
+      example:
+        total: 0.8008281904610115
+        offset: 5.962133916683182
+        count: 6.027456183070403
+        limit: 1.4658129805029452
+        results:
+        - name: name
+          type: type
+        - name: name
+          type: type
+      properties:
+        total:
+          description: Total number of items.
+          type: number
+        count:
+          description: The number of items returned in this result.
+          type: number
+        limit:
+          description: The maximum number of items that could be returned for this
+            result.
+          type: number
+        offset:
+          description: That starting item 0-indexed.
+          type: number
+        results:
+          description: Array of network connection providers.
+          items:
+            $ref: '#/components/schemas/NetworkConnectionProvider'
+          type: array
+      required:
+      - count
+      - limit
+      - offset
+      - results
+      - total
+      type: object
+    NetworkConnectionProvider:
+      description: ""
+      example:
+        name: name
+        type: type
+      properties:
+        name:
+          description: Human friendly name for Network Connection Provider.
+          type: string
+        type:
+          description: Internal identifier for Network Connection Provider.
+          type: string
+      required:
+      - name
+      - type
+      type: object
+    Assessment:
+      allOf:
+      - $ref: '#/components/schemas/CreateAssessmentDto'
+      - $ref: '#/components/schemas/AssessmentIdStatus'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        metadata: "{}"
+        reportId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdBy: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        bundle: "{}"
+        results: "{}"
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        createdBy:
+          format: uuid
+          type: string
+        reportId:
+          format: uuid
+          type: string
+        bundle:
+          properties:
+            id:
+              format: uuid
+              type: string
+            name:
+              example: Camera
+              type: string
+            version:
+              example: 1.2.0
+              type: string
+          type: object
+        results:
+          properties:
+            pass:
+              type: integer
+            fail:
+              type: integer
+            info:
+              type: integer
+            error:
+              type: integer
+          type: object
+        metadata:
+          properties:
+            corelliumVersion:
+              example: 6.4.0
+              type: string
+          type: object
+      type: object
+    AssessmentIdStatus:
+      allOf:
+      - $ref: '#/components/schemas/UpdateAssessmentDto'
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          type: string
+      type: object
+    CreateAssessmentDto:
+      example:
+        instanceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        bundleId: com.android.egg
+        wordlistId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        instanceId:
+          format: uuid
+          type: string
+        bundleId:
+          example: com.android.egg
+          type: string
+          writeOnly: true
+        wordlistId:
+          format: uuid
+          type: string
+      required:
+      - bundleId
+      - instanceId
+      type: object
+    UpdateAssessmentDto:
+      properties:
+        status:
+          example: testing
+          type: string
+      required:
+      - status
+      type: object
+    TestAssessmentDto:
+      example:
+        invert: true
+        grep: masvs-storage-2-android-8
+      properties:
+        invert:
+          type: boolean
+        grep:
+          example: masvs-storage-2-android-8
+          type: string
+      type: object
+    getAssessmentsByInstanceId_500_response:
+      properties:
+        error:
+          type: string
       type: object
     ConfigResponse_maintenance:
       description: Denotes whether the server is undergoing maintenance

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**V1CreateInstance**](InstancesApi.md#V1CreateInstance) | **Post** /v1/instances | Create Instance
 [**V1CreateSnapshot**](InstancesApi.md#V1CreateSnapshot) | **Post** /v1/instances/{instanceId}/snapshots | Create Instance Snapshot
 [**V1DeleteInstance**](InstancesApi.md#V1DeleteInstance) | **Delete** /v1/instances/{instanceId} | Remove Instance
-[**V1DeleteInstanceSnapshot**](InstancesApi.md#V1DeleteInstanceSnapshot) | **Delete** /v1/instances/{instanceId}/snapshots/{snapshotId} | Delete a Snapshot
+[**V1DeleteInstanceSnapshot**](InstancesApi.md#V1DeleteInstanceSnapshot) | **Delete** /v1/instances/{instanceId}/snapshots/{snapshotId} | Delete an Instance Snapshot
 [**V1DisableExposePort**](InstancesApi.md#V1DisableExposePort) | **Post** /v1/instances/{instanceId}/exposeport/disable | Disable an exposed port on an instance for device access.
 [**V1EnableExposePort**](InstancesApi.md#V1EnableExposePort) | **Post** /v1/instances/{instanceId}/exposeport/enable | Enable an exposed port on an instance for device access.
 [**V1ExecuteHyperTraceHooks**](InstancesApi.md#V1ExecuteHyperTraceHooks) | **Post** /v1/instances/{instanceId}/hooks/execute | Execute Hooks on an instance
@@ -22,12 +22,11 @@ Method | HTTP request | Description
 [**V1GetInstanceGpios**](InstancesApi.md#V1GetInstanceGpios) | **Get** /v1/instances/{instanceId}/gpios | Get Instance GPIOs
 [**V1GetInstancePanics**](InstancesApi.md#V1GetInstancePanics) | **Get** /v1/instances/{instanceId}/panics | Get Panics
 [**V1GetInstancePeripherals**](InstancesApi.md#V1GetInstancePeripherals) | **Get** /v1/instances/{instanceId}/peripherals | Get Instance Peripherals
-[**V1GetInstanceRate**](InstancesApi.md#V1GetInstanceRate) | **Get** /v1/instances/{instanceId}/rate | Get rate information
 [**V1GetInstanceScreenshot**](InstancesApi.md#V1GetInstanceScreenshot) | **Get** /v1/instances/{instanceId}/screenshot.{format} | Get Instance Screenshot
 [**V1GetInstanceSnapshot**](InstancesApi.md#V1GetInstanceSnapshot) | **Get** /v1/instances/{instanceId}/snapshots/{snapshotId} | Get Instance Snapshot
 [**V1GetInstanceSnapshots**](InstancesApi.md#V1GetInstanceSnapshots) | **Get** /v1/instances/{instanceId}/snapshots | Get Instance Snapshots
 [**V1GetInstances**](InstancesApi.md#V1GetInstances) | **Get** /v1/instances | Get Instances
-[**V1InstancesInstanceIdMessagePost**](InstancesApi.md#V1InstancesInstanceIdMessagePost) | **Post** /v1/instances/{instanceId}/message | Receive a message on an iOS vm
+[**V1InstancesInstanceIdMessagePost**](InstancesApi.md#V1InstancesInstanceIdMessagePost) | **Post** /v1/instances/{instanceId}/message | Inject a message into an iOS VM
 [**V1InstancesInstanceIdNetdumpPcapGet**](InstancesApi.md#V1InstancesInstanceIdNetdumpPcapGet) | **Get** /v1/instances/{instanceId}/netdump.pcap | Download a netdump pcap file
 [**V1InstancesInstanceIdNetworkMonitorPcapGet**](InstancesApi.md#V1InstancesInstanceIdNetworkMonitorPcapGet) | **Get** /v1/instances/{instanceId}/networkMonitor.pcap | Download a Network Monitor pcap file
 [**V1Kcrange**](InstancesApi.md#V1Kcrange) | **Get** /v1/instances/{instanceId}/btrace-kcrange | Get Kernel extension ranges
@@ -38,9 +37,9 @@ Method | HTTP request | Description
 [**V1PauseInstance**](InstancesApi.md#V1PauseInstance) | **Post** /v1/instances/{instanceId}/pause | Pause an Instance
 [**V1PostInstanceInput**](InstancesApi.md#V1PostInstanceInput) | **Post** /v1/instances/{instanceId}/input | Provide Instance Input
 [**V1RebootInstance**](InstancesApi.md#V1RebootInstance) | **Post** /v1/instances/{instanceId}/reboot | Reboot an Instance
-[**V1RenameInstanceSnapshot**](InstancesApi.md#V1RenameInstanceSnapshot) | **Patch** /v1/instances/{instanceId}/snapshots/{snapshotId} | Rename a Snapshot
+[**V1RenameInstanceSnapshot**](InstancesApi.md#V1RenameInstanceSnapshot) | **Patch** /v1/instances/{instanceId}/snapshots/{snapshotId} | Rename an Instance Snapshot
 [**V1RestoreBackup**](InstancesApi.md#V1RestoreBackup) | **Post** /v1/instances/{instanceId}/restoreBackup | Restore backup
-[**V1RestoreInstanceSnapshot**](InstancesApi.md#V1RestoreInstanceSnapshot) | **Post** /v1/instances/{instanceId}/snapshots/{snapshotId}/restore | Restore a Snapshot
+[**V1RestoreInstanceSnapshot**](InstancesApi.md#V1RestoreInstanceSnapshot) | **Post** /v1/instances/{instanceId}/snapshots/{snapshotId}/restore | Restore an Instance Snapshot
 [**V1RotateInstance**](InstancesApi.md#V1RotateInstance) | **Post** /v1/instances/{instanceId}/rotate | Rotate device to specified orientation
 [**V1SetInstanceGpios**](InstancesApi.md#V1SetInstanceGpios) | **Put** /v1/instances/{instanceId}/gpios | Set Instance GPIOs
 [**V1SetInstancePeripherals**](InstancesApi.md#V1SetInstancePeripherals) | **Put** /v1/instances/{instanceId}/peripherals | Set Instance Peripherals
@@ -598,7 +597,7 @@ Name | Type | Description  | Notes
 
 > V1DeleteInstanceSnapshot(ctx, instanceId, snapshotId).Execute()
 
-Delete a Snapshot
+Delete an Instance Snapshot
 
 ### Example
 
@@ -1271,76 +1270,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## V1GetInstanceRate
-
-> RateInfo V1GetInstanceRate(ctx, instanceId).Execute()
-
-Get rate information
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/corellium/go-corellium-api-client"
-)
-
-func main() {
-    instanceId := "instanceId_example" // string | Instance ID - uuid
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.InstancesApi.V1GetInstanceRate(context.Background(), instanceId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1GetInstanceRate``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `V1GetInstanceRate`: RateInfo
-    fmt.Fprintf(os.Stdout, "Response from `InstancesApi.V1GetInstanceRate`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**instanceId** | **string** | Instance ID - uuid | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiV1GetInstanceRateRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**RateInfo**](RateInfo.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## V1GetInstanceScreenshot
 
 > *os.File V1GetInstanceScreenshot(ctx, instanceId, format).Scale(scale).Execute()
@@ -1621,9 +1550,11 @@ Name | Type | Description  | Notes
 
 ## V1InstancesInstanceIdMessagePost
 
-> V1InstancesInstanceIdMessagePost(ctx, instanceId).Execute()
+> V1InstancesInstanceIdMessagePost(ctx, instanceId).Body(body).Execute()
 
-Receive a message on an iOS vm
+Inject a message into an iOS VM
+
+
 
 ### Example
 
@@ -1639,10 +1570,11 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | Instance ID - uuid
+    body := map[string]interface{}{ ... } // map[string]interface{} | Message data
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.InstancesApi.V1InstancesInstanceIdMessagePost(context.Background(), instanceId).Execute()
+    r, err := apiClient.InstancesApi.V1InstancesInstanceIdMessagePost(context.Background(), instanceId).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1InstancesInstanceIdMessagePost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1666,6 +1598,7 @@ Other parameters are passed through a pointer to a apiV1InstancesInstanceIdMessa
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **body** | **map[string]interface{}** | Message data | 
 
 ### Return type
 
@@ -1677,7 +1610,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -2229,7 +2162,7 @@ Name | Type | Description  | Notes
 
 ## V1PostInstanceInput
 
-> int32 V1PostInstanceInput(ctx, instanceId).InstanceInput(instanceInput).Execute()
+> InputResponse V1PostInstanceInput(ctx, instanceId).InstanceInput(instanceInput).Execute()
 
 Provide Instance Input
 
@@ -2258,7 +2191,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1PostInstanceInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1PostInstanceInput`: int32
+    // response from `V1PostInstanceInput`: InputResponse
     fmt.Fprintf(os.Stdout, "Response from `InstancesApi.V1PostInstanceInput`: %v\n", resp)
 }
 ```
@@ -2283,7 +2216,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**int32**
+[**InputResponse**](InputResponse.md)
 
 ### Authorization
 
@@ -2369,7 +2302,7 @@ Name | Type | Description  | Notes
 
 > Snapshot V1RenameInstanceSnapshot(ctx, instanceId, snapshotId).SnapshotCreationOptions(snapshotCreationOptions).Execute()
 
-Rename a Snapshot
+Rename an Instance Snapshot
 
 ### Example
 
@@ -2510,7 +2443,7 @@ Name | Type | Description  | Notes
 
 > V1RestoreInstanceSnapshot(ctx, instanceId, snapshotId).Execute()
 
-Restore a Snapshot
+Restore an Instance Snapshot
 
 ### Example
 
@@ -3125,7 +3058,7 @@ Name | Type | Description  | Notes
 
 ## V1StartNetworkMonitor
 
-> V1StartNetworkMonitor(ctx, instanceId).Execute()
+> V1StartNetworkMonitor(ctx, instanceId).SslsplitFilter(sslsplitFilter).Execute()
 
 Start Network Monitor on an instance.
 
@@ -3143,10 +3076,11 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | Instance ID - uuid
+    sslsplitFilter := *openapiclient.NewSslsplitFilter() // SslsplitFilter |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.InstancesApi.V1StartNetworkMonitor(context.Background(), instanceId).Execute()
+    r, err := apiClient.InstancesApi.V1StartNetworkMonitor(context.Background(), instanceId).SslsplitFilter(sslsplitFilter).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InstancesApi.V1StartNetworkMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -3170,6 +3104,7 @@ Other parameters are passed through a pointer to a apiV1StartNetworkMonitorReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **sslsplitFilter** | [**SslsplitFilter**](SslsplitFilter.md) |  | 
 
 ### Return type
 
@@ -3181,7 +3116,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
