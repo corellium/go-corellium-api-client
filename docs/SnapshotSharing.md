@@ -4,14 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** | The URL of the snapshot. | 
-**Users** | [**[]SnapshotUser**](SnapshotUser.md) | The users who have access to the snapshot. | 
+**SharingType** | **string** |  | 
+**Password** | Pointer to **NullableString** | Password with using passwordPublicLink | [optional] 
+**SharedBy** | Pointer to [**SnapshotOwner**](SnapshotOwner.md) |  | [optional] 
+**Members** | Pointer to [**[]SnapshotMember**](SnapshotMember.md) | The members who have access to the snapshot | [optional] 
 
 ## Methods
 
 ### NewSnapshotSharing
 
-`func NewSnapshotSharing(url string, users []SnapshotUser, ) *SnapshotSharing`
+`func NewSnapshotSharing(sharingType string, ) *SnapshotSharing`
 
 NewSnapshotSharing instantiates a new SnapshotSharing object
 This constructor will assign default values to properties that have it defined,
@@ -26,46 +28,121 @@ NewSnapshotSharingWithDefaults instantiates a new SnapshotSharing object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUrl
+### GetSharingType
 
-`func (o *SnapshotSharing) GetUrl() string`
+`func (o *SnapshotSharing) GetSharingType() string`
 
-GetUrl returns the Url field if non-nil, zero value otherwise.
+GetSharingType returns the SharingType field if non-nil, zero value otherwise.
 
-### GetUrlOk
+### GetSharingTypeOk
 
-`func (o *SnapshotSharing) GetUrlOk() (*string, bool)`
+`func (o *SnapshotSharing) GetSharingTypeOk() (*string, bool)`
 
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+GetSharingTypeOk returns a tuple with the SharingType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUrl
+### SetSharingType
 
-`func (o *SnapshotSharing) SetUrl(v string)`
+`func (o *SnapshotSharing) SetSharingType(v string)`
 
-SetUrl sets Url field to given value.
+SetSharingType sets SharingType field to given value.
 
 
-### GetUsers
+### GetPassword
 
-`func (o *SnapshotSharing) GetUsers() []SnapshotUser`
+`func (o *SnapshotSharing) GetPassword() string`
 
-GetUsers returns the Users field if non-nil, zero value otherwise.
+GetPassword returns the Password field if non-nil, zero value otherwise.
 
-### GetUsersOk
+### GetPasswordOk
 
-`func (o *SnapshotSharing) GetUsersOk() (*[]SnapshotUser, bool)`
+`func (o *SnapshotSharing) GetPasswordOk() (*string, bool)`
 
-GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
+GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUsers
+### SetPassword
 
-`func (o *SnapshotSharing) SetUsers(v []SnapshotUser)`
+`func (o *SnapshotSharing) SetPassword(v string)`
 
-SetUsers sets Users field to given value.
+SetPassword sets Password field to given value.
 
+### HasPassword
 
+`func (o *SnapshotSharing) HasPassword() bool`
+
+HasPassword returns a boolean if a field has been set.
+
+### SetPasswordNil
+
+`func (o *SnapshotSharing) SetPasswordNil(b bool)`
+
+ SetPasswordNil sets the value for Password to be an explicit nil
+
+### UnsetPassword
+`func (o *SnapshotSharing) UnsetPassword()`
+
+UnsetPassword ensures that no value is present for Password, not even an explicit nil
+### GetSharedBy
+
+`func (o *SnapshotSharing) GetSharedBy() SnapshotOwner`
+
+GetSharedBy returns the SharedBy field if non-nil, zero value otherwise.
+
+### GetSharedByOk
+
+`func (o *SnapshotSharing) GetSharedByOk() (*SnapshotOwner, bool)`
+
+GetSharedByOk returns a tuple with the SharedBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSharedBy
+
+`func (o *SnapshotSharing) SetSharedBy(v SnapshotOwner)`
+
+SetSharedBy sets SharedBy field to given value.
+
+### HasSharedBy
+
+`func (o *SnapshotSharing) HasSharedBy() bool`
+
+HasSharedBy returns a boolean if a field has been set.
+
+### GetMembers
+
+`func (o *SnapshotSharing) GetMembers() []SnapshotMember`
+
+GetMembers returns the Members field if non-nil, zero value otherwise.
+
+### GetMembersOk
+
+`func (o *SnapshotSharing) GetMembersOk() (*[]SnapshotMember, bool)`
+
+GetMembersOk returns a tuple with the Members field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMembers
+
+`func (o *SnapshotSharing) SetMembers(v []SnapshotMember)`
+
+SetMembers sets Members field to given value.
+
+### HasMembers
+
+`func (o *SnapshotSharing) HasMembers() bool`
+
+HasMembers returns a boolean if a field has been set.
+
+### SetMembersNil
+
+`func (o *SnapshotSharing) SetMembersNil(b bool)`
+
+ SetMembersNil sets the value for Members to be an explicit nil
+
+### UnsetMembers
+`func (o *SnapshotSharing) UnsetMembers()`
+
+UnsetMembers ensures that no value is present for Members, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
