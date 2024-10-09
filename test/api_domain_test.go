@@ -1,7 +1,7 @@
 /*
 Corellium API
 
-Testing LicensingApiService
+Testing DomainApiService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	openapiclient "github.com/corellium/go-corellium-api-client"
 )
 
-func Test_corellium_LicensingApiService(t *testing.T) {
+func Test_corellium_DomainApiService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test LicensingApiService V1GetSupportedFeatures", func(t *testing.T) {
+	t.Run("Test DomainApiService V1CheckSubdomainExistence", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.LicensingApi.V1GetSupportedFeatures(context.Background()).Execute()
+		resp, httpRes, err := apiClient.DomainApi.V1CheckSubdomainExistence(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
