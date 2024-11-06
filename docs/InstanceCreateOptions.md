@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**SharedSnapshot** | Pointer to **NullableString** | identifier of the snapshot that was shared. | [optional] 
+**SharedSnapshotPassword** | Pointer to **NullableString** | optional password if the shared snapshot requires a password. | [optional] 
 **Name** | Pointer to **NullableString** | the name of the device | [optional] 
 **Key** | Pointer to **NullableString** | Key used to encrypt the Instance | [optional] 
 **Flavor** | **string** | the flavor id | 
@@ -39,6 +41,76 @@ NewInstanceCreateOptionsWithDefaults instantiates a new InstanceCreateOptions ob
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetSharedSnapshot
+
+`func (o *InstanceCreateOptions) GetSharedSnapshot() string`
+
+GetSharedSnapshot returns the SharedSnapshot field if non-nil, zero value otherwise.
+
+### GetSharedSnapshotOk
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotOk() (*string, bool)`
+
+GetSharedSnapshotOk returns a tuple with the SharedSnapshot field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSharedSnapshot
+
+`func (o *InstanceCreateOptions) SetSharedSnapshot(v string)`
+
+SetSharedSnapshot sets SharedSnapshot field to given value.
+
+### HasSharedSnapshot
+
+`func (o *InstanceCreateOptions) HasSharedSnapshot() bool`
+
+HasSharedSnapshot returns a boolean if a field has been set.
+
+### SetSharedSnapshotNil
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotNil(b bool)`
+
+ SetSharedSnapshotNil sets the value for SharedSnapshot to be an explicit nil
+
+### UnsetSharedSnapshot
+`func (o *InstanceCreateOptions) UnsetSharedSnapshot()`
+
+UnsetSharedSnapshot ensures that no value is present for SharedSnapshot, not even an explicit nil
+### GetSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotPassword() string`
+
+GetSharedSnapshotPassword returns the SharedSnapshotPassword field if non-nil, zero value otherwise.
+
+### GetSharedSnapshotPasswordOk
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotPasswordOk() (*string, bool)`
+
+GetSharedSnapshotPasswordOk returns a tuple with the SharedSnapshotPassword field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotPassword(v string)`
+
+SetSharedSnapshotPassword sets SharedSnapshotPassword field to given value.
+
+### HasSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) HasSharedSnapshotPassword() bool`
+
+HasSharedSnapshotPassword returns a boolean if a field has been set.
+
+### SetSharedSnapshotPasswordNil
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotPasswordNil(b bool)`
+
+ SetSharedSnapshotPasswordNil sets the value for SharedSnapshotPassword to be an explicit nil
+
+### UnsetSharedSnapshotPassword
+`func (o *InstanceCreateOptions) UnsetSharedSnapshotPassword()`
+
+UnsetSharedSnapshotPassword ensures that no value is present for SharedSnapshotPassword, not even an explicit nil
 ### GetName
 
 `func (o *InstanceCreateOptions) GetName() string`
