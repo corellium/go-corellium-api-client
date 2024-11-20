@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Fresh** | **bool** |  | 
 **Live** | **bool** | Live snapshot (included state and memory) | 
 **Local** | **bool** |  | 
+**Model** | Pointer to **NullableString** | The device model | [optional] 
 **Sharing** | Pointer to [**SnapshotSharing**](SnapshotSharing.md) |  | [optional] 
 
 ## Methods
@@ -193,6 +194,41 @@ and a boolean to check if the value has been set.
 SetLocal sets Local field to given value.
 
 
+### GetModel
+
+`func (o *Snapshot) GetModel() string`
+
+GetModel returns the Model field if non-nil, zero value otherwise.
+
+### GetModelOk
+
+`func (o *Snapshot) GetModelOk() (*string, bool)`
+
+GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModel
+
+`func (o *Snapshot) SetModel(v string)`
+
+SetModel sets Model field to given value.
+
+### HasModel
+
+`func (o *Snapshot) HasModel() bool`
+
+HasModel returns a boolean if a field has been set.
+
+### SetModelNil
+
+`func (o *Snapshot) SetModelNil(b bool)`
+
+ SetModelNil sets the value for Model to be an explicit nil
+
+### UnsetModel
+`func (o *Snapshot) UnsetModel()`
+
+UnsetModel ensures that no value is present for Model, not even an explicit nil
 ### GetSharing
 
 `func (o *Snapshot) GetSharing() SnapshotSharing`
