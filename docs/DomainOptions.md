@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TotpRequired** | Pointer to **NullableBool** | if true, totp is required | [optional] 
 **TrialExtension** | Pointer to [**TrialExtension**](TrialExtension.md) |  | [optional] 
-**SnapshotPermissions** | Pointer to [**SnapshotPermissions**](SnapshotPermissions.md) |  | [optional] 
+**SnapshotSharingPermissions** | Pointer to [**SnapshotSharingPermissions**](SnapshotSharingPermissions.md) |  | [optional] 
 
 ## Methods
 
@@ -87,30 +87,30 @@ SetTrialExtension sets TrialExtension field to given value.
 
 HasTrialExtension returns a boolean if a field has been set.
 
-### GetSnapshotPermissions
+### GetSnapshotSharingPermissions
 
-`func (o *DomainOptions) GetSnapshotPermissions() SnapshotPermissions`
+`func (o *DomainOptions) GetSnapshotSharingPermissions() SnapshotSharingPermissions`
 
-GetSnapshotPermissions returns the SnapshotPermissions field if non-nil, zero value otherwise.
+GetSnapshotSharingPermissions returns the SnapshotSharingPermissions field if non-nil, zero value otherwise.
 
-### GetSnapshotPermissionsOk
+### GetSnapshotSharingPermissionsOk
 
-`func (o *DomainOptions) GetSnapshotPermissionsOk() (*SnapshotPermissions, bool)`
+`func (o *DomainOptions) GetSnapshotSharingPermissionsOk() (*SnapshotSharingPermissions, bool)`
 
-GetSnapshotPermissionsOk returns a tuple with the SnapshotPermissions field if it's non-nil, zero value otherwise
+GetSnapshotSharingPermissionsOk returns a tuple with the SnapshotSharingPermissions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSnapshotPermissions
+### SetSnapshotSharingPermissions
 
-`func (o *DomainOptions) SetSnapshotPermissions(v SnapshotPermissions)`
+`func (o *DomainOptions) SetSnapshotSharingPermissions(v SnapshotSharingPermissions)`
 
-SetSnapshotPermissions sets SnapshotPermissions field to given value.
+SetSnapshotSharingPermissions sets SnapshotSharingPermissions field to given value.
 
-### HasSnapshotPermissions
+### HasSnapshotSharingPermissions
 
-`func (o *DomainOptions) HasSnapshotPermissions() bool`
+`func (o *DomainOptions) HasSnapshotSharingPermissions() bool`
 
-HasSnapshotPermissions returns a boolean if a field has been set.
+HasSnapshotSharingPermissions returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
