@@ -724,7 +724,7 @@ import (
 
 func main() {
     projectId := "projectId_example" // string | Project ID - uuid
-    projectSettings := *openapiclient.NewProjectSettings() // ProjectSettings | New settings
+    projectSettings := *openapiclient.NewProjectSettings(false, false) // ProjectSettings | New settings
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
