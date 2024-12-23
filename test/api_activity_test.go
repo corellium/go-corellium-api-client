@@ -1,7 +1,7 @@
 /*
 Corellium API
 
-Testing TrialRequestsApiService
+Testing ActivityApiService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	openapiclient "github.com/corellium/go-corellium-api-client"
 )
 
-func Test_corellium_TrialRequestsApiService(t *testing.T) {
+func Test_corellium_ActivityApiService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test TrialRequestsApiService V1CreateSubscriberInvite", func(t *testing.T) {
+	t.Run("Test ActivityApiService V1ActivityList", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.TrialRequestsApi.V1CreateSubscriberInvite(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ActivityApi.V1ActivityList(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
