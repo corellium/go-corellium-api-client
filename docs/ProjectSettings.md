@@ -4,14 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**InternetAccess** | Pointer to **NullableBool** |  | [optional] 
-**Dhcp** | Pointer to **NullableBool** |  | [optional] 
+**InternetAccess** | **bool** |  | 
+**Connection** | Pointer to **NullableString** | UUIDv4 network connection identifier or null for no vpn connection | [optional] 
+**Dhcp** | **bool** |  | 
 
 ## Methods
 
 ### NewProjectSettings
 
-`func NewProjectSettings() *ProjectSettings`
+`func NewProjectSettings(internetAccess bool, dhcp bool, ) *ProjectSettings`
 
 NewProjectSettings instantiates a new ProjectSettings object
 This constructor will assign default values to properties that have it defined,
@@ -45,22 +46,42 @@ and a boolean to check if the value has been set.
 
 SetInternetAccess sets InternetAccess field to given value.
 
-### HasInternetAccess
 
-`func (o *ProjectSettings) HasInternetAccess() bool`
+### GetConnection
 
-HasInternetAccess returns a boolean if a field has been set.
+`func (o *ProjectSettings) GetConnection() string`
 
-### SetInternetAccessNil
+GetConnection returns the Connection field if non-nil, zero value otherwise.
 
-`func (o *ProjectSettings) SetInternetAccessNil(b bool)`
+### GetConnectionOk
 
- SetInternetAccessNil sets the value for InternetAccess to be an explicit nil
+`func (o *ProjectSettings) GetConnectionOk() (*string, bool)`
 
-### UnsetInternetAccess
-`func (o *ProjectSettings) UnsetInternetAccess()`
+GetConnectionOk returns a tuple with the Connection field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
 
-UnsetInternetAccess ensures that no value is present for InternetAccess, not even an explicit nil
+### SetConnection
+
+`func (o *ProjectSettings) SetConnection(v string)`
+
+SetConnection sets Connection field to given value.
+
+### HasConnection
+
+`func (o *ProjectSettings) HasConnection() bool`
+
+HasConnection returns a boolean if a field has been set.
+
+### SetConnectionNil
+
+`func (o *ProjectSettings) SetConnectionNil(b bool)`
+
+ SetConnectionNil sets the value for Connection to be an explicit nil
+
+### UnsetConnection
+`func (o *ProjectSettings) UnsetConnection()`
+
+UnsetConnection ensures that no value is present for Connection, not even an explicit nil
 ### GetDhcp
 
 `func (o *ProjectSettings) GetDhcp() bool`
@@ -80,22 +101,7 @@ and a boolean to check if the value has been set.
 
 SetDhcp sets Dhcp field to given value.
 
-### HasDhcp
 
-`func (o *ProjectSettings) HasDhcp() bool`
-
-HasDhcp returns a boolean if a field has been set.
-
-### SetDhcpNil
-
-`func (o *ProjectSettings) SetDhcpNil(b bool)`
-
- SetDhcpNil sets the value for Dhcp to be an explicit nil
-
-### UnsetDhcp
-`func (o *ProjectSettings) UnsetDhcp()`
-
-UnsetDhcp ensures that no value is present for Dhcp, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
