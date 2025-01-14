@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Name** | **string** | User Name | 
 **Email** | **string** | User Email | 
 **Administrator** | Pointer to **NullableBool** | the flag that specifies whether user is Administrator or not | [optional] 
+**CanEditUserAttributes** | Pointer to **NullableBool** | Flag to determine if user attributes are editable. | [optional] 
 
 ## Methods
 
@@ -144,6 +145,41 @@ HasAdministrator returns a boolean if a field has been set.
 `func (o *User) UnsetAdministrator()`
 
 UnsetAdministrator ensures that no value is present for Administrator, not even an explicit nil
+### GetCanEditUserAttributes
+
+`func (o *User) GetCanEditUserAttributes() bool`
+
+GetCanEditUserAttributes returns the CanEditUserAttributes field if non-nil, zero value otherwise.
+
+### GetCanEditUserAttributesOk
+
+`func (o *User) GetCanEditUserAttributesOk() (*bool, bool)`
+
+GetCanEditUserAttributesOk returns a tuple with the CanEditUserAttributes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCanEditUserAttributes
+
+`func (o *User) SetCanEditUserAttributes(v bool)`
+
+SetCanEditUserAttributes sets CanEditUserAttributes field to given value.
+
+### HasCanEditUserAttributes
+
+`func (o *User) HasCanEditUserAttributes() bool`
+
+HasCanEditUserAttributes returns a boolean if a field has been set.
+
+### SetCanEditUserAttributesNil
+
+`func (o *User) SetCanEditUserAttributesNil(b bool)`
+
+ SetCanEditUserAttributesNil sets the value for CanEditUserAttributes to be an explicit nil
+
+### UnsetCanEditUserAttributes
+`func (o *User) UnsetCanEditUserAttributes()`
+
+UnsetCanEditUserAttributes ensures that no value is present for CanEditUserAttributes, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
