@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**SharedSnapshot** | Pointer to **NullableString** | identifier of the snapshot that was shared. | [optional] 
+**SharedSnapshotPassword** | Pointer to **NullableString** | optional password if the shared snapshot requires a password. | [optional] 
 **Name** | Pointer to **NullableString** | the name of the device | [optional] 
 **Key** | Pointer to **NullableString** | Key used to encrypt the Instance | [optional] 
 **Flavor** | **string** | the flavor id | 
@@ -14,7 +16,7 @@ Name | Type | Description | Notes
 **Fwpackage** | Pointer to **NullableString** | URL or image id | [optional] 
 **OrigFwPackageUrl** | Pointer to **NullableString** | URL that firmware package used to create this instance is available at | [optional] 
 **Encrypt** | Pointer to **NullableBool** |  | [optional] 
-**OverrideWifiMAC** | Pointer to **NullableString** |  | [optional] 
+**WifiMac** | Pointer to **NullableString** |  | [optional] 
 **Volume** | Pointer to [**VolumeOptions**](VolumeOptions.md) |  | [optional] 
 **Snapshot** | Pointer to **NullableString** | Snapshot ID for this instance to be cloned from if defined | [optional] 
 **BootOptions** | Pointer to [**InstanceBootOptions**](InstanceBootOptions.md) |  | [optional] 
@@ -39,6 +41,76 @@ NewInstanceCreateOptionsWithDefaults instantiates a new InstanceCreateOptions ob
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetSharedSnapshot
+
+`func (o *InstanceCreateOptions) GetSharedSnapshot() string`
+
+GetSharedSnapshot returns the SharedSnapshot field if non-nil, zero value otherwise.
+
+### GetSharedSnapshotOk
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotOk() (*string, bool)`
+
+GetSharedSnapshotOk returns a tuple with the SharedSnapshot field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSharedSnapshot
+
+`func (o *InstanceCreateOptions) SetSharedSnapshot(v string)`
+
+SetSharedSnapshot sets SharedSnapshot field to given value.
+
+### HasSharedSnapshot
+
+`func (o *InstanceCreateOptions) HasSharedSnapshot() bool`
+
+HasSharedSnapshot returns a boolean if a field has been set.
+
+### SetSharedSnapshotNil
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotNil(b bool)`
+
+ SetSharedSnapshotNil sets the value for SharedSnapshot to be an explicit nil
+
+### UnsetSharedSnapshot
+`func (o *InstanceCreateOptions) UnsetSharedSnapshot()`
+
+UnsetSharedSnapshot ensures that no value is present for SharedSnapshot, not even an explicit nil
+### GetSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotPassword() string`
+
+GetSharedSnapshotPassword returns the SharedSnapshotPassword field if non-nil, zero value otherwise.
+
+### GetSharedSnapshotPasswordOk
+
+`func (o *InstanceCreateOptions) GetSharedSnapshotPasswordOk() (*string, bool)`
+
+GetSharedSnapshotPasswordOk returns a tuple with the SharedSnapshotPassword field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotPassword(v string)`
+
+SetSharedSnapshotPassword sets SharedSnapshotPassword field to given value.
+
+### HasSharedSnapshotPassword
+
+`func (o *InstanceCreateOptions) HasSharedSnapshotPassword() bool`
+
+HasSharedSnapshotPassword returns a boolean if a field has been set.
+
+### SetSharedSnapshotPasswordNil
+
+`func (o *InstanceCreateOptions) SetSharedSnapshotPasswordNil(b bool)`
+
+ SetSharedSnapshotPasswordNil sets the value for SharedSnapshotPassword to be an explicit nil
+
+### UnsetSharedSnapshotPassword
+`func (o *InstanceCreateOptions) UnsetSharedSnapshotPassword()`
+
+UnsetSharedSnapshotPassword ensures that no value is present for SharedSnapshotPassword, not even an explicit nil
 ### GetName
 
 `func (o *InstanceCreateOptions) GetName() string`
@@ -344,41 +416,41 @@ HasEncrypt returns a boolean if a field has been set.
 `func (o *InstanceCreateOptions) UnsetEncrypt()`
 
 UnsetEncrypt ensures that no value is present for Encrypt, not even an explicit nil
-### GetOverrideWifiMAC
+### GetWifiMac
 
-`func (o *InstanceCreateOptions) GetOverrideWifiMAC() string`
+`func (o *InstanceCreateOptions) GetWifiMac() string`
 
-GetOverrideWifiMAC returns the OverrideWifiMAC field if non-nil, zero value otherwise.
+GetWifiMac returns the WifiMac field if non-nil, zero value otherwise.
 
-### GetOverrideWifiMACOk
+### GetWifiMacOk
 
-`func (o *InstanceCreateOptions) GetOverrideWifiMACOk() (*string, bool)`
+`func (o *InstanceCreateOptions) GetWifiMacOk() (*string, bool)`
 
-GetOverrideWifiMACOk returns a tuple with the OverrideWifiMAC field if it's non-nil, zero value otherwise
+GetWifiMacOk returns a tuple with the WifiMac field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOverrideWifiMAC
+### SetWifiMac
 
-`func (o *InstanceCreateOptions) SetOverrideWifiMAC(v string)`
+`func (o *InstanceCreateOptions) SetWifiMac(v string)`
 
-SetOverrideWifiMAC sets OverrideWifiMAC field to given value.
+SetWifiMac sets WifiMac field to given value.
 
-### HasOverrideWifiMAC
+### HasWifiMac
 
-`func (o *InstanceCreateOptions) HasOverrideWifiMAC() bool`
+`func (o *InstanceCreateOptions) HasWifiMac() bool`
 
-HasOverrideWifiMAC returns a boolean if a field has been set.
+HasWifiMac returns a boolean if a field has been set.
 
-### SetOverrideWifiMACNil
+### SetWifiMacNil
 
-`func (o *InstanceCreateOptions) SetOverrideWifiMACNil(b bool)`
+`func (o *InstanceCreateOptions) SetWifiMacNil(b bool)`
 
- SetOverrideWifiMACNil sets the value for OverrideWifiMAC to be an explicit nil
+ SetWifiMacNil sets the value for WifiMac to be an explicit nil
 
-### UnsetOverrideWifiMAC
-`func (o *InstanceCreateOptions) UnsetOverrideWifiMAC()`
+### UnsetWifiMac
+`func (o *InstanceCreateOptions) UnsetWifiMac()`
 
-UnsetOverrideWifiMAC ensures that no value is present for OverrideWifiMAC, not even an explicit nil
+UnsetWifiMac ensures that no value is present for WifiMac, not even an explicit nil
 ### GetVolume
 
 `func (o *InstanceCreateOptions) GetVolume() VolumeOptions`
