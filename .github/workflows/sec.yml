@@ -1,0 +1,4 @@
+jobs:
+  security-scan:
+    uses: corellium/github_shared_ci/reusable-workflow.yml@main
+    secrets: inherit
