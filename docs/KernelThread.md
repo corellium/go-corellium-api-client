@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **KernelId** | Pointer to **NullableString** | Kernel Thread ID | [optional] 
-**Tid** | Pointer to **NullableInt32** | Task ID | [optional] 
+**Tid** | Pointer to **NullableFloat32** | Task ID | [optional] 
 **Stack** | Pointer to **[]string** | Array of stack addresses | [optional] 
 
 ## Methods
@@ -64,20 +64,20 @@ HasKernelId returns a boolean if a field has been set.
 UnsetKernelId ensures that no value is present for KernelId, not even an explicit nil
 ### GetTid
 
-`func (o *KernelThread) GetTid() int32`
+`func (o *KernelThread) GetTid() float32`
 
 GetTid returns the Tid field if non-nil, zero value otherwise.
 
 ### GetTidOk
 
-`func (o *KernelThread) GetTidOk() (*int32, bool)`
+`func (o *KernelThread) GetTidOk() (*float32, bool)`
 
 GetTidOk returns a tuple with the Tid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTid
 
-`func (o *KernelThread) SetTid(v int32)`
+`func (o *KernelThread) SetTid(v float32)`
 
 SetTid sets Tid field to given value.
 

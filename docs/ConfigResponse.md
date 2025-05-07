@@ -5,6 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **OnSite** | Pointer to **NullableBool** | Denotes whether it&#39;s an on-site install | [optional] 
+**NetworkTypes** | Pointer to **[]string** | Valid network types (e.g. \&quot;nat\&quot;, \&quot;bridged\&quot;, \&quot;routed\&quot;) | [optional] 
+**NetworkType** | Pointer to **NullableString** | Current network type setting | [optional] 
 **ShowDomainSettings** | Pointer to **NullableBool** | Denotes whether to show domain settings | [optional] 
 **Version** | Pointer to **NullableString** | Denotes the version | [optional] 
 **InvalidBuild** | Pointer to **NullableBool** | Denotes whether the build is invalid | [optional] 
@@ -91,6 +93,76 @@ HasOnSite returns a boolean if a field has been set.
 `func (o *ConfigResponse) UnsetOnSite()`
 
 UnsetOnSite ensures that no value is present for OnSite, not even an explicit nil
+### GetNetworkTypes
+
+`func (o *ConfigResponse) GetNetworkTypes() []string`
+
+GetNetworkTypes returns the NetworkTypes field if non-nil, zero value otherwise.
+
+### GetNetworkTypesOk
+
+`func (o *ConfigResponse) GetNetworkTypesOk() (*[]string, bool)`
+
+GetNetworkTypesOk returns a tuple with the NetworkTypes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNetworkTypes
+
+`func (o *ConfigResponse) SetNetworkTypes(v []string)`
+
+SetNetworkTypes sets NetworkTypes field to given value.
+
+### HasNetworkTypes
+
+`func (o *ConfigResponse) HasNetworkTypes() bool`
+
+HasNetworkTypes returns a boolean if a field has been set.
+
+### SetNetworkTypesNil
+
+`func (o *ConfigResponse) SetNetworkTypesNil(b bool)`
+
+ SetNetworkTypesNil sets the value for NetworkTypes to be an explicit nil
+
+### UnsetNetworkTypes
+`func (o *ConfigResponse) UnsetNetworkTypes()`
+
+UnsetNetworkTypes ensures that no value is present for NetworkTypes, not even an explicit nil
+### GetNetworkType
+
+`func (o *ConfigResponse) GetNetworkType() string`
+
+GetNetworkType returns the NetworkType field if non-nil, zero value otherwise.
+
+### GetNetworkTypeOk
+
+`func (o *ConfigResponse) GetNetworkTypeOk() (*string, bool)`
+
+GetNetworkTypeOk returns a tuple with the NetworkType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNetworkType
+
+`func (o *ConfigResponse) SetNetworkType(v string)`
+
+SetNetworkType sets NetworkType field to given value.
+
+### HasNetworkType
+
+`func (o *ConfigResponse) HasNetworkType() bool`
+
+HasNetworkType returns a boolean if a field has been set.
+
+### SetNetworkTypeNil
+
+`func (o *ConfigResponse) SetNetworkTypeNil(b bool)`
+
+ SetNetworkTypeNil sets the value for NetworkType to be an explicit nil
+
+### UnsetNetworkType
+`func (o *ConfigResponse) UnsetNetworkType()`
+
+UnsetNetworkType ensures that no value is present for NetworkType, not even an explicit nil
 ### GetShowDomainSettings
 
 `func (o *ConfigResponse) GetShowDomainSettings() bool`

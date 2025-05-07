@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **BootOptions** | Pointer to [**InstanceBootOptions**](InstanceBootOptions.md) |  | [optional] 
 **ServiceIp** | Pointer to **NullableString** | Services IP Address | [optional] 
 **WifiIp** | Pointer to **NullableString** | LAN IP Address | [optional] 
-**SecondaryIp** | Pointer to **NullableString** | Secondary Inteface LAN IP Address (if supported) | [optional] 
+**SecondaryIp** | Pointer to **NullableString** | Secondary Interface LAN IP Address (if supported) | [optional] 
 **Services** | Pointer to [**InstanceServices**](InstanceServices.md) |  | [optional] 
 **Panicked** | Pointer to **NullableBool** |  | [optional] 
 **Created** | Pointer to **NullableTime** | Time instance was created | [optional] 

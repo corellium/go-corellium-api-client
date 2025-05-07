@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **KernelId** | Pointer to **NullableString** | Kernel Task ID | [optional] 
 **Name** | Pointer to **NullableString** | Thread name | [optional] 
-**Pid** | Pointer to **NullableInt32** | Process ID of task | [optional] 
+**Pid** | Pointer to **NullableFloat32** | Process ID of task | [optional] 
 **Threads** | Pointer to [**[]KernelThread**](KernelThread.md) |  | [optional] 
 
 ## Methods
@@ -100,20 +100,20 @@ HasName returns a boolean if a field has been set.
 UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetPid
 
-`func (o *KernelTask) GetPid() int32`
+`func (o *KernelTask) GetPid() float32`
 
 GetPid returns the Pid field if non-nil, zero value otherwise.
 
 ### GetPidOk
 
-`func (o *KernelTask) GetPidOk() (*int32, bool)`
+`func (o *KernelTask) GetPidOk() (*float32, bool)`
 
 GetPidOk returns a tuple with the Pid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPid
 
-`func (o *KernelTask) SetPid(v int32)`
+`func (o *KernelTask) SetPid(v float32)`
 
 SetPid sets Pid field to given value.
 

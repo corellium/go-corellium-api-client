@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Tags** | Pointer to **[]string** |  | [optional] 
 **Running** | Pointer to **NullableBool** |  | [optional] 
-**DiskUsage** | Pointer to **NullableInt32** |  | [optional] 
-**Date** | Pointer to **NullableInt32** |  | [optional] 
+**DiskUsage** | Pointer to **NullableFloat32** |  | [optional] 
+**Date** | Pointer to **NullableFloat32** |  | [optional] 
 **ApplicationType** | Pointer to **NullableString** |  | [optional] 
 **Name** | Pointer to **NullableString** |  | [optional] 
 **BundleID** | Pointer to **NullableString** |  | [optional] 
@@ -103,20 +103,20 @@ HasRunning returns a boolean if a field has been set.
 UnsetRunning ensures that no value is present for Running, not even an explicit nil
 ### GetDiskUsage
 
-`func (o *AgentApp) GetDiskUsage() int32`
+`func (o *AgentApp) GetDiskUsage() float32`
 
 GetDiskUsage returns the DiskUsage field if non-nil, zero value otherwise.
 
 ### GetDiskUsageOk
 
-`func (o *AgentApp) GetDiskUsageOk() (*int32, bool)`
+`func (o *AgentApp) GetDiskUsageOk() (*float32, bool)`
 
 GetDiskUsageOk returns a tuple with the DiskUsage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDiskUsage
 
-`func (o *AgentApp) SetDiskUsage(v int32)`
+`func (o *AgentApp) SetDiskUsage(v float32)`
 
 SetDiskUsage sets DiskUsage field to given value.
 
@@ -138,20 +138,20 @@ HasDiskUsage returns a boolean if a field has been set.
 UnsetDiskUsage ensures that no value is present for DiskUsage, not even an explicit nil
 ### GetDate
 
-`func (o *AgentApp) GetDate() int32`
+`func (o *AgentApp) GetDate() float32`
 
 GetDate returns the Date field if non-nil, zero value otherwise.
 
 ### GetDateOk
 
-`func (o *AgentApp) GetDateOk() (*int32, bool)`
+`func (o *AgentApp) GetDateOk() (*float32, bool)`
 
 GetDateOk returns a tuple with the Date field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDate
 
-`func (o *AgentApp) SetDate(v int32)`
+`func (o *AgentApp) SetDate(v float32)`
 
 SetDate sets Date field to given value.
 
