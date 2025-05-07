@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Sha256sum** | Pointer to **NullableString** |  | [optional] 
 **Sha1sum** | Pointer to **NullableString** |  | [optional] 
 **Md5sum** | Pointer to **NullableString** |  | [optional] 
-**Size** | Pointer to **NullableInt32** |  | [optional] 
+**Size** | Pointer to **NullableFloat32** |  | [optional] 
 **UniqueId** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Firmware metadata | [optional] 
 **Releasedate** | Pointer to **NullableTime** | Release Date | [optional] 
@@ -286,20 +286,20 @@ HasMd5sum returns a boolean if a field has been set.
 UnsetMd5sum ensures that no value is present for Md5sum, not even an explicit nil
 ### GetSize
 
-`func (o *Firmware) GetSize() int32`
+`func (o *Firmware) GetSize() float32`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *Firmware) GetSizeOk() (*int32, bool)`
+`func (o *Firmware) GetSizeOk() (*float32, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *Firmware) SetSize(v int32)`
+`func (o *Firmware) SetSize(v float32)`
 
 SetSize sets Size field to given value.
 
